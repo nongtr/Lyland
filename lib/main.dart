@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MaterialApp());
 }
 //مشروع التخرج برعاية رمضان
- int start 
+//faraj edit
