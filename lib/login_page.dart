@@ -11,12 +11,12 @@ class _login_pageState extends State<login_page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white70,
+      backgroundColor: Colors.grey[400],
       body: Stack(
         children: <Widget>[
           // Image.asset(
-          //   'images/background_image.jpg',
-          //   width: double.infinity,
+          //   // 'images/Untitled-1.jpg',
+          //   // width: double.infinity,
           // ),
 
 //////////////////////////// title /////////////////////////
@@ -25,19 +25,19 @@ class _login_pageState extends State<login_page> {
               SizedBox(
                 height: 20,
               ),
-              // Text(
-              //   'اهلا بك في لاي لاند',
-              //   style: TextStyle(
-              //     color: Colors.white,
-              //     fontSize: 34,
-              //   ),
-              // ),
+              Text(
+                'اهلا بك في لاي لاند',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 34,
+                ),
+              ),
               SizedBox(
                 height: 150,
               ),
               Text('SIGN IN',
                   style: TextStyle(
-                      color: Colors.teal,
+                      color: Colors.orange,
                       fontSize: 40,
                       fontWeight: FontWeight.bold)),
 
@@ -92,7 +92,7 @@ class _login_pageState extends State<login_page> {
                 child: Container(
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                      color: Colors.teal,
+                      color: Colors.orange,
                       borderRadius: BorderRadius.circular(12)),
                   child: Center(
                     child: Text(
