@@ -11,7 +11,7 @@ class _login_pageState extends State<login_page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[400],
+      backgroundColor: Colors.grey[800],
       body: Stack(
         children: <Widget>[
           // Image.asset(
@@ -23,26 +23,23 @@ class _login_pageState extends State<login_page> {
           Column(
             children: [
               SizedBox(
-                height: 20,
+                height: 30,
               ),
-              Text(
-                'اهلا بك في لاي لاند',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 34,
-                ),
+              Image.asset(
+                'images/real-estate-building-logo-design-inspiratiohn-building-logo-design-free-vector copy.png',
+                height: 250,
+                width: 250,
               ),
-              SizedBox(
-                height: 150,
-              ),
-              Text('SIGN IN',
+
+              Text('اهلا بك ',
                   style: TextStyle(
-                      color: Colors.orange,
+                      color: Colors.grey[100],
                       fontSize: 40,
                       fontWeight: FontWeight.bold)),
 
 //////////////////////////////         Email      /////////////////////
               //
+
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25),
                 child: Container(
@@ -54,7 +51,7 @@ class _login_pageState extends State<login_page> {
                       child: TextField(
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Email',
+                          hintText: 'البريد الإلكتروني',
                         ),
                       ),
                     )),
@@ -76,7 +73,7 @@ class _login_pageState extends State<login_page> {
                         obscureText: true,
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'password',
+                          hintText: 'كلمة السر',
                         ),
                       ),
                     )),
@@ -93,13 +90,13 @@ class _login_pageState extends State<login_page> {
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
                       color: Colors.orange,
-                      borderRadius: BorderRadius.circular(12)),
+                      borderRadius: BorderRadius.circular(27)),
                   child: Center(
                     child: Text(
-                      'sign in',
+                      'تسجيل دخول',
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -107,7 +104,7 @@ class _login_pageState extends State<login_page> {
               ),
 
               SizedBox(
-                height: 20,
+                height: 40,
               ),
 
               //////////////////////////checking if u have E-m/////////////////////////////
@@ -115,14 +112,16 @@ class _login_pageState extends State<login_page> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Not yet a member ?',
+                    '  إنشاء حساب جديد  ',
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                        color: Colors.orange, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    'sign up now ',
+                    'أليس لديك حساب ؟   ',
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   )
                 ],
               )
