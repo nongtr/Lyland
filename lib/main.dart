@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lyland/Auth.dart';
 import 'package:lyland/login_page.dart';
 
 void main() => runApp(Myapp());
@@ -10,6 +11,8 @@ class Myapp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: login_page(),
+
+      // home: login_page(), ملاحظة لما تكمل ربط الفايير بيس غير الــ
     );
   }
 }
