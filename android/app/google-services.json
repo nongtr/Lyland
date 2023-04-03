@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "222244415432",
+    "project_id": "lyland-project",
+    "storage_bucket": "lyland-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:222244415432:android:9283abc5905174720c82fd",
+        "android_client_info": {
+          "package_name": "com.example.lyland"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "222244415432-shrdhmlsk3la04ekov2ka40ro8a4r8sq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBO-b18cAUhV5subsX9J8as4XfJ0691rXs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "222244415432-shrdhmlsk3la04ekov2ka40ro8a4r8sq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
