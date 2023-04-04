@@ -17,12 +17,7 @@ class LyLand extends StatelessWidget {
     return MaterialApp(
       home: Auth(),
 
-      // home: login_page(), ملاحظة لما تكمل ربط الفايير بيس غير الــ
     );
   }
 }
 
-//مشروع التخرج برعاية رمضان
-//int start;
-//aa1ds
-//test comment from faraj
