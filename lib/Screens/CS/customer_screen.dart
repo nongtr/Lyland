@@ -12,7 +12,7 @@ class Customer_Screen extends StatefulWidget {
 }
 
 class _Customer_ScreenState extends State<Customer_Screen> {
-  List Pages = [CSproper(), CScheck(), CSout()];
+  List Pages = [Body(), CScheck(), CSout()];
   int _currentIndex = 0;
 
   @override
