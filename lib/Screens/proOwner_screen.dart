@@ -4,10 +4,10 @@ import 'CS/CScheck.dart';
 import 'CS/CSout.dart';
 import 'CS/CSproper.dart';
 
-// object of the class constants to reach the variables
-constants con = constants();
+
 
 class ProOwnerSc extends StatefulWidget {
+  const ProOwnerSc();
   @override
   State<ProOwnerSc> createState() => _ProOwnerScState();
 }
@@ -24,26 +24,28 @@ class _ProOwnerScState extends State<ProOwnerSc> {
           centerTitle: true,
           title: Text(
             'LyLand',
-            style: con.kTitleTextStyle,
+            style: kTitleTextStyle,
           ),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Container(
+              color: Colors.white38,
+              child: const Text(
+                ' Here Will be the Properties that will be added by the Owner',
+                style: TextStyle(fontSize: 20.0),
+              ),
+            ),
             FloatingActionButton(
               onPressed: () {},
               child: Icon(Icons.add),
               backgroundColor: Colors.orange,
             ),
-            Container(
-              color: Colors.white38,
-              child: const Text(
-                ' Here Will be the Properties that will be added by the Owner',
-                style: TextStyle(fontSize: 50.0),
-              ),
-            )
           ],
         ),
+
+
         bottomNavigationBar: BottomNavigationBar(
           selectedFontSize: 17,
           unselectedFontSize: 15,

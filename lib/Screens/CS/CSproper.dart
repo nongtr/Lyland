@@ -10,8 +10,8 @@ class CSproper extends StatefulWidget {
 class _CSproperState extends State<CSproper> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('gfgf'),
+    return Scaffold(
+      body: Text('gfgf'),
     );
   }
 }
