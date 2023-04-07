@@ -9,18 +9,28 @@ class PO_mainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-              elevation: 10.0,
-              onPressed: () {
-                Navigator.of(context).pushReplacementNamed('addPropertyScreen');
-              },
-              child: Icon(Icons.add),
-              backgroundColor: Colors.orange,
+        elevation: 10.0,
+        onPressed: () {
+          Navigator.of(context).pushReplacementNamed('addPropertyScreen');
+        },
+        child: Icon(
+          Icons.add,
+          color: Colors.black,
+          size: 37,
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.blue,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Welcome proberty owner ',
+              style: TextStyle(fontWeight: FontWeight.w400, fontSize: 21),
             ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('the proberty owner posts'),
-        ],
+          ],
+        ),
       ),
     );
   }
