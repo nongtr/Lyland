@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lyland/Screens/login_screen.dart';
-import 'package:lyland/Screens/proOwner_screen.dart';
+import 'package:lyland/Screens/PO/proOwner_screen.dart';
 import 'Screens/CS/customer_screen.dart';
 
 class Auth extends StatelessWidget {
@@ -15,7 +15,7 @@ class Auth extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: ((context, snapshot) {
           if (snapshot.hasData) {
-            return Customer_Screen();
+            return ProOwnerSc();
           } else {
             return login_screen();
           }

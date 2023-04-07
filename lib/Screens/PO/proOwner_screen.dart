@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lyland/Screens/PO/POwner_mainScreen.dart';
 import 'package:lyland/constants.dart';
-import 'CS/CScheck.dart';
-import 'CS/CSout.dart';
-import 'CS/CSproper.dart';
+import '../CS/CScheck.dart';
+import '../CS/CSout.dart';
+import '../CS/CSproper.dart';
 
 class ProOwnerSc extends StatefulWidget {
   const ProOwnerSc();
@@ -11,7 +12,7 @@ class ProOwnerSc extends StatefulWidget {
 }
 
 class _ProOwnerScState extends State<ProOwnerSc> {
-  List Pages = [Body(), CScheck(), CSout()];
+  List Pages = [PO_mainScreen(), CScheck(), CSout()];
   int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -25,23 +26,27 @@ class _ProOwnerScState extends State<ProOwnerSc> {
             style: kTitleTextStyle,
           ),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              color: Colors.white38,
-              child: const Text(
-                ' Here Will be the Properties that will be added by the Owner',
-                style: TextStyle(fontSize: 20.0),
-              ),
-            ),
-            FloatingActionButton(
-              onPressed: () {},
-              child: Icon(Icons.add),
-              backgroundColor: Colors.orange,
-            ),
-          ],
-        ),
+        body: Pages[_currentIndex],
+        // body: Column(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        //     Container(
+        //       color: Colors.white38,
+        //       child: const Text(
+        //         ' Here Will be the Properties that will be added by the Owner',
+        //         style: TextStyle(fontSize: 15.0),
+        //       ),
+        //     ),
+        //     FloatingActionButton(
+        //       elevation: 10.0,
+        //       onPressed: () {
+        //         Navigator.of(context).pushReplacementNamed('addPropertyScreen');
+        //       },
+        //       child: Icon(Icons.add),
+        //       backgroundColor: Colors.orange,
+        //     ),
+        //   ],
+        // ),
         bottomNavigationBar: BottomNavigationBar(
           selectedFontSize: 17,
           unselectedFontSize: 15,

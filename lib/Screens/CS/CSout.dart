@@ -29,7 +29,9 @@ class _CSoutState extends State<CSout> {
             ),
             MaterialButton(
               onPressed: () {
-                FirebaseAuth.instance.signOut();
+                setState(() {
+                  FirebaseAuth.instance.signOut();
+                });
               },
               color: Colors.amber.shade900,
               child: Text('Sign Out'),

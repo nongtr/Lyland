@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:lyland/Auth.dart';
 import 'package:lyland/Screens/CS/customer_screen.dart';
+import 'package:lyland/Screens/PO/add_proberty_screen.dart';
 import 'package:lyland/Screens/login_screen.dart';
-import 'package:lyland/Screens/proOwner_screen.dart';
+import 'package:lyland/Screens/PO/proOwner_screen.dart';
 import 'package:lyland/Screens/signup_screen.dart';
 
 void main() async{
@@ -24,6 +25,7 @@ class LyLand extends StatelessWidget {
         'loginScreen': (context) => const login_screen(),
         'customerScreen': (context) => const Customer_Screen(),
         'POwnerScreen': (context)=> const ProOwnerSc(),
+        'addPropertyScreen': (context) => const addProberty(),
       },
 
     );
