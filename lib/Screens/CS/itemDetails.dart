@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lyland/Screens/CS/customerOrderDate.dart';
 
 class item_Details extends StatelessWidget {
   const item_Details({Key? key}) : super(key: key);
@@ -79,7 +80,20 @@ class item_Details extends StatelessWidget {
                         color: Colors.grey[700],
                         borderRadius: BorderRadius.all(Radius.circular(27))),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showModalBottomSheet(
+
+                            // you can say it's popup page navigator or mini page
+                            isScrollControlled: true,
+                            //هذي حتخلي الصفحة تكبر على حسب العناصر اللي فيها
+
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(40))),
+                            context: context,
+                            //we calling cusotomerOrderDate class which is called coDate
+                            builder: (cotext) => coDate());
+                      },
                       child: Text(
                         'طلب الحجز',
                         style: TextStyle(

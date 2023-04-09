@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lyland/constants.dart';
 
 class orderList extends StatefulWidget {
   const orderList({Key? key}) : super(key: key);
@@ -75,6 +76,7 @@ class titleBar extends StatelessWidget {
   }
 }
 
+//this is the hub Container  which has a order date
 class orderStatus extends StatelessWidget {
   const orderStatus({
     Key? key,
@@ -111,13 +113,12 @@ class orderStatus extends StatelessWidget {
                     color: Colors.white,
                     child: SizedBox(
                       height: 47,
-                      child: Row(
-                        children: [ynButton(), ynButton()],
-                      ),
+                      child: ynButton(),
                     )),
               ],
             ),
           ),
+
           // هذا استدعاء orderUsername statelessWideget
           orderUsername(),
         ],
@@ -155,19 +156,62 @@ class orderUsername extends StatelessWidget {
 
 // اللي فيه النص امتاع texfield
 class ynButton extends StatelessWidget {
-  const ynButton({
-    Key? key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
         margin: EdgeInsets.only(left: 50),
-        child: TextButton(
-            onPressed: () {},
-            child: Text(
-              'Yes',
-              style: TextStyle(fontSize: 22),
-            )));
+        child: Row(
+          children: [
+            SizedBox(
+              width: 20,
+            ),
+            TextButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            content: Center(
+                                heightFactor: 1,
+                                child: Text('هل انت متأكد ؟',
+                                    style: KEditDeleteTextStyle)),
+                            actions: [
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 50,
+                                  ),
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('لا',
+                                          style: KEditDeleteTextStyle)),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  TextButton(
+                                      onPressed: () {},
+                                      child: Text('نعم',
+                                          style: KEditDeleteTextStyle))
+                                ],
+                              ),
+                            ],
+                          ));
+                },
+                child: Text(
+                  'رفض',
+                  style: TextStyle(fontSize: 22),
+                )),
+            SizedBox(
+              width: 20,
+            ),
+            TextButton(
+                onPressed: () {},
+                child: Text(
+                  'قبول',
+                  style: TextStyle(fontSize: 22),
+                )),
+          ],
+        ));
   }
 }
