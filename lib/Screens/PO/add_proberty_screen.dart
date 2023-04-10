@@ -19,13 +19,32 @@ class _addProbertyState extends State<addProberty> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white38,
+          leading: IconButton(
+              onPressed: () {},
+              icon: Padding(
+                padding: const EdgeInsets.only(left: 330.0),
+                child: Icon(
+                  Icons.home_filled,
+                  size: 34,
+                ),
+              )),
+          title: Padding(
+            padding: const EdgeInsets.only(left: 58.0, top: 5),
+            child: Text(
+              'اضافة عقار جديد',
+              style: kTitleTextStyle,
+            ),
+          ),
+        ),
         backgroundColor: Colors.grey[500],
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.only(top: 0, right: 20, left: 10),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 SizedBox(
                   height: 90,
@@ -36,6 +55,10 @@ class _addProbertyState extends State<addProberty> {
                   height: 15.0,
                 ),
 
+                Text(
+                  ':نوع العقار',
+                  style: kTitleTextStyle,
+                ),
                 // row for radio buttons
                 Row(
                   children: [
@@ -88,18 +111,12 @@ class _addProbertyState extends State<addProberty> {
                 ),
 
                 //drop down menu for the city
-                SizedBox(
-                  height: 15.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 250),
-                  child: Text(
-                    ':المدينة',
-                    style: kTitleTextStyle,
-                  ),
+
+                Text(
+                  ':المدينة',
+                  style: kTitleTextStyle,
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 40),
                   child: DecoratedBox(
                     decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
@@ -110,20 +127,17 @@ class _addProbertyState extends State<addProberty> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(25)))),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 196, bottom: 3),
+                      padding: const EdgeInsets.only(left: 103),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
-                          hint: Text('اسم المدينة'),
                           value: _selectedCity,
                           items: _cityList
                               .map(
                                 (item) => DropdownMenuItem(
                                   value: item,
-                                  child: Center(
-                                    child: Text(
-                                      item,
-                                      style: kTitleTextStyle,
-                                    ),
+                                  child: Text(
+                                    item,
+                                    style: kTitleTextStyle,
                                   ),
                                 ),
                               )
@@ -140,15 +154,11 @@ class _addProbertyState extends State<addProberty> {
                 SizedBox(
                   height: 15.0,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 250),
-                  child: Text(
-                    ':المنطقة',
-                    style: kTitleTextStyle,
-                  ),
+                Text(
+                  ':المنطقة',
+                  style: kTitleTextStyle,
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 40),
                   child: DecoratedBox(
                     decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
@@ -159,7 +169,7 @@ class _addProbertyState extends State<addProberty> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(25)))),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 193),
+                      padding: const EdgeInsets.only(left: 103),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
                           value: _selectedArea,
@@ -184,9 +194,32 @@ class _addProbertyState extends State<addProberty> {
 
                 // text field for the price
                 SizedBox(
-                  height: 15.0,
+                  height: 25.0,
                 ),
                 priceNumber(priceControler: _priceControler),
+                SizedBox(
+                  height: 15.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'يسمح لك بإضافة 6 صور ',
+                      style: TextStyle(fontSize: 13, color: Colors.white60),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'صور للإعلان',
+                      style: kTitleTextStyle,
+                    ),
+                  ],
+                ),
+                add_Pictures(),
+                SizedBox(
+                  height: 20,
+                )
               ],
             ),
           ),
@@ -229,6 +262,107 @@ class _addProbertyState extends State<addProberty> {
   }
 }
 
+class add_Pictures extends StatelessWidget {
+  const add_Pictures({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.red.withOpacity(0),
+        border: Border.all(width: 4, color: Colors.white),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+      width: 380,
+      height: 220,
+      child: Row(
+        children: [
+          Column(
+            children: [firstRowPhotos(), secondRowPhotos()],
+          ),
+          TextButton(
+            onPressed: () {},
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.white.withOpacity(0),
+                  border: Border.all(width: 4, color: Colors.white)),
+              width: 90,
+              height: 80,
+              child: Icon(
+                Icons.photo_camera_rounded,
+                color: Colors.white,
+                size: 50,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class secondRowPhotos extends StatelessWidget {
+  const secondRowPhotos({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        children: [
+          ImageContainer(),
+          ImageContainer(),
+          ImageContainer(),
+        ],
+      ),
+    );
+  }
+}
+
+class firstRowPhotos extends StatelessWidget {
+  const firstRowPhotos({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        children: [
+          ImageContainer(),
+          ImageContainer(),
+          ImageContainer(),
+        ],
+      ),
+    );
+  }
+}
+
+class ImageContainer extends StatelessWidget {
+  const ImageContainer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: 4, right: 2, top: 20),
+      width: 80,
+      height: 80,
+      child: Image(
+        image: AssetImage(
+          'images/1012111.jpg',
+        ),
+        fit: BoxFit.fill,
+      ),
+    );
+  }
+}
+
 class priceNumber extends StatelessWidget {
   const priceNumber({
     Key? key,
@@ -241,22 +375,25 @@ class priceNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 100),
+      width: 180,
       child: TextField(
         controller: _priceControler,
         decoration: const InputDecoration(
           border: InputBorder.none,
           hintText: 'ادخل سعر الايجار لليلة الواحدة',
-          label: Text(
-            'السعر ',
-            style: kTitleTextStyle,
+          label: Padding(
+            padding: EdgeInsets.only(left: 92),
+            child: Text(
+              'السعر ',
+              style: kTitleTextStyle,
+            ),
           ),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white, width: 3),
-              borderRadius: BorderRadius.all(Radius.circular(30))),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.black, width: 3),
-              borderRadius: BorderRadius.all(Radius.circular(40))),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
         ),
       ),
     );
@@ -275,20 +412,23 @@ class titleName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50),
+      width: 270,
       child: TextField(
         controller: _mainLableControler,
         decoration: const InputDecoration(
-          label: Text(
-            'اسم العقار',
-            style: TextStyle(fontSize: 30),
+          label: Padding(
+            padding: EdgeInsets.only(left: 130),
+            child: Text(
+              'اسم العقار',
+              style: TextStyle(fontSize: 30),
+            ),
           ),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white, width: 4),
-              borderRadius: BorderRadius.all(Radius.circular(30))),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.black, width: 4),
-              borderRadius: BorderRadius.all(Radius.circular(40))),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
           border: InputBorder.none,
           hintText: 'ادخل العنوان الرئيسي',
         ),

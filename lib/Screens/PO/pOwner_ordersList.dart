@@ -12,12 +12,24 @@ class _orderListState extends State<orderList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: Padding(
+            padding: const EdgeInsets.only(left: 75.0),
+            child: Text(
+              'شاليه فاخر',
+              style: kTitleTextStyle,
+            ),
+          ),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(40),
+                  bottomLeft: Radius.circular(40))),
+        ),
         backgroundColor: Colors.grey[400],
         body: SingleChildScrollView(
           child: Container(
             child: Column(
               children: [
-                titleBar(),
                 SizedBox(height: 70),
                 OrderbyCustomer(),
               ],
@@ -50,31 +62,31 @@ class OrderbyCustomer extends StatelessWidget {
 }
 
 //هذا عنوان العقار اللي داخلين عليه
-class titleBar extends StatelessWidget {
-  const titleBar({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: AlignmentDirectional.topCenter,
-      width: 450,
-      height: 100,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(40),
-        color: Colors.white,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(top: 44),
-        child: Text(
-          'شاليه فاخر ',
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-  }
-}
+// class titleBar extends StatelessWidget {
+//   const titleBar({
+//     Key? key,
+//   }) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       alignment: AlignmentDirectional.topCenter,
+//       width: 450,
+//       height: 100,
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(40),
+//         color: Colors.white,
+//       ),
+//       child: Padding(
+//         padding: const EdgeInsets.only(top: 44),
+//         child: Text(
+//           'شاليه فاخر ',
+//           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 //this is the hub Container  which has a order date
 class orderStatus extends StatelessWidget {

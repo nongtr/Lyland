@@ -39,24 +39,30 @@ class _ProOwnerScState extends State<ProOwnerSc> {
         //     ),
         //   ],
         // ),
-        bottomNavigationBar: BottomNavigationBar(
-          selectedFontSize: 17,
-          unselectedFontSize: 15,
-          iconSize: 30,
-          currentIndex: _currentIndex,
-          items: const [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home_filled), label: 'العقارات'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.event_note_rounded), label: 'الحجوزات'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.exit_to_app), label: 'خروج')
-          ],
-          onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
+        bottomNavigationBar: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(25),
+            topRight: Radius.circular(25),
+          ),
+          child: BottomNavigationBar(
+            selectedFontSize: 17,
+            unselectedFontSize: 15,
+            iconSize: 30,
+            currentIndex: _currentIndex,
+            items: const [
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.home_filled), label: 'العقارات'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.event_note_rounded), label: 'الحجوزات'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.exit_to_app), label: 'خروج')
+            ],
+            onTap: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+          ),
         ));
   }
 }
