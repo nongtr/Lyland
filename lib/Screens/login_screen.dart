@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:lyland/Screens/CS/customer_screen.dart';
 
 
 class login_screen extends StatefulWidget {
@@ -14,8 +16,28 @@ class _login_screenState extends State<login_screen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+
   Future Signin() async {
     await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim());
+    route();
+  }
+  void route(){
+    User? user = FirebaseAuth.instance.currentUser;
+    var kk = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        if (documentSnapshot.get('role') == "زبون") {
+          Navigator.pushReplacementNamed(context, 'customerScreen');
+        }else{
+          Navigator.pushReplacementNamed(context, 'POwnerScreen');
+        }
+      }
+
+    });
+
   }
 
   void openSignUpScreen (){
@@ -67,6 +89,7 @@ class _login_screenState extends State<login_screen> {
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         child: TextField(
+                          keyboardType: TextInputType.emailAddress,
                           controller: _emailController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
