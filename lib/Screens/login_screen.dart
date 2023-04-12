@@ -4,7 +4,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lyland/Screens/CS/customer_screen.dart';
 
-
 class login_screen extends StatefulWidget {
   const login_screen({Key? key}) : super(key: key);
 
@@ -16,12 +15,14 @@ class _login_screenState extends State<login_screen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-
   Future Signin() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim());
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim());
     route();
   }
-  void route(){
+
+  void route() {
     User? user = FirebaseAuth.instance.currentUser;
     var kk = FirebaseFirestore.instance
         .collection('users')
@@ -31,16 +32,14 @@ class _login_screenState extends State<login_screen> {
       if (documentSnapshot.exists) {
         if (documentSnapshot.get('role') == "زبون") {
           Navigator.pushReplacementNamed(context, 'customerScreen');
-        }else{
+        } else {
           Navigator.pushReplacementNamed(context, 'POwnerScreen');
         }
       }
-
     });
-
   }
 
-  void openSignUpScreen (){
+  void openSignUpScreen() {
     Navigator.of(context).pushReplacementNamed('signUpScreen');
   }
 
@@ -50,14 +49,13 @@ class _login_screenState extends State<login_screen> {
     _emailController.dispose();
     _passwordController.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[800],
       body: Stack(
         children: <Widget>[
-
-
 //////////////////////////// title /////////////////////////
           SingleChildScrollView(
             child: Column(
@@ -158,7 +156,7 @@ class _login_screenState extends State<login_screen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         openSignUpScreen();
                       },
                       child: Text(

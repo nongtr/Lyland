@@ -9,7 +9,7 @@ class CSout extends StatefulWidget {
 }
 
 class _CSoutState extends State<CSout> {
-  final user = FirebaseAuth.instance.currentUser!;
+  final user = FirebaseAuth.instance.currentUser ?? "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,12 +20,6 @@ class _CSoutState extends State<CSout> {
             Text(
               'you signed ',
               style: TextStyle(fontSize: 22),
-            ),
-            Text(
-              user.email!,
-              style: TextStyle(
-                fontSize: 22,
-              ),
             ),
             MaterialButton(
               onPressed: () {

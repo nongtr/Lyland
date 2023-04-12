@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lyland/Screens/CS/customerOrderDate.dart';
 import 'package:lyland/constants.dart';
+import 'package:lyland/Widget/extandable_discription.dart';
 
 class item_Details extends StatelessWidget {
   const item_Details({Key? key}) : super(key: key);
@@ -8,214 +9,235 @@ class item_Details extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(08),
-          child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(30))),
-                height: 430,
-                width: 400,
+      body: Stack(
+        children: [
+          Positioned(
+            left: 0,
+            right: 0,
+            child: Container(
+              width: double.maxFinite,
+              height: 320,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('images/1012111.jpg'),
+                      fit: BoxFit.cover)),
+            ),
+          ),
+          Positioned(
+            top: 24,
+            right: 360,
+            child: Icon(
+              Icons.arrow_back_ios_new,
+              size: 45,
+              color: Colors.white,
+              shadows: [
+                BoxShadow(
+                    color: Colors.black, offset: Offset(0, 0), blurRadius: 7)
+              ],
+            ),
+          ),
+          Positioned(
+              top: 250,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Stack(children: [
-                      Container(
-                        height: 430,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(30),
-                          child: Image.asset(
-                            'images/1012111.jpg',
-                            fit: BoxFit.fill,
-                          ),
-                        ),
+                    Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
                       ),
-                      Positioned(
-                          bottom: 10,
-                          left: 20,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30))),
-                            width: 360,
-                            height: 80,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 0.0, left: 20, bottom: 0),
+                      height: 450,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          appColumn(
+                              title: 'هاي لاند ',
+                              type: 'شاليه',
+                              city: 'بنغازي',
+                              area: 'الكيش'),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            'الصور',
+                            style: TextStyle(fontSize: 25),
+                          ),
+                          Container(
+                            height: 90,
+                            width: double.maxFinite,
+                            color: Colors.red.withOpacity(0),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
                               child: Row(
                                 children: [
-                                  Text(
-                                    ' لليلة /',
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                  Text(
-                                    ' د124',
-                                    style: TextStyle(
-                                        fontSize: 25, color: Colors.orange),
-                                  ),
-                                  SizedBox(
-                                    width: 80,
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'شاليه فاخر',
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            ' بنغازي - الكيش',
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 17),
-                                          ),
-                                          Icon(
-                                            Icons.home,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  )
+                                  bottomPhotosSilder(),
+                                  bottomPhotosSilder(),
+                                  bottomPhotosSilder(),
+                                  bottomPhotosSilder()
                                 ],
                               ),
                             ),
-                          ))
-                    ]),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text('الوصف', style: TextStyle(fontSize: 25)),
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: extendoo(
+                                  textD:
+                                      'يا اهلا وسهلا فيكم في تطبيق لاي لاند للحجز المبدئي التطبيق اللي فيه كل العقارات اللي في بالك من شاليهات و استراحات و هوتيلات و كل ما في قلبك قاعد يا سي غير سجل فيه و مش حتندم  '),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                  margin: EdgeInsets.only(left: 280),
-                  child: Text(
-                    'نظرة عامة',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  )),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    bottomPhotosSilder(),
-                    bottomPhotosSilder(),
-                    bottomPhotosSilder(),
-                    bottomPhotosSilder(),
-                  ],
+              )),
+        ],
+      ),
+      bottomNavigationBar: Container(
+        height: 100,
+        padding: EdgeInsets.only(top: 30, bottom: 30, right: 20, left: 20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+          color: Colors.grey[200],
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 180,
+              height: 40,
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    right: 14.0,
+                    left: 34,
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        'لليلة',
+                        style: TextStyle(fontSize: 30),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'د',
+                        style: TextStyle(fontSize: 30),
+                      ),
+                      Text(
+                        '124',
+                        style: TextStyle(fontSize: 30),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              // Container(
-              //   padding: EdgeInsets.symmetric(
-              //     vertical: 10,
-              //   ),
-              //   margin: EdgeInsets.only(
-              //     top: 0,
-              //     left: 250,
-              //   ),
-              //   child: Text(
-              //     'شاليه فاحلر',
-              //     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
-              //   ),
-              // ),
-              /////////////////////////////////////////////////////
-              // هذا القالب اللي فيه المدينةو المنطقو
-              // Container(
-              //   padding: EdgeInsets.symmetric(
-              //     horizontal: 3,
-              //   ),
-              //   margin: EdgeInsets.only(left: 200),
-              //   child: Text(
-              //     'بنغازي -الكيش',
-              //     style: TextStyle(
-              //         fontSize: 20,
-              //         fontWeight: FontWeight.w700,
-              //         color: Colors.orange),
-              //   ),
-              // ),
-              //////////////////////////////////////////////
-              SizedBox(height: 15),
-              Container(
-                  margin: EdgeInsets.only(left: 260),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                    isScrollControlled: true,
+                    shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(40))),
+                    context: context,
+                    builder: (context) => coDate());
+              },
+              child: Container(
+                height: 100,
+                width: 150,
+                padding: EdgeInsets.only(bottom: 2),
+                decoration: BoxDecoration(
+                    color: Colors.grey[700],
+                    borderRadius: BorderRadius.circular(20)),
+                child: Center(
                   child: Text(
-                    'وصف العقار',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  )),
-              Description(),
-              Row(
-                children: [
-                  ////////////////////////////////////////
-                  // هذا القالب اللي فيه سعر لليلة
-                  ///////////////////////////////
-                  //هذا الزر شور طلب الحجز
-                  Container(
-                      margin: EdgeInsets.only(left: 50, top: 30),
-                      width: 300,
-                      decoration: BoxDecoration(
-                          color: Colors.grey[700],
-                          borderRadius: BorderRadius.all(Radius.circular(27))),
-                      child: TextButton(
-                        onPressed: () {
-                          showModalBottomSheet(
-
-                              // you can say it's popup page navigator or mini page
-                              isScrollControlled: true,
-                              //هذي حتخلي الصفحة تكبر على حسب العناصر اللي فيها
-
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(40))),
-                              context: context,
-                              //we calling cusotomerOrderDate class which is called coDate
-                              builder: (cotext) => coDate());
-                        },
-                        child: Text(
-                          'طلب الحجز',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20),
-                        ),
-                      )),
-                ],
-              )
-            ],
-          ),
+                    'طلب الحجز',
+                    style: TextStyle(fontSize: 25, color: Colors.white),
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
   }
 }
 
-////////////////////////////////////////////////////////////////
-// هذا عبارة عن ويدجت مستقلة تحط في وصف العقار
-class Description extends StatelessWidget {
-  const Description({
-    Key? key,
-  }) : super(key: key);
+class appColumn extends StatelessWidget {
+  final String title;
+  final String type;
+  final String city;
+  final String area;
+  const appColumn(
+      {Key? key,
+      required this.title,
+      required this.type,
+      required this.city,
+      required this.area})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        margin: EdgeInsets.only(
-          top: 15,
-          left: 0,
-        ),
-        child: Column(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(title, style: TextStyle(fontSize: 20)),
+        SizedBox(height: 0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Text(
-              'شاليه يمتاز بالراحة و سهولة الوصول اليه و نظراً لأن مفيش كلام في بالي حالياً و حنذكر مواضيع عشوائية عشان بس نختبر الجو ',
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
+            Wrap(
+                children: List.generate(
+                    5, (index) => Icon(Icons.star, color: Colors.greenAccent))),
+            SizedBox(
+              width: 10,
             ),
+            Text('4.5'),
+            SizedBox(
+              width: 10,
+            ),
+            Text('تقييم')
           ],
-        ));
+        ),
+        SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Icon(Icons.circle),
+            Text(type),
+            SizedBox(width: 5),
+            Icon(Icons.location_city),
+            Text(city),
+            SizedBox(width: 5),
+            Icon(Icons.location_pin),
+            Text(area)
+          ],
+        )
+      ],
+    );
   }
 }
+
+////////////////////////////////////////////////////////////////
+// هذا عبارة عن ويدجت مستقلة تحط في وصف العقار
+
 ////////////////////////////////////////////////////
 // هذا عبارة عن ويدجيت مستقلة اللي منها درت و حطيت الصور الجانبية على شكل قالب
 
@@ -237,3 +259,14 @@ class bottomPhotosSilder extends StatelessWidget {
     );
   }
 }
+// SingleChildScrollView(
+//   scrollDirection: Axis.horizontal,
+//   child: Row(
+//     children: [
+//       bottomPhotosSilder(),
+//       bottomPhotosSilder(),
+//       bottomPhotosSilder(),
+//       bottomPhotosSilder(),
+//     ],
+//   ),
+// ),
