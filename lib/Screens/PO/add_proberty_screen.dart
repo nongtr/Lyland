@@ -1,5 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lyland/constants.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class addProberty extends StatefulWidget {
   const addProberty({Key? key}) : super(key: key);
@@ -263,10 +266,7 @@ class _addProbertyState extends State<addProberty> {
 }
 
 class add_Pictures extends StatelessWidget {
-  const add_Pictures({
-    Key? key,
-  }) : super(key: key);
-
+  String imageUrl = '';
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -280,62 +280,49 @@ class add_Pictures extends StatelessWidget {
       child: Row(
         children: [
           Column(
-            children: [firstRowPhotos(), secondRowPhotos()],
+            children: [],
           ),
-          TextButton(
-            onPressed: () {},
-            child: Container(
+          Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: Colors.white.withOpacity(0),
                   border: Border.all(width: 4, color: Colors.white)),
               width: 90,
               height: 80,
-              child: Icon(
-                Icons.photo_camera_rounded,
-                color: Colors.white,
-                size: 50,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+              child: IconButton(
+                  onPressed: () async {
+                    ImagePicker imagePicker = ImagePicker();
+                    XFile? file = await imagePicker.pickImage(
+                        source: ImageSource.gallery);
+                    // note :file cannot be null =>
 
-class secondRowPhotos extends StatelessWidget {
-  const secondRowPhotos({
-    Key? key,
-  }) : super(key: key);
+                    print('${file?.path}');
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: [
-          ImageContainer(),
-          ImageContainer(),
-          ImageContainer(),
-        ],
-      ),
-    );
-  }
-}
+                    String uniqueFileName =
+                        DateTime.now().microsecondsSinceEpoch.toString();
+                    //reference to storage root
+                    Reference referenceRoot = FirebaseStorage.instance.ref();
+                    Reference referenceDirImage = referenceRoot.child('images');
 
-class firstRowPhotos extends StatelessWidget {
-  const firstRowPhotos({
-    Key? key,
-  }) : super(key: key);
+                    //create a reference for the image to be stored
+                    Reference referenceImageToUpload =
+                        referenceDirImage.child(uniqueFileName);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: [
-          ImageContainer(),
-          ImageContainer(),
-          ImageContainer(),
+                    //handle errors/success
+                    try {
+                      //Storage the file
+                      await referenceImageToUpload.putFile(File(file!.path));
+                      //Success: get the download URL
+                      imageUrl = await referenceImageToUpload.getDownloadURL();
+                    } catch (error) {
+                      //some errors occurred
+                    }
+                  },
+                  icon: Icon(
+                    Icons.photo_library_rounded,
+                    size: 40,
+                    color: Colors.white,
+                  ))),
         ],
       ),
     );
