@@ -246,11 +246,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim()
-      ).then((value) => {sendUserInfoToBase()});
+      ).then((value) => {sendUserInfoToDataBase()});
       Navigator.of(context).pushNamed('/');
     }
   }
-  sendUserInfoToBase(){
+  sendUserInfoToDataBase(){
     FirebaseFirestore firebaseFirestore= FirebaseFirestore.instance;
     var user =_auth.currentUser;
     CollectionReference reference= FirebaseFirestore.instance.collection('users');

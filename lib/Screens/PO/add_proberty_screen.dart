@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lyland/constants.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,6 +14,8 @@ class addProberty extends StatefulWidget {
 }
 
 class _addProbertyState extends State<addProberty> {
+  final _auth= FirebaseAuth.instance;
+
   List<String> _cityList = ['بنغازي', 'طرابلس'];
   String? _selectedCity = 'بنغازي';
   List<String> _areaList = ['الكيش', 'الحدائق'];
@@ -19,6 +23,10 @@ class _addProbertyState extends State<addProberty> {
   final _mainLableControler = TextEditingController();
   final _priceControler = TextEditingController();
   int _probertyType = 1;
+
+String imageUrl='';
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -219,7 +227,63 @@ class _addProbertyState extends State<addProberty> {
                     ),
                   ],
                 ),
-                add_Pictures(),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.red.withOpacity(0),
+                border: Border.all(width: 4, color: Colors.white),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              width: 380,
+              height: 220,
+              child: Row(
+                children: [
+                  Column(
+                    children: [],
+                  ),
+                  Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          color: Colors.white.withOpacity(0),
+                          border: Border.all(width: 4, color: Colors.white)),
+                      width: 90,
+                      height: 80,
+                      child: IconButton(
+                          onPressed: () async {
+                            ImagePicker imagePicker = ImagePicker();
+                            XFile? file = await imagePicker.pickImage(
+                                source: ImageSource.gallery);
+                            // note :file cannot be null =>
+
+                            print('${file?.path}');
+
+                            String uniqueFileName =
+                            DateTime.now().microsecondsSinceEpoch.toString();
+                            //reference to storage root
+                            Reference referenceRoot = FirebaseStorage.instance.ref();
+                            Reference referenceDirImage = referenceRoot.child('images');
+
+                            //create a reference for the image to be stored
+                            Reference referenceImageToUpload =
+                            referenceDirImage.child(uniqueFileName);
+
+                            //handle errors/success
+                            try {
+                              //Storage the file
+                              await referenceImageToUpload.putFile(File(file!.path));
+                            //Success: get the download URL
+                            imageUrl= await referenceImageToUpload.getDownloadURL();
+                            } catch (error) {
+                            //some errors occurred
+                            }
+                          },
+                          icon: Icon(
+                            Icons.photo_library_rounded,
+                            size: 40,
+                            color: Colors.white,
+                          ))),
+                ],
+              ),
+            ),
                 SizedBox(
                   height: 20,
                 )
@@ -239,6 +303,7 @@ class _addProbertyState extends State<addProberty> {
               children: [
                 TextButton(
                     onPressed: () {
+                      sendPostInfoToDataBase();
                       Navigator.of(context)
                           .pushReplacementNamed('POwnerScreen');
                     },
@@ -263,71 +328,20 @@ class _addProbertyState extends State<addProberty> {
           ),
         ));
   }
-}
-
-class add_Pictures extends StatelessWidget {
-  String imageUrl = '';
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.red.withOpacity(0),
-        border: Border.all(width: 4, color: Colors.white),
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      width: 380,
-      height: 220,
-      child: Row(
-        children: [
-          Column(
-            children: [],
-          ),
-          Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Colors.white.withOpacity(0),
-                  border: Border.all(width: 4, color: Colors.white)),
-              width: 90,
-              height: 80,
-              child: IconButton(
-                  onPressed: () async {
-                    ImagePicker imagePicker = ImagePicker();
-                    XFile? file = await imagePicker.pickImage(
-                        source: ImageSource.gallery);
-                    // note :file cannot be null =>
-
-                    print('${file?.path}');
-
-                    String uniqueFileName =
-                        DateTime.now().microsecondsSinceEpoch.toString();
-                    //reference to storage root
-                    Reference referenceRoot = FirebaseStorage.instance.ref();
-                    Reference referenceDirImage = referenceRoot.child('images');
-
-                    //create a reference for the image to be stored
-                    Reference referenceImageToUpload =
-                        referenceDirImage.child(uniqueFileName);
-
-                    //handle errors/success
-                    try {
-                      //Storage the file
-                      await referenceImageToUpload.putFile(File(file!.path));
-                      //Success: get the download URL
-                      imageUrl = await referenceImageToUpload.getDownloadURL();
-                    } catch (error) {
-                      //some errors occurred
-                    }
-                  },
-                  icon: Icon(
-                    Icons.photo_library_rounded,
-                    size: 40,
-                    color: Colors.white,
-                  ))),
-        ],
-      ),
-    );
+  sendPostInfoToDataBase(){
+    FirebaseFirestore firebaseFirestore= FirebaseFirestore.instance;
+    var user =_auth.currentUser;
+    CollectionReference reference= FirebaseFirestore.instance.collection('posts');
+    reference.doc(user!.uid).set({
+      'mainLable':_mainLableControler.text,
+      'city':_selectedCity,
+      'price':_priceControler.text,
+      'image': imageUrl
+    });
   }
 }
+
+
 
 class ImageContainer extends StatelessWidget {
   const ImageContainer({
@@ -423,3 +437,4 @@ class titleName extends StatelessWidget {
     );
   }
 }
+
