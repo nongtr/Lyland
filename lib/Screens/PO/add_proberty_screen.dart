@@ -266,15 +266,11 @@ String imageUrl='';
                             Reference referenceImageToUpload =
                             referenceDirImage.child(uniqueFileName);
 
-                            //handle errors/success
-                            try {
-                              //Storage the file
-                              await referenceImageToUpload.putFile(File(file!.path));
-                            //Success: get the download URL
-                            imageUrl= await referenceImageToUpload.getDownloadURL();
-                            } catch (error) {
-                            //some errors occurred
-                            }
+                            await referenceImageToUpload.putFile(File(file!.path));
+
+                             imageUrl= await referenceImageToUpload.getDownloadURL().toString();
+
+
                           },
                           icon: Icon(
                             Icons.photo_library_rounded,
