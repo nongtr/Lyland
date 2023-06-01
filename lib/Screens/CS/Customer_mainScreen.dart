@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lyland/Screens/CS/property_itemBody.dart';
 import 'ProperItemShow.dart';
-import 'itemDetails.dart';
+import 'Property_itemDetails.dart';
 import 'property_itemBody.dart';
 
 class Body extends StatelessWidget {

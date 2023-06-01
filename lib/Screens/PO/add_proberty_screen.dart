@@ -14,7 +14,7 @@ class addProberty extends StatefulWidget {
 }
 
 class _addProbertyState extends State<addProberty> {
-  final _auth= FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instance;
 
   List<String> _cityList = ['بنغازي', 'طرابلس'];
   String? _selectedCity = 'بنغازي';
@@ -24,8 +24,7 @@ class _addProbertyState extends State<addProberty> {
   final _priceControler = TextEditingController();
   int _probertyType = 1;
 
-String imageUrl='';
-
+  String imageUrl = '';
 
   @override
   Widget build(BuildContext context) {
@@ -227,59 +226,65 @@ String imageUrl='';
                     ),
                   ],
                 ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.red.withOpacity(0),
-                border: Border.all(width: 4, color: Colors.white),
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
-              width: 380,
-              height: 220,
-              child: Row(
-                children: [
-                  Column(
-                    children: [],
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.red.withOpacity(0),
+                    border: Border.all(width: 4, color: Colors.white),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
-                  Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: Colors.white.withOpacity(0),
-                          border: Border.all(width: 4, color: Colors.white)),
-                      width: 90,
-                      height: 80,
-                      child: IconButton(
-                          onPressed: () async {
-                            ImagePicker imagePicker = ImagePicker();
-                            XFile? file = await imagePicker.pickImage(
-                                source: ImageSource.gallery);
-                            // note :file cannot be null =>
+                  width: 380,
+                  height: 220,
+                  child: Row(
+                    children: [
+                      Column(
+                        children: [],
+                      ),
+                      Container(
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              color: Colors.white.withOpacity(0),
+                              border:
+                                  Border.all(width: 4, color: Colors.white)),
+                          width: 90,
+                          height: 80,
+                          child: IconButton(
+                              onPressed: () async {
+                                ImagePicker imagePicker = ImagePicker();
+                                XFile? file = await imagePicker.pickImage(
+                                    source: ImageSource.gallery);
+                                // note :file cannot be null =>
 
-                            print('${file?.path}');
+                                print('${file?.path}');
 
-                            String uniqueFileName =
-                            DateTime.now().microsecondsSinceEpoch.toString();
-                            //reference to storage root
-                            Reference referenceRoot = FirebaseStorage.instance.ref();
-                            Reference referenceDirImage = referenceRoot.child('images');
+                                String uniqueFileName = DateTime.now()
+                                    .microsecondsSinceEpoch
+                                    .toString();
+                                //reference to storage root
+                                Reference referenceRoot =
+                                    FirebaseStorage.instance.ref();
+                                Reference referenceDirImage =
+                                    referenceRoot.child('images');
 
-                            //create a reference for the image to be stored
-                            Reference referenceImageToUpload =
-                            referenceDirImage.child(uniqueFileName);
+                                //create a reference for the image to be stored
+                                Reference referenceImageToUpload =
+                                    referenceDirImage.child(uniqueFileName);
 
-                            await referenceImageToUpload.putFile(File(file!.path));
+                                await referenceImageToUpload
+                                    .putFile(File(file!.path));
 
-                             imageUrl= await referenceImageToUpload.getDownloadURL().toString();
-
-
-                          },
-                          icon: Icon(
-                            Icons.photo_library_rounded,
-                            size: 40,
-                            color: Colors.white,
-                          ))),
-                ],
-              ),
-            ),
+                                imageUrl = await referenceImageToUpload
+                                    .getDownloadURL()
+                                    .toString();
+                              },
+                              icon: Icon(
+                                Icons.photo_library_rounded,
+                                size: 40,
+                                color: Colors.white,
+                              ))),
+                    ],
+                  ),
+                ),
                 SizedBox(
                   height: 20,
                 )
@@ -324,20 +329,20 @@ String imageUrl='';
           ),
         ));
   }
-  sendPostInfoToDataBase(){
-    FirebaseFirestore firebaseFirestore= FirebaseFirestore.instance;
-    var user =_auth.currentUser;
-    CollectionReference reference= FirebaseFirestore.instance.collection('posts');
+
+  sendPostInfoToDataBase() {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    var user = _auth.currentUser;
+    CollectionReference reference =
+        FirebaseFirestore.instance.collection('posts');
     reference.doc(user!.uid).set({
-      'mainLable':_mainLableControler.text,
-      'city':_selectedCity,
-      'price':_priceControler.text,
+      'mainLable': _mainLableControler.text,
+      'city': _selectedCity,
+      'price': _priceControler.text,
       'image': imageUrl
     });
   }
 }
-
-
 
 class ImageContainer extends StatelessWidget {
   const ImageContainer({
@@ -433,4 +438,3 @@ class titleName extends StatelessWidget {
     );
   }
 }
-

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lyland/Screens/PO/POwner_mainScreen.dart';
-import 'package:lyland/Screens/PO/pOwner_orders.dart';
+import 'package:lyland/Screens/PO/Owner_mainScreen.dart';
+import 'package:lyland/Screens/PO/Owner_orders.dart';
 import 'package:lyland/constants.dart';
-import '../CS/CScheck.dart';
-import '../CS/CSout.dart';
-import '../CS/CSproper.dart';
+import '../CS/Customer_orderCheck.dart';
+import '../CS/Customer_signOut.dart';
+import '../CS/Customer_mainScreen.dart';
 
 class ProOwnerSc extends StatefulWidget {
   const ProOwnerSc();

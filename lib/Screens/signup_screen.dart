@@ -10,25 +10,23 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final _auth= FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instance;
 
   final _emailController = TextEditingController();
+  final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  final _phoneNumberController= TextEditingController();
+  final _phoneNumberController = TextEditingController();
 
-  var _roles= [
+  var _roles = [
     'زبون',
     'مالك عقار',
-    ];
-  var _currentRoleSelected= 'زبون';
-  var role= 'زبون';
-
-
+  ];
+  var _currentRoleSelected = 'زبون';
+  var role = 'زبون';
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.grey[800],
       body: SingleChildScrollView(
@@ -43,6 +41,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
             //   height: 250,
             //   width: 250,
             // ),
+            SizedBox(
+              height: 40,
+            ),
 
             Text('ادخل البيانات الخاصة بك هنا ',
                 style: TextStyle(
@@ -73,7 +74,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
 //////////////////////////////         Email      /////////////////////
             //
-
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25),
+              child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: TextField(
+                      controller: _nameController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'اسم المستخدم ',
+                      ),
+                    ),
+                  )),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            ///////////////////////////////////////////
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 25),
               child: Container(
@@ -182,8 +203,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ],
             ),
 
-            SizedBox(height: 10.0,),
-
+            SizedBox(
+              height: 10.0,
+            ),
 
             //////////////////////sign-up box//////////////////////////////
             Padding(
@@ -241,20 +263,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-   Future SignUp() async {
+  Future SignUp() async {
     if (passwordConfirmed()) {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim()
-      ).then((value) => {sendUserInfoToDataBase()});
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim())
+          .then((value) => {sendUserInfoToDataBase()});
       Navigator.of(context).pushNamed('/');
     }
   }
-  sendUserInfoToDataBase(){
-    FirebaseFirestore firebaseFirestore= FirebaseFirestore.instance;
-    var user =_auth.currentUser;
-    CollectionReference reference= FirebaseFirestore.instance.collection('users');
-    reference.doc(user!.uid).set({'email':_emailController.text,'role':role,'phoneNumber': _phoneNumberController.text});
+
+  sendUserInfoToDataBase() {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    var user = _auth.currentUser;
+    CollectionReference reference =
+        FirebaseFirestore.instance.collection('users');
+    reference.doc(user!.uid).set({
+      'email': _emailController.text,
+      'role': role,
+      'phoneNumber': _phoneNumberController.text
+    });
     Navigator.pushReplacementNamed(context, 'loginScreen');
   }
 
@@ -262,11 +291,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (_passwordController.text.trim() ==
         _confirmPasswordController.text.trim()) {
       return true;
-    }
-    else
+    } else
       return false;
   }
-
 
   void openSigninScreen() {
     Navigator.of(context).pushReplacementNamed('loginScreen');

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lyland/Screens/CS/itemDetails.dart';
+import 'package:lyland/Screens/CS/Property_itemDetails.dart';
 
 class Propertyitem extends StatelessWidget {
   const Propertyitem({

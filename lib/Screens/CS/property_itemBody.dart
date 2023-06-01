@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lyland/Screens/CS/itemDetails.dart';
-import 'itemDetails.dart';
+import 'package:lyland/Screens/CS/Property_itemDetails.dart';
+import 'Property_itemDetails.dart';
 
 class propertyPageBody extends StatefulWidget {
   const propertyPageBody({Key? key}) : super(key: key);

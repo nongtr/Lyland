@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:lyland/Auth.dart';
-import 'package:lyland/Screens/CS/customer_screen.dart';
+import 'package:lyland/Screens/CS/Customer_screenBar.dart';
 import 'package:lyland/Screens/PO/add_proberty_screen.dart';
 import 'package:lyland/Screens/login_screen.dart';
-import 'package:lyland/Screens/PO/proOwner_screen.dart';
+import 'package:lyland/Screens/PO/Owner_screenBar.dart';
 import 'package:lyland/Screens/signup_screen.dart';
 
 void main() async {

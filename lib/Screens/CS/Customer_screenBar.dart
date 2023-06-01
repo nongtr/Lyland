@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lyland/Screens/CS/CScheck.dart';
-import 'package:lyland/Screens/CS/CSout.dart';
-import 'package:lyland/Screens/CS/CSproper.dart';
+import 'package:lyland/Screens/CS/Customer_orderCheck.dart';
+import 'package:lyland/Screens/CS/Customer_signOut.dart';
+import 'package:lyland/Screens/CS/Customer_mainScreen.dart';
 
 class Customer_Screen extends StatefulWidget {
   const Customer_Screen({Key? key}) : super(key: key);
