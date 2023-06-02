@@ -208,7 +208,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
 
             //////////////////////sign-up box//////////////////////////////
-            Padding(
+            Container(
+              child: Center(
+                child: ElevatedButton(
+                  onPressed: (){
+                    SignUp;
+                    if(_emailController==null || _passwordController==null) {
+                      final invalidSnackBar = SnackBar(
+                          showCloseIcon: true,
+                          backgroundColor: Colors.red,
+                          content: Text('حدث خطأ ما, يرحى المحاولة من جديد'));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          invalidSnackBar);
+                    }
+                    else{
+                      final validSnackBar = SnackBar(
+                          showCloseIcon: true,
+                          backgroundColor: Colors.teal,
+                          content: Text('تم تسجيل حسابك بنجاح'));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          validSnackBar);
+                    }
+
+
+                  },
+                  child: Text('تسجيل دخول'),
+                ),
+              ),
+            ),
+           /* Padding(
               padding: EdgeInsets.symmetric(horizontal: 25),
               child: GestureDetector(
                 onTap: SignUp,
@@ -228,7 +256,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
               ),
-            ),
+            ),*/
 
             SizedBox(
               height: 40,
