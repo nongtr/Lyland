@@ -14,15 +14,13 @@ void main() async {
 }
 
 class LyLand extends StatelessWidget {
-  const LyLand({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        '/': (context) => const Auth(),
+        '/': (context) =>  const login_screen(),
         'signUpScreen': (context) => const SignUpScreen(),
-        'loginScreen': (context) => const login_screen(),
+        'AuthScreen': (context) => const Auth(),
         'customerScreen': (context) => const Customer_Screen(),
         'POwnerScreen': (context) => const ProOwnerSc(),
         'addPropertyScreen': (context) => const addProberty(),
