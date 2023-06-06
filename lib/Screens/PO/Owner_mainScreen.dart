@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'add_proberty_screen.dart';
-import 'add_proberty_screen.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../constants.dart';
 
@@ -9,6 +10,7 @@ class PO_mainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         elevation: 10.0,
@@ -20,7 +22,7 @@ class PO_mainScreen extends StatelessWidget {
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(40))),
               context: context,
-              builder: (cotext) => addProberty());
+              builder: (cotext) => addProberty(ueserId: user!.uid));
           // Navigator.of(context).pushReplacementNamed('addPropertyScreen');
         },
         child: addButton(),

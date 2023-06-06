@@ -4,25 +4,25 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lyland/constants.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'add_probertyImages.dart';
+import 'add_probertyContainers.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path/path.dart ' as path;
 
 class addProberty extends StatefulWidget {
-  const addProberty({Key? key}) : super(key: key);
+  final String? ueserId;
+  const addProberty({Key? key, this.ueserId}) : super(key: key);
 
   @override
   State<addProberty> createState() => _addProbertyState();
 }
 
 class _addProbertyState extends State<addProberty> {
-  final _auth = FirebaseAuth.instance;
-
   late CollectionReference imgRef;
   late firebase_storage.Reference ref;
+  final List<File> image = [];
+  final picker = ImagePicker();
 
-  late final List<File> _image;
+  final _auth = FirebaseAuth.instance;
 
   List<String> _cityList = ['بنغازي', 'طرابلس'];
   String? _selectedCity = 'بنغازي';
@@ -237,7 +237,7 @@ class _addProbertyState extends State<addProberty> {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.red.withOpacity(0),
+                    color: Colors.white.withOpacity(1),
                     border: Border.all(width: 4, color: Colors.white),
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
@@ -249,9 +249,27 @@ class _addProbertyState extends State<addProberty> {
                         children: [],
                       ),
                       Expanded(
-                        child: AddImage(),
-                        flex: 2,
-                      )
+                          child: GridView.builder(
+                              itemCount: image.length + 1,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 4),
+                              itemBuilder: (context, index) {
+                                return index == 0
+                                    ? IconButton(
+                                        onPressed: () {
+                                          chooseImage();
+                                        },
+                                        icon: Icon(Icons.add_a_photo))
+                                    : Container(
+                                        margin: EdgeInsets.all(2),
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image:
+                                                    FileImage(image[index - 1]),
+                                                fit: BoxFit.cover)),
+                                      );
+                              }))
                     ],
                   ),
                 ),
@@ -301,10 +319,8 @@ class _addProbertyState extends State<addProberty> {
               children: [
                 TextButton(
                     onPressed: () {
-                      uploadFile2();
-
                       sendPostInfoToDataBase();
-
+                      uploadFile();
                       Navigator.of(context)
                           .pushReplacementNamed('POwnerScreen');
                     },
@@ -330,13 +346,26 @@ class _addProbertyState extends State<addProberty> {
         ));
   }
 
-  Future uploadFile2() async {
-    for (var img in _image) {
+  //image functions
+  Future chooseImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        image.add(File(pickedFile.path));
+      }
+    });
+  }
+
+  Future uploadFile() async {
+    for (var img in image) {
+      final postID = DateTime.now().microsecondsSinceEpoch.toString();
       ref = firebase_storage.FirebaseStorage.instance
-          // create reference for every image in image list
+
+          // CREATE REFERENCE FOR EVERY IMAGE in IMAGE LIST
           .ref()
-          .child('images/${path.basename(img.path)}');
-      // then we gonna make that image have that reference
+          .child('${widget.ueserId}/images')
+          .child('post_$postID');
+      // Then WE GONNA MAKE THAT IMAGE HAVE THAT  REFERENCE
       await ref.putFile(img).whenComplete(() async {
         await ref.getDownloadURL().then((value) {
           imgRef.add({'url': value});
@@ -345,7 +374,14 @@ class _addProbertyState extends State<addProberty> {
     }
   }
 
-// data sender //
+  @override
+  void initState() {
+    super.initState();
+    imgRef = FirebaseFirestore.instance.collection('imageURls');
+  }
+  ////////////////////////////////////
+
+// DATA SENDER
   sendPostInfoToDataBase() {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     var user = _auth.currentUser;
@@ -358,80 +394,5 @@ class _addProbertyState extends State<addProberty> {
       'description': _descriptionController.text,
       'image': imageUrl
     });
-  }
-}
-
-class priceNumber extends StatelessWidget {
-  const priceNumber({
-    Key? key,
-    required TextEditingController priceControler,
-  })  : _priceControler = priceControler,
-        super(key: key);
-
-  final TextEditingController _priceControler;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 200,
-      child: TextField(
-        controller: _priceControler,
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-          hintText: 'ادخل سعر الايجار لليلة الواحدة',
-          label: Padding(
-            padding: EdgeInsets.only(left: 92),
-            child: Text(
-              'السعر ',
-              style: kTitleTextStyle,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white, width: 3),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 3),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-        ),
-      ),
-    );
-  }
-}
-
-// class ImageContainer extends StatelessWidget {
-class titleName extends StatelessWidget {
-  const titleName({
-    Key? key,
-    required TextEditingController mainLableControler,
-  })  : _mainLableControler = mainLableControler,
-        super(key: key);
-
-  final TextEditingController _mainLableControler;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 270,
-      child: TextField(
-        controller: _mainLableControler,
-        decoration: const InputDecoration(
-          label: Padding(
-            padding: EdgeInsets.only(left: 130),
-            child: Text(
-              'اسم العقار',
-              style: TextStyle(fontSize: 30),
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white, width: 4),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 4),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          border: InputBorder.none,
-          hintText: 'ادخل العنوان الرئيسي',
-        ),
-      ),
-    );
   }
 }
