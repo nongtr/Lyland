@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:lyland/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'add_probertyImages.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:path/path.dart ' as path;
 
 class addProberty extends StatefulWidget {
   const addProberty({Key? key}) : super(key: key);
@@ -14,7 +17,12 @@ class addProberty extends StatefulWidget {
 }
 
 class _addProbertyState extends State<addProberty> {
-  final _auth= FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instance;
+
+  late CollectionReference imgRef;
+  late firebase_storage.Reference ref;
+
+  late final List<File> _image;
 
   List<String> _cityList = ['بنغازي', 'طرابلس'];
   String? _selectedCity = 'بنغازي';
@@ -22,10 +30,10 @@ class _addProbertyState extends State<addProberty> {
   String? _selectedArea = 'الكيش';
   final _mainLableControler = TextEditingController();
   final _priceControler = TextEditingController();
+  final _descriptionController = TextEditingController();
   int _probertyType = 1;
 
-String imageUrl='';
-
+  String imageUrl = '';
 
   @override
   Widget build(BuildContext context) {
@@ -227,62 +235,56 @@ String imageUrl='';
                     ),
                   ],
                 ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.red.withOpacity(0),
-                border: Border.all(width: 4, color: Colors.white),
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
-              width: 380,
-              height: 220,
-              child: Row(
-                children: [
-                  Column(
-                    children: [],
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.red.withOpacity(0),
+                    border: Border.all(width: 4, color: Colors.white),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
-                  Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: Colors.white.withOpacity(0),
-                          border: Border.all(width: 4, color: Colors.white)),
-                      width: 90,
-                      height: 80,
-                      child: IconButton(
-                          onPressed: () async {
-                            ImagePicker imagePicker = ImagePicker();
-                            XFile? file = await imagePicker.pickImage(
-                                source: ImageSource.gallery);
-                            // note :file cannot be null =>
-
-                            print('${file?.path}');
-
-                            String uniqueFileName =
-                            DateTime.now().microsecondsSinceEpoch.toString();
-                            //reference to storage root
-                            Reference referenceRoot = FirebaseStorage.instance.ref();
-                            Reference referenceDirImage = referenceRoot.child('images');
-
-                            //create a reference for the image to be stored
-                            Reference referenceImageToUpload =
-                            referenceDirImage.child(uniqueFileName);
-
-                            await referenceImageToUpload.putFile(File(file!.path));
-
-                             imageUrl= await referenceImageToUpload.getDownloadURL().toString();
-
-
-                          },
-                          icon: Icon(
-                            Icons.photo_library_rounded,
-                            size: 40,
-                            color: Colors.white,
-                          ))),
-                ],
-              ),
-            ),
+                  width: 380,
+                  height: 220,
+                  child: Row(
+                    children: [
+                      Column(
+                        children: [],
+                      ),
+                      Expanded(
+                        child: AddImage(),
+                        flex: 2,
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Text(
+                  ':وصف العقار ',
+                  style: kTitleTextStyle,
+                ),
+                Container(
+                  width: 370,
+                  height: 111,
+                  decoration: BoxDecoration(
+                    color: Colors.red.withOpacity(0),
+                    border: Border.all(width: 4, color: Colors.white),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: _descriptionController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText:
+                            '                                                                 اكتب هنا  ',
+                      ),
+                    ),
+                  ),
+                ),
                 SizedBox(
                   height: 20,
-                )
+                ),
               ],
             ),
           ),
@@ -299,7 +301,10 @@ String imageUrl='';
               children: [
                 TextButton(
                     onPressed: () {
+                      uploadFile2();
+
                       sendPostInfoToDataBase();
+
                       Navigator.of(context)
                           .pushReplacementNamed('POwnerScreen');
                     },
@@ -324,39 +329,35 @@ String imageUrl='';
           ),
         ));
   }
-  sendPostInfoToDataBase(){
-    FirebaseFirestore firebaseFirestore= FirebaseFirestore.instance;
-    var user =_auth.currentUser;
-    CollectionReference reference= FirebaseFirestore.instance.collection('posts');
+
+  Future uploadFile2() async {
+    for (var img in _image) {
+      ref = firebase_storage.FirebaseStorage.instance
+          // create reference for every image in image list
+          .ref()
+          .child('images/${path.basename(img.path)}');
+      // then we gonna make that image have that reference
+      await ref.putFile(img).whenComplete(() async {
+        await ref.getDownloadURL().then((value) {
+          imgRef.add({'url': value});
+        });
+      });
+    }
+  }
+
+// data sender //
+  sendPostInfoToDataBase() {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    var user = _auth.currentUser;
+    CollectionReference reference =
+        FirebaseFirestore.instance.collection('posts');
     reference.doc(user!.uid).set({
-      'mainLable':_mainLableControler.text,
-      'city':_selectedCity,
-      'price':_priceControler.text,
+      'mainLable': _mainLableControler.text,
+      'city': _selectedCity,
+      'price': _priceControler.text,
+      'description': _descriptionController.text,
       'image': imageUrl
     });
-  }
-}
-
-
-
-class ImageContainer extends StatelessWidget {
-  const ImageContainer({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 4, right: 2, top: 20),
-      width: 80,
-      height: 80,
-      child: Image(
-        image: AssetImage(
-          'images/1012111.jpg',
-        ),
-        fit: BoxFit.fill,
-      ),
-    );
   }
 }
 
@@ -372,7 +373,7 @@ class priceNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 180,
+      width: 200,
       child: TextField(
         controller: _priceControler,
         decoration: const InputDecoration(
@@ -397,6 +398,7 @@ class priceNumber extends StatelessWidget {
   }
 }
 
+// class ImageContainer extends StatelessWidget {
 class titleName extends StatelessWidget {
   const titleName({
     Key? key,
@@ -433,4 +435,3 @@ class titleName extends StatelessWidget {
     );
   }
 }
-

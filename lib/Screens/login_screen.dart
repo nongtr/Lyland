@@ -17,8 +17,8 @@ class _login_screenState extends State<login_screen> {
 
   Future Signin() async {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text);
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim());
     route();
   }
 
@@ -31,16 +31,16 @@ class _login_screenState extends State<login_screen> {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         if (documentSnapshot.get('role') == "زبون") {
-          Navigator.pushNamed(context, 'customerScreen');
+          Navigator.pushReplacementNamed(context, 'customerScreen');
         } else {
-          Navigator.pushNamed(context, 'POwnerScreen');
+          Navigator.pushReplacementNamed(context, 'POwnerScreen');
         }
       }
     });
   }
 
   void openSignUpScreen() {
-    Navigator.of(context).pushNamed('signUpScreen');
+    Navigator.of(context).pushReplacementNamed('signUpScreen');
   }
 
   @override
@@ -125,35 +125,7 @@ class _login_screenState extends State<login_screen> {
                 ),
 
                 //////////////////////sign-in box//////////////////////////////
-                Container(
-                  child: Center(
-                    child: ElevatedButton(
-                      onPressed: (){
-                      Signin;
-                      if(_emailController==null || _passwordController==null) {
-                        final invalidSnackBar = SnackBar(
-                          showCloseIcon: true,
-                            backgroundColor: Colors.red,
-                            content: Text('حدث خطأ ما, يرحى المحاولة من جديد'));
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            invalidSnackBar);
-                      }
-                      else{
-                        final validSnackBar = SnackBar(
-                          showCloseIcon: true,
-                            backgroundColor: Colors.teal,
-                            content: Text('تم تسجيل الدخول بنجاح'));
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            validSnackBar);
-                      }
-
-
-                    },
-                        child: Text('تسجيل دخول'),
-                    ),
-                  ),
-                ),
-               /* Padding(
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: 25),
                   child: GestureDetector(
                     onTap: Signin,
@@ -173,7 +145,7 @@ class _login_screenState extends State<login_screen> {
                       ),
                     ),
                   ),
-                ),*/
+                ),
 
                 SizedBox(
                   height: 40,
