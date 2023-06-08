@@ -19,7 +19,41 @@ class _login_screenState extends State<login_screen> {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text);
+    if (validateUserEmail()==true){
+      final validSnackBar = SnackBar(
+          showCloseIcon: true,
+          backgroundColor: Colors.teal,
+          content: Text('تم تسجيل الدخول بنجاح'));
+      ScaffoldMessenger.of(context).showSnackBar(
+          validSnackBar);
+    }
+    else{
+      final invalidSnackBar = SnackBar(
+          showCloseIcon: true,
+          backgroundColor: Colors.red,
+          content: Text('حدث خطأ ما, يرحى المحاولة من جديد'));
+      ScaffoldMessenger.of(context).showSnackBar(
+          invalidSnackBar);
+    }
     route();
+  }
+
+  bool ? validateUserEmail(){
+    User? user = FirebaseAuth.instance.currentUser;
+    var kk = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        return true;
+      }
+      else {
+          return false;
+        }
+
+    });
+
   }
 
   void route() {
@@ -125,7 +159,7 @@ class _login_screenState extends State<login_screen> {
                 ),
 
                 //////////////////////sign-in box//////////////////////////////
-                Container(
+                /*Container(
                   child: Center(
                     child: ElevatedButton(
                       onPressed: ()async{
@@ -152,51 +186,53 @@ class _login_screenState extends State<login_screen> {
                         child: Text('تسجيل دخول'),
                     ),
                   ),
-                ),
-               /* Padding(
+                ),*/
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: 25),
                   child: GestureDetector(
-                    onTap: Signin,
-                    child: Container(
+                    onTap:
+                      Signin,
+
+                      child: Container(
                       padding: EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                          color: Colors.orange,
-                          borderRadius: BorderRadius.circular(27)),
+                      color: Colors.orange,
+                      borderRadius: BorderRadius.circular(27)),
                       child: Center(
-                        child: Text(
-                          'تسجيل دخول',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        ),
+                      child: Text(
+                      'تسجيل دخول',
+                      style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold),
                       ),
-                    ),
-                  ),
-                ),*/
+                      ),
+                      ),
+                      ),
+                      ),
 
-                SizedBox(
-                  height: 40,
-                ),
+                      SizedBox(
+                      height: 40,
+                      ),
 
-                //////////////////////////checking if u have E-m/////////////////////////////
+                      //////////////////////////checking if u have E-m/////////////////////////////
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: () {
-                        openSignUpScreen();
-                      },
-                      child: Text(
-                        '  إنشاء حساب جديد  ',
-                        style: TextStyle(
-                            color: Colors.orange, fontWeight: FontWeight.bold),
+                      onTap: openSignUpScreen,
+                      child:Text(
+                        'إنشاء حساب جديد ',
+                            style: TextStyle(
+                              color: Colors.teal,
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
                     ),
                     Text(
-                      'أليس لديك حساب ؟   ',
+                        'أليس لديك حساب ؟ ',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.teal,
                         fontWeight: FontWeight.bold,
                       ),
                     )
