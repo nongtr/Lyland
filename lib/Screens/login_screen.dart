@@ -19,11 +19,11 @@ class _login_screenState extends State<login_screen> {
   bool valditUser = false;
   String? role;
 
-  void route() {
+  Future<void> route() async{
     User? user = FirebaseAuth.instance.currentUser;
     var kk = FirebaseFirestore.instance
         .collection('users')
-        .doc(user!.uid)
+        .doc(user?.uid)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
@@ -36,8 +36,6 @@ class _login_screenState extends State<login_screen> {
       } else {
         valditUser = false;
       }
-    });
-    setState(() {
     });
   }
 
@@ -164,6 +162,7 @@ class _login_screenState extends State<login_screen> {
                   padding: EdgeInsets.symmetric(horizontal: 25),
                   child: GestureDetector(
                     onTap: () async {
+                      await route();
                       try {
                       await FirebaseAuth.instance.signInWithEmailAndPassword(
                           email: _emailController.text,
@@ -175,7 +174,7 @@ class _login_screenState extends State<login_screen> {
                             content: Text('تم تسجيل الدخول بنجاح'));
                         ScaffoldMessenger.of(context).showSnackBar(
                             validSnackBar);
-                        Navigator.pushNamed(context, role!);
+                        Navigator.pushNamed(context, '$role');
                       }
                       else if (valditUser == false){
                         final invalidSnackBar = SnackBar(

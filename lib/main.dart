@@ -17,8 +17,9 @@ class LyLand extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/',
       routes: {
-        '/': (context) => const login_screen(),
+        '/': (context) =>  login_screen(),
         'signUpScreen': (context) => const SignUpScreen(),
         'AuthScreen': (context) => const Auth(),
         'customerScreen': (context) => const Customer_Screen(),
