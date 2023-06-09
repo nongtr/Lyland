@@ -15,46 +15,9 @@ class _login_screenState extends State<login_screen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  Future Signin() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text);
-    if (validateUserEmail()==true){
-      final validSnackBar = SnackBar(
-          showCloseIcon: true,
-          backgroundColor: Colors.teal,
-          content: Text('تم تسجيل الدخول بنجاح'));
-      ScaffoldMessenger.of(context).showSnackBar(
-          validSnackBar);
-    }
-    else{
-      final invalidSnackBar = SnackBar(
-          showCloseIcon: true,
-          backgroundColor: Colors.red,
-          content: Text('حدث خطأ ما, يرحى المحاولة من جديد'));
-      ScaffoldMessenger.of(context).showSnackBar(
-          invalidSnackBar);
-    }
-    route();
-  }
 
-  bool ? validateUserEmail(){
-    User? user = FirebaseAuth.instance.currentUser;
-    var kk = FirebaseFirestore.instance
-        .collection('users')
-        .doc(user!.uid)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        return true;
-      }
-      else {
-          return false;
-        }
-
-    });
-
-  }
+  bool valditUser = false;
+  String? role;
 
   void route() {
     User? user = FirebaseAuth.instance.currentUser;
@@ -64,17 +27,27 @@ class _login_screenState extends State<login_screen> {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
+        valditUser = true;
         if (documentSnapshot.get('role') == "زبون") {
-          Navigator.pushNamed(context, 'customerScreen');
+          role = 'customerScreen';
         } else {
-          Navigator.pushNamed(context, 'POwnerScreen');
+          role = 'POwnerScreen';
         }
+      } else {
+        valditUser = false;
       }
+    });
+    setState(() {
     });
   }
 
   void openSignUpScreen() {
     Navigator.of(context).pushNamed('signUpScreen');
+  }
+  @override
+  void initState () {
+    super.initState;
+    route();
   }
 
   @override
@@ -190,9 +163,38 @@ class _login_screenState extends State<login_screen> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 25),
                   child: GestureDetector(
-                    onTap:
-                      Signin,
+                    onTap: () async {
+                      try {
+                      await FirebaseAuth.instance.signInWithEmailAndPassword(
+                          email: _emailController.text,
+                          password: _passwordController.text);
+                      if (valditUser==true){
+                        final validSnackBar = SnackBar(
+                            showCloseIcon: true,
+                            backgroundColor: Colors.teal,
+                            content: Text('تم تسجيل الدخول بنجاح'));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            validSnackBar);
+                        Navigator.pushNamed(context, role!);
+                      }
+                      else if (valditUser == false){
+                        final invalidSnackBar = SnackBar(
+                            showCloseIcon: true,
+                            backgroundColor: Colors.red,
+                            content: Text('حدث خطأ ما, يرحى المحاولة من جديد'));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            invalidSnackBar);
+                      }
+                      } on FirebaseException catch (e) {
+                        final errorFromFirebase = SnackBar(
+                        showCloseIcon: true,
+                        backgroundColor: Colors.red,
+                        content: Text('يرجاء التأكد من صحة البيانات'));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                        errorFromFirebase);
+                        }
 
+                    },
                       child: Container(
                       padding: EdgeInsets.all(16),
                       decoration: BoxDecoration(
