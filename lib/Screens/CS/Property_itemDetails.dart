@@ -4,8 +4,21 @@ import 'package:lyland/constants.dart';
 import 'package:lyland/Widget/extandable_discription.dart';
 
 class item_Details extends StatelessWidget {
-  const item_Details({Key? key}) : super(key: key);
-
+  final String? background;
+  final String? title;
+  final String? typeOfProperty;
+  final String? city;
+  final String? location;
+  final String? description;
+  final String? price;
+  item_Details(
+      {this.background,
+      this.title,
+      this.typeOfProperty,
+      this.city,
+      this.location,
+      this.description,
+      this.price});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,8 +32,7 @@ class item_Details extends StatelessWidget {
               height: 320,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage('images/1012111.jpg'),
-                      fit: BoxFit.cover)),
+                      image: NetworkImage(background!), fit: BoxFit.cover)),
             ),
           ),
           Positioned(
@@ -55,42 +67,17 @@ class item_Details extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           appColumn(
-                              title: 'هاي لاند ',
-                              type: 'شاليه',
-                              city: 'بنغازي',
-                              area: 'الكيش'),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'الصور',
-                            style: TextStyle(fontSize: 25),
-                          ),
-                          Container(
-                            height: 90,
-                            width: double.maxFinite,
-                            color: Colors.red.withOpacity(0),
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  bottomPhotosSilder(),
-                                  bottomPhotosSilder(),
-                                  bottomPhotosSilder(),
-                                  bottomPhotosSilder()
-                                ],
-                              ),
-                            ),
-                          ),
+                              title: title!,
+                              type: typeOfProperty!,
+                              city: city!,
+                              area: location!),
                           SizedBox(
                             height: 20,
                           ),
                           Text('الوصف', style: TextStyle(fontSize: 25)),
                           Expanded(
                             child: SingleChildScrollView(
-                              child: extendoo(
-                                  textD:
-                                      'يا اهلا وسهلا فيكم في تطبيق لاي لاند للحجز المبدئي التطبيق اللي فيه كل العقارات اللي في بالك من شاليهات و استراحات و هوتيلات و كل ما في قلبك قاعد يا سي غير سجل فيه و مش حتندم  '),
+                              child: extendoo(textD: description!),
                             ),
                           )
                         ],
@@ -135,7 +122,7 @@ class item_Details extends StatelessWidget {
                         style: TextStyle(fontSize: 30),
                       ),
                       Text(
-                        '124',
+                        price!,
                         style: TextStyle(fontSize: 30),
                       ),
                     ],

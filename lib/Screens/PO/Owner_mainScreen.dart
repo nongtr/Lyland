@@ -1,16 +1,60 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'add_proberty_screen.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../../constants.dart';
 
-class PO_mainScreen extends StatelessWidget {
-  const PO_mainScreen({Key? key}) : super(key: key);
+class PO_mainScreen extends StatefulWidget {
+  @override
+  State<PO_mainScreen> createState() => _PO_mainScreenState();
+}
+
+class _PO_mainScreenState extends State<PO_mainScreen> {
+  User? user = FirebaseAuth.instance.currentUser;
+
+  List<String> idPropertyPost = [];
+  List<String> background = [];
+  List<String> propertyName = [];
+  List<String> propertyType = [];
+  List<String> city = [];
+  List<String> location = [];
+  List<String> price = [];
+  List<String> description = [];
+  int listLength = 0;
+  bool check = true;
+  void _getProperties() async {
+    await for (var snapshot in FirebaseFirestore.instance
+        .collection('posts')
+        .where('userID', whereIn: [user?.uid]).snapshots()) {
+      listLength = snapshot.docs.length;
+      for (var property in snapshot.docs) {
+        idPropertyPost.add(property.reference.id);
+        if (idPropertyPost != []) {
+          check = true;
+        } else if (idPropertyPost == []) {
+          check = false;
+        }
+        background.add(property.get('imageURL'));
+        propertyName.add(property.get('propertyName'));
+        propertyType.add(property.get('propertyType'));
+        city.add(property.get('city'));
+        location.add(property.get('addressInCity'));
+        price.add(property.get('price'));
+        description.add(property.get('description'));
+        print(propertyType);
+        setState(() {});
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getProperties();
+  }
 
   @override
   Widget build(BuildContext context) {
-    User? user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         elevation: 10.0,
@@ -28,80 +72,79 @@ class PO_mainScreen extends StatelessWidget {
         child: addButton(),
         backgroundColor: Colors.white,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 90,
-              ),
-              currentP(),
-              currentP(),
-              currentP(),
-              currentP(),
-              currentP(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class currentP extends StatelessWidget {
-  const currentP({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 12),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 411,
-            height: 90,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-              image: DecorationImage(
-                  image: AssetImage('images/1012111.jpg'), fit: BoxFit.cover),
-            ),
-            child: pTitle(),
-          ),
-          edit_delete_Buttons(),
-        ],
-      ),
-    );
-  }
-}
-
-//this is the the title for the property that the PO had now
-class pTitle extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        ' استراحة جميلة',
-        style: TextStyle(color: Colors.white, fontSize: 40, shadows: <Shadow>[
-          Shadow(
-            offset: Offset(0, 0),
-            color: Colors.black,
-            blurRadius: 24.0,
-          )
-        ]),
-      ),
+      body: FutureBuilder<DocumentSnapshot>(
+          future: FirebaseFirestore.instance.collection('posts').doc().get(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(child: CircularProgressIndicator());
+            }
+            return check
+                ? ListView.builder(
+                    itemCount: idPropertyPost.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        margin: EdgeInsets.symmetric(vertical: 12),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 411,
+                              height: 90,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20)),
+                                image: DecorationImage(
+                                    image: NetworkImage(background[index]),
+                                    fit: BoxFit.cover),
+                              ),
+                              child: Center(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    print(propertyType);
+                                  },
+                                  child: Text(
+                                    propertyName[index],
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 40,
+                                        shadows: <Shadow>[
+                                          Shadow(
+                                            offset: Offset(0, 0),
+                                            color: Colors.black,
+                                            blurRadius: 24.0,
+                                          )
+                                        ]),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            edit_delete_Buttons(),
+                          ],
+                        ),
+                      );
+                    })
+                : Column(
+                    children: [
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text(
+                        'لا توجد عقارات ',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                    ],
+                  );
+          }),
     );
   }
 }
 
 class edit_delete_Buttons extends StatelessWidget {
-  const edit_delete_Buttons({
-    Key? key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(

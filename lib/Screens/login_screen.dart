@@ -15,11 +15,10 @@ class _login_screenState extends State<login_screen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-
   bool valditUser = false;
   String? role;
 
-  Future<void> route() async{
+  Future<void> route() async {
     User? user = FirebaseAuth.instance.currentUser;
     var kk = FirebaseFirestore.instance
         .collection('users')
@@ -42,8 +41,9 @@ class _login_screenState extends State<login_screen> {
   void openSignUpScreen() {
     Navigator.of(context).pushNamed('signUpScreen');
   }
+
   @override
-  void initState () {
+  void initState() {
     super.initState;
     route();
   }
@@ -164,74 +164,70 @@ class _login_screenState extends State<login_screen> {
                     onTap: () async {
                       await route();
                       try {
-                      await FirebaseAuth.instance.signInWithEmailAndPassword(
-                          email: _emailController.text,
-                          password: _passwordController.text);
-                      if (valditUser==true){
-                        final validSnackBar = SnackBar(
-                            showCloseIcon: true,
-                            backgroundColor: Colors.teal,
-                            content: Text('تم تسجيل الدخول بنجاح'));
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            validSnackBar);
-                        Navigator.pushNamed(context, '$role');
-                      }
-                      else if (valditUser == false){
-                        final invalidSnackBar = SnackBar(
-                            showCloseIcon: true,
-                            backgroundColor: Colors.red,
-                            content: Text('حدث خطأ ما, يرحى المحاولة من جديد'));
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            invalidSnackBar);
-                      }
+                        await FirebaseAuth.instance.signInWithEmailAndPassword(
+                            email: _emailController.text,
+                            password: _passwordController.text);
+                        if (valditUser == true) {
+                          final validSnackBar = SnackBar(
+                              backgroundColor: Colors.teal,
+                              content: Text('تم تسجيل الدخول بنجاح'));
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(validSnackBar);
+                          Navigator.pushNamed(context, '$role');
+                        } else if (valditUser == false) {
+                          final invalidSnackBar = SnackBar(
+                              backgroundColor: Colors.red,
+                              content:
+                                  Text('حدث خطأ ما, يرحى المحاولة من جديد'));
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(invalidSnackBar);
+                        }
                       } on FirebaseException catch (e) {
                         final errorFromFirebase = SnackBar(
-                        showCloseIcon: true,
-                        backgroundColor: Colors.red,
-                        content: Text('يرجاء التأكد من صحة البيانات'));
-                        ScaffoldMessenger.of(context).showSnackBar(
-                        errorFromFirebase);
-                        }
-
+                            backgroundColor: Colors.red,
+                            content: Text('يرجاء التأكد من صحة البيانات'));
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(errorFromFirebase);
+                      }
                     },
-                      child: Container(
+                    child: Container(
                       padding: EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                      color: Colors.orange,
-                      borderRadius: BorderRadius.circular(27)),
+                          color: Colors.orange,
+                          borderRadius: BorderRadius.circular(27)),
                       child: Center(
-                      child: Text(
-                      'تسجيل دخول',
-                      style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
+                        child: Text(
+                          'تسجيل دخول',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
-                      ),
-                      ),
-                      ),
-                      ),
+                    ),
+                  ),
+                ),
 
-                      SizedBox(
-                      height: 40,
-                      ),
+                SizedBox(
+                  height: 40,
+                ),
 
-                      //////////////////////////checking if u have E-m/////////////////////////////
+                //////////////////////////checking if u have E-m/////////////////////////////
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
                       onTap: openSignUpScreen,
-                      child:Text(
+                      child: Text(
                         'إنشاء حساب جديد ',
-                            style: TextStyle(
-                              color: Colors.teal,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style: TextStyle(
+                          color: Colors.teal,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     Text(
-                        'أليس لديك حساب ؟ ',
+                      'أليس لديك حساب ؟ ',
                       style: TextStyle(
                         color: Colors.teal,
                         fontWeight: FontWeight.bold,

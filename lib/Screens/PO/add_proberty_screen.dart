@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:lyland/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'add_probertyContainers.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:path/path.dart ' as path;
+import 'package:firebase_storage/firebase_storage.dart';
 
 class addProberty extends StatefulWidget {
   final String? ueserId;
@@ -17,9 +16,11 @@ class addProberty extends StatefulWidget {
 }
 
 class _addProbertyState extends State<addProberty> {
-  late CollectionReference imgRef;
-  late firebase_storage.Reference ref;
-  final List<File> image = [];
+  final CollectionReference _postsCollection =
+      FirebaseFirestore.instance.collection('posts');
+  final FirebaseStorage _storageImageDB = FirebaseStorage.instance;
+  XFile? beforeImageConverted;
+  File? newImage;
   final picker = ImagePicker();
 
   final _auth = FirebaseAuth.instance;
@@ -31,9 +32,25 @@ class _addProbertyState extends State<addProberty> {
   final _mainLableControler = TextEditingController();
   final _priceControler = TextEditingController();
   final _descriptionController = TextEditingController();
-  int _probertyType = 1;
+  String? selectedType;
 
-  String imageUrl = '';
+  // DATA SENDER
+  sendPostInfoToDataBase() async {
+    var storageImage =
+        await _storageImageDB.ref().child('images').putFile(newImage!);
+    var url = await storageImage.ref.getDownloadURL();
+    var user = _auth.currentUser;
+    _postsCollection.add({
+      'userID': user?.uid,
+      'propertyName': _mainLableControler.text,
+      'propertyType': selectedType,
+      'city': _selectedCity,
+      'addressInCity': _selectedArea,
+      'price': _priceControler.text,
+      'description': _descriptionController.text,
+      'imageURL': url
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +86,8 @@ class _addProbertyState extends State<addProberty> {
                   height: 90,
                 ),
                 // main lable text field
-                titleName(mainLableControler: _mainLableControler),
+                Center(
+                    child: titleName(mainLableControler: _mainLableControler)),
                 SizedBox(
                   height: 15.0,
                 ),
@@ -79,55 +97,47 @@ class _addProbertyState extends State<addProberty> {
                   style: kTitleTextStyle,
                 ),
                 // row for radio buttons
-                Row(
-                  children: [
-                    Radio(
-                        value: 1,
-                        groupValue: _probertyType,
-                        onChanged: (value) {
-                          setState(() {
-                            _probertyType = value!;
-                          });
-                        }),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Text(
+                RadioListTile(
+                    title: Text(
                       'شقة',
                       style: kTitleTextStyle,
+                      textAlign: TextAlign.center,
                     ),
-                    Radio(
-                        value: 2,
-                        groupValue: _probertyType,
-                        onChanged: (value) {
-                          setState(() {
-                            _probertyType = value!;
-                          });
-                        }),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Text(
+                    value: 'شقة',
+                    groupValue: selectedType,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedType = value;
+                      });
+                    }),
+
+                RadioListTile(
+                    title: Text(
                       'استراحة',
                       style: kTitleTextStyle,
+                      textAlign: TextAlign.center,
                     ),
-                    Radio(
-                        value: 3,
-                        groupValue: _probertyType,
-                        onChanged: (value) {
-                          setState(() {
-                            _probertyType = value!;
-                          });
-                        }),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Text(
+                    value: 'استراحة',
+                    groupValue: selectedType,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedType = value;
+                      });
+                    }),
+
+                RadioListTile(
+                    title: Text(
                       'شاليه',
                       style: kTitleTextStyle,
-                    )
-                  ],
-                ),
+                      textAlign: TextAlign.center,
+                    ),
+                    value: 'شاليه',
+                    groupValue: selectedType,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedType = value;
+                      });
+                    }),
 
                 //drop down menu for the city
 
@@ -135,34 +145,38 @@ class _addProbertyState extends State<addProberty> {
                   ':المدينة',
                   style: kTitleTextStyle,
                 ),
-                Container(
-                  child: DecoratedBox(
-                    decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                                width: 3,
-                                style: BorderStyle.solid,
-                                color: Colors.white),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25)))),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 103),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          value: _selectedCity,
-                          items: _cityList
-                              .map(
-                                (item) => DropdownMenuItem(
-                                  value: item,
-                                  child: Text(
-                                    item,
-                                    style: kTitleTextStyle,
+                Center(
+                  child: Container(
+                    child: DecoratedBox(
+                      decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  width: 3,
+                                  style: BorderStyle.solid,
+                                  color: Colors.white),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25)))),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 103),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            dropdownColor: Colors.black,
+                            value: _selectedCity,
+                            items: _cityList
+                                .map(
+                                  (item) => DropdownMenuItem(
+                                    value: item,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      item,
+                                      style: kTitleTextStyle,
+                                    ),
                                   ),
-                                ),
-                              )
-                              .toList(),
-                          onChanged: (item) =>
-                              setState(() => _selectedCity = item),
+                                )
+                                .toList(),
+                            onChanged: (item) =>
+                                setState(() => _selectedCity = item),
+                          ),
                         ),
                       ),
                     ),
@@ -177,34 +191,38 @@ class _addProbertyState extends State<addProberty> {
                   ':المنطقة',
                   style: kTitleTextStyle,
                 ),
-                Container(
-                  child: DecoratedBox(
-                    decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                                width: 2,
-                                style: BorderStyle.solid,
-                                color: Colors.white),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25)))),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 103),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          value: _selectedArea,
-                          items: _areaList
-                              .map(
-                                (item) => DropdownMenuItem(
-                                  value: item,
-                                  child: Text(
-                                    item,
-                                    style: kTitleTextStyle,
+                Center(
+                  child: Container(
+                    child: DecoratedBox(
+                      decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  width: 2,
+                                  style: BorderStyle.solid,
+                                  color: Colors.white),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25)))),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 103),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            dropdownColor: Colors.black,
+                            value: _selectedArea,
+                            items: _areaList
+                                .map(
+                                  (item) => DropdownMenuItem(
+                                    value: item,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      item,
+                                      style: kTitleTextStyle,
+                                    ),
                                   ),
-                                ),
-                              )
-                              .toList(),
-                          onChanged: (item) =>
-                              setState(() => _selectedArea = item),
+                                )
+                                .toList(),
+                            onChanged: (item) =>
+                                setState(() => _selectedArea = item),
+                          ),
                         ),
                       ),
                     ),
@@ -215,63 +233,35 @@ class _addProbertyState extends State<addProberty> {
                 SizedBox(
                   height: 25.0,
                 ),
-                priceNumber(priceControler: _priceControler),
+                Center(child: priceNumber(priceControler: _priceControler)),
                 SizedBox(
                   height: 15.0,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'يسمح لك بإضافة 6 صور ',
-                      style: TextStyle(fontSize: 13, color: Colors.white60),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      'صور للإعلان',
-                      style: kTitleTextStyle,
-                    ),
-                  ],
+                Center(
+                  child: IconButton(
+                    iconSize: 30.0,
+                    onPressed: () {
+                      chooseImage();
+                    },
+                    icon: Icon(Icons.add_a_photo),
+                  ),
+                ),
+                SizedBox(
+                  height: 8.0,
                 ),
                 Container(
+                  width: 500.0,
+                  height: 200.0,
+                  margin: EdgeInsets.only(left: 8.0),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(1),
-                    border: Border.all(width: 4, color: Colors.white),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  width: 380,
-                  height: 220,
-                  child: Row(
-                    children: [
-                      Column(
-                        children: [],
+                      image: DecorationImage(
+                        image: beforeImageConverted == null
+                            ? NetworkImage('https://picsum.photos/200/300')
+                            : Image.file(File(beforeImageConverted!.path))
+                                .image,
+                        fit: BoxFit.cover,
                       ),
-                      Expanded(
-                          child: GridView.builder(
-                              itemCount: image.length + 1,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 4),
-                              itemBuilder: (context, index) {
-                                return index == 0
-                                    ? IconButton(
-                                        onPressed: () {
-                                          chooseImage();
-                                        },
-                                        icon: Icon(Icons.add_a_photo))
-                                    : Container(
-                                        margin: EdgeInsets.all(2),
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image:
-                                                    FileImage(image[index - 1]),
-                                                fit: BoxFit.cover)),
-                                      );
-                              }))
-                    ],
-                  ),
+                      shape: BoxShape.rectangle),
                 ),
                 SizedBox(
                   height: 30,
@@ -291,8 +281,10 @@ class _addProbertyState extends State<addProberty> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                      maxLength: 650,
                       controller: _descriptionController,
                       decoration: InputDecoration(
+                        counter: Offstage(),
                         border: InputBorder.none,
                         hintText:
                             '                                                                 اكتب هنا  ',
@@ -320,9 +312,9 @@ class _addProbertyState extends State<addProberty> {
                 TextButton(
                     onPressed: () {
                       sendPostInfoToDataBase();
-                      uploadFile();
                       Navigator.of(context)
                           .pushReplacementNamed('POwnerScreen');
+                      setState(() {});
                     },
                     child: Text(
                       'Save',
@@ -348,51 +340,8 @@ class _addProbertyState extends State<addProberty> {
 
   //image functions
   Future chooseImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        image.add(File(pickedFile.path));
-      }
-    });
-  }
-
-  Future uploadFile() async {
-    for (var img in image) {
-      final postID = DateTime.now().microsecondsSinceEpoch.toString();
-      ref = firebase_storage.FirebaseStorage.instance
-
-          // CREATE REFERENCE FOR EVERY IMAGE in IMAGE LIST
-          .ref()
-          .child('${widget.ueserId}/images')
-          .child('post_$postID');
-      // Then WE GONNA MAKE THAT IMAGE HAVE THAT  REFERENCE
-      await ref.putFile(img).whenComplete(() async {
-        await ref.getDownloadURL().then((value) {
-          imgRef.add({'url': value});
-        });
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    imgRef = FirebaseFirestore.instance.collection('imageURls');
-  }
-  ////////////////////////////////////
-
-// DATA SENDER
-  sendPostInfoToDataBase() {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    var user = _auth.currentUser;
-    CollectionReference reference =
-        FirebaseFirestore.instance.collection('posts');
-    reference.doc(user!.uid).set({
-      'mainLable': _mainLableControler.text,
-      'city': _selectedCity,
-      'price': _priceControler.text,
-      'description': _descriptionController.text,
-      'image': imageUrl
-    });
+    beforeImageConverted = await picker.pickImage(source: ImageSource.gallery);
+    newImage = File(beforeImageConverted!.path);
+    setState(() {});
   }
 }

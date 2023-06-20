@@ -3,7 +3,7 @@ import 'package:lyland/Screens/PO/Owner_mainScreen.dart';
 
 const kTitleTextStyle = TextStyle(
   fontSize: 30.0,
-  color: Colors.white,
+  color: Colors.orange,
   fontWeight: FontWeight.bold,
 );
 
