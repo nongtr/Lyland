@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lyland/Screens/PO/editProperty.dart';
 import 'add_proberty_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../constants.dart';
@@ -21,6 +22,7 @@ class _PO_mainScreenState extends State<PO_mainScreen> {
   List<String> price = [];
   List<String> description = [];
   int listLength = 0;
+  int index = 0;
   bool check = true;
   void _getProperties() async {
     await for (var snapshot in FirebaseFirestore.instance
@@ -44,6 +46,25 @@ class _PO_mainScreenState extends State<PO_mainScreen> {
         print(propertyType);
         setState(() {});
       }
+    }
+  }
+
+  Future<void> deleteDocument(
+      String collectionName, String documentId, String userId) async {
+    try {
+      final DocumentReference documentRef =
+          FirebaseFirestore.instance.collection(collectionName).doc(documentId);
+
+      // Check if the document exists and the user ID matches
+      final DocumentSnapshot documentSnapshot = await documentRef.get();
+      if (documentSnapshot.exists && documentSnapshot.get('userID') == userId) {
+        await documentRef.delete();
+        print('Document deleted successfully');
+      } else {
+        print('Document not found or user ID does not match');
+      }
+    } catch (e) {
+      print('Error deleting document: $e');
     }
   }
 
@@ -119,7 +140,7 @@ class _PO_mainScreenState extends State<PO_mainScreen> {
                                 ),
                               ),
                             ),
-                            edit_delete_Buttons(),
+                            EditDeleteButtons(index),
                           ],
                         ),
                       );
@@ -142,11 +163,8 @@ class _PO_mainScreenState extends State<PO_mainScreen> {
           }),
     );
   }
-}
 
-class edit_delete_Buttons extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
+  Widget EditDeleteButtons(int index) {
     return Container(
       decoration: BoxDecoration(
         border: new Border.symmetric(
@@ -183,7 +201,11 @@ class edit_delete_Buttons extends StatelessWidget {
                                   width: 20,
                                 ),
                                 TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      final String userId = user!.uid;
+                                      deleteDocument('posts',
+                                          idPropertyPost[index], userId);
+                                    },
                                     child: Text('نعم',
                                         style: KEditDeleteTextStyle))
                               ],
@@ -193,7 +215,22 @@ class edit_delete_Buttons extends StatelessWidget {
               },
               child: Text('حذف', style: KEditDeleteTextStyle)),
           TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UpdateDocumentWidget(
+                      collectionName: 'posts',
+                      documentId: idPropertyPost[index],
+                    ),
+                  ),
+                ).then((value) {
+                  if (value == true) {
+                    // Do something after the document has been updated
+                  }
+                });
+                // Call the updateDocumentFields function with the relevant parameters
+              },
               child: Text(
                 'تعديل',
                 style: KEditDeleteTextStyle,

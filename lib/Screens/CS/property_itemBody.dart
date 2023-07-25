@@ -1,109 +1,204 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lyland/Screens/CS/Property_itemDetails.dart';
 import 'Property_itemDetails.dart';
 
+// Text(
+// _propertyData['propertyName'] ?? 'null',
+// style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+// ),
 class propertyPageBody extends StatefulWidget {
-  const propertyPageBody({Key? key}) : super(key: key);
+  final String collectionName;
+
+  propertyPageBody({required this.collectionName});
 
   @override
-  State<propertyPageBody> createState() => _propertyPageBodyState();
+  _propertyPageBodyState createState() => _propertyPageBodyState();
 }
 
 class _propertyPageBodyState extends State<propertyPageBody> {
+  List<String> idPropertyPost = [];
+
+  int listLength = 0;
+  bool check = true;
+  late Stream<QuerySnapshot<Map<String, dynamic>>> _propertyStream;
+  List<Map<String, dynamic>> _propertyDataList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _propertyStream = FirebaseFirestore.instance
+        .collection(widget.collectionName)
+        .snapshots();
+    _getProperties();
+  } ///////////////////////////
+
+  void _getProperties() async {
+    await for (var snapshot
+        in FirebaseFirestore.instance.collection('posts').snapshots()) {
+      listLength = snapshot.docs.length;
+      for (var property in snapshot.docs) {
+        idPropertyPost.add(property.reference.id);
+
+        if (idPropertyPost != []) {
+          check = true;
+        } else if (idPropertyPost == []) {
+          check = false;
+        }
+
+        setState(() {});
+      }
+    }
+  }
+
   PageController pageController = PageController(viewportFraction: 0.85);
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-            margin: EdgeInsets.only(bottom: 20),
-            height: 320,
-            color: Colors.red.withOpacity(0),
-            child: PageView.builder(
-                controller: pageController,
-                itemCount: 4,
-                itemBuilder: (context, postion) {
-                  return _buildPageItem(postion);
-                })),
-      ],
+    Size size = MediaQuery.of(context).size;
+
+    return SizedBox(
+      height: size.height,
+      child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: _propertyStream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+          if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          }
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Text('No documents found.');
+          }
+
+          // Get the data from all documents
+          _propertyDataList =
+              snapshot.data!.docs.map((doc) => doc.data()).toList();
+
+          return ListView.builder(
+            itemCount: _propertyDataList.length - 1,
+            itemBuilder: (context, index) {
+              Map<String, dynamic> propertyData = _propertyDataList[index];
+
+              return bContainer();
+            },
+          );
+        },
+      ),
     );
   }
 
-  Widget _buildPageItem(int index) {
-    return Stack(children: [
-      Container(
-        height: 220,
-        margin: EdgeInsets.only(left: 10, right: 10),
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('images/1012111.jpg'), fit: BoxFit.cover),
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.blue),
-      ),
-      Align(
-        alignment: Alignment.bottomCenter,
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => item_Details()));
-          },
-          child: Container(
-            height: 120,
-            margin: EdgeInsets.only(left: 30, right: 30, bottom: 30),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                      color: Color(0xFFe8e8e8e8),
-                      offset: Offset(0, 5),
-                      blurRadius: 5.0),
-                  BoxShadow(color: Colors.white, offset: Offset(-5, 0))
-                ]),
-            child: Container(
-              padding: EdgeInsets.only(left: 15, right: 15, top: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(' لاي لاند', style: TextStyle(fontSize: 20)),
-                  SizedBox(height: 0),
-                  Row(
-                    children: [
-                      Wrap(
-                          children: List.generate(
-                              5,
-                              (index) =>
-                                  Icon(Icons.star, color: Colors.greenAccent))),
-                      SizedBox(
-                        width: 10,
+  Container bContainer() {
+    return Container(
+      margin: EdgeInsets.only(bottom: 20),
+      height: 320,
+      color: Colors.red.withOpacity(0),
+      child: PageView.builder(
+          controller: pageController,
+          itemCount: _propertyDataList.length,
+          itemBuilder: (context, index) {
+            Map<String, dynamic> propertyData = _propertyDataList[index];
+
+            return Stack(
+              children: [
+                Container(
+                  height: 220,
+                  margin: EdgeInsets.only(left: 10, right: 10),
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage(propertyData['imageURL']),
+                          fit: BoxFit.cover),
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.blue),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => item_Details(
+                                    documentId: idPropertyPost[index],
+                                  )));
+                    },
+                    child: Container(
+                      height: 120,
+                      margin: EdgeInsets.only(left: 30, right: 30, bottom: 30),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(0xFFe8e8e8e8),
+                                offset: Offset(0, 5),
+                                blurRadius: 5.0),
+                            BoxShadow(
+                                color: Colors.white, offset: Offset(-5, 0))
+                          ]),
+                      child: Container(
+                        padding: EdgeInsets.only(left: 15, right: 15, top: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(propertyData['propertyName'],
+                                style: TextStyle(fontSize: 20)),
+                            SizedBox(height: 0),
+                            Row(
+                              children: [
+                                Wrap(
+                                    children: List.generate(
+                                        1,
+                                        (index) => Icon(
+                                            Icons.attach_money_sharp,
+                                            color: Colors.green))),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  'دينار',
+                                  style: TextStyle(fontWeight: FontWeight.w100),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  propertyData['price'].toString(),
+                                  style: TextStyle(fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.hotel_class_sharp),
+                                Text(propertyData['propertyType']),
+                                SizedBox(width: 5),
+                                Icon(
+                                  Icons.location_city,
+                                  color: Colors.blueAccent,
+                                ),
+                                Text(propertyData['city']),
+                                SizedBox(width: 5),
+                                Icon(
+                                  Icons.location_pin,
+                                  color: Colors.red,
+                                ),
+                                Text(propertyData['addressInCity'])
+                              ],
+                            )
+                          ],
+                        ),
                       ),
-                      Text('4.5'),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text('تقييم')
-                    ],
+                    ),
                   ),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.circle),
-                      Text('شاليه'),
-                      SizedBox(width: 5),
-                      Icon(Icons.location_city),
-                      Text('بنغازي'),
-                      SizedBox(width: 5),
-                      Icon(Icons.location_pin),
-                      Text('الكيش')
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    ]);
+                ),
+              ],
+            );
+          }),
+    );
   }
 }
+//   Text(propertyData['propertyName'] ?? 'null'),

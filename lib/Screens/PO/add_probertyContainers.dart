@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lyland/constants.dart';
 
 ///PRICENUMBER
-class priceNumber extends StatelessWidget {
-  const priceNumber({
+class addPropertyContainer extends StatelessWidget {
+  const addPropertyContainer({
     Key? key,
     required TextEditingController priceControler,
   })  : _priceControler = priceControler,

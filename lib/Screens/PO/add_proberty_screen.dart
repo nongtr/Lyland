@@ -233,7 +233,9 @@ class _addProbertyState extends State<addProberty> {
                 SizedBox(
                   height: 25.0,
                 ),
-                Center(child: priceNumber(priceControler: _priceControler)),
+                Center(
+                    child:
+                        addPropertyContainer(priceControler: _priceControler)),
                 SizedBox(
                   height: 15.0,
                 ),
