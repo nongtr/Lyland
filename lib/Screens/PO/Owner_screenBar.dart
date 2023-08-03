@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lyland/Screens/PO/Owner_mainScreen.dart';
 import 'package:lyland/Screens/PO/Owner_orders.dart';
@@ -12,7 +13,43 @@ class ProOwnerSc extends StatefulWidget {
   State<ProOwnerSc> createState() => _ProOwnerScState();
 }
 
+List<String> idPropertyPost = [];
+List<String> background = [];
+
+List<String> propertyType = [];
+List<String> city = [];
+List<String> location = [];
+List<String> price = [];
+List<String> description = [];
+int listLength = 0;
+bool check = true;
+int index = 0;
+
 class _ProOwnerScState extends State<ProOwnerSc> {
+  void _getProperties() async {
+    await for (var snapshot
+        in FirebaseFirestore.instance.collection('posts').snapshots()) {
+      listLength = snapshot.docs.length;
+      for (var property in snapshot.docs) {
+        idPropertyPost.add(property.reference.id);
+
+        if (idPropertyPost.isNotEmpty) {
+          check = true;
+        } else {
+          check = false;
+        }
+
+        setState(() {});
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getProperties();
+  }
+
   List Pages = [PO_mainScreen(), PO_orders(), CSout()];
   int _currentIndex = 0;
   @override

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// TextField(
+// controller: _priceController,
+// ),
 class UpdateDocumentWidget extends StatefulWidget {
   final String collectionName;
   final String documentId;
@@ -16,6 +19,7 @@ class _UpdateDocumentWidgetState extends State<UpdateDocumentWidget> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _backgroundController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

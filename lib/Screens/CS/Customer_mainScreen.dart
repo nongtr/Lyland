@@ -69,13 +69,6 @@ class _BodyState extends State<Body> {
                 SizedBox(
                   width: 15,
                 ),
-                Text(
-                  'Taha',
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey),
-                )
               ],
             ),
             ////////////////////////////////////////////////////

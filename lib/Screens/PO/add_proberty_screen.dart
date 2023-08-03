@@ -40,6 +40,12 @@ class _addProbertyState extends State<addProberty> {
         await _storageImageDB.ref().child('images').putFile(newImage!);
     var url = await storageImage.ref.getDownloadURL();
     var user = _auth.currentUser;
+    final userDocRef =
+        FirebaseFirestore.instance.collection('users').doc(widget.ueserId);
+    final userData = await userDocRef.get();
+// Access the document fields
+    final String phoneNum = userData.get('phoneNumber');
+
     _postsCollection.add({
       'userID': user?.uid,
       'propertyName': _mainLableControler.text,
@@ -48,7 +54,8 @@ class _addProbertyState extends State<addProberty> {
       'addressInCity': _selectedArea,
       'price': _priceControler.text,
       'description': _descriptionController.text,
-      'imageURL': url
+      'imageURL': url,
+      'phoneNumber': phoneNum
     });
   }
 

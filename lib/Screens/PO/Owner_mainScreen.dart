@@ -1,6 +1,8 @@
+////////////////////////////////////////////////
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lyland/Screens/PO/editProperty.dart';
+import '../PO/add_proberty_screen.dart';
 import 'add_proberty_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../constants.dart';
@@ -38,12 +40,7 @@ class _PO_mainScreenState extends State<PO_mainScreen> {
         }
         background.add(property.get('imageURL'));
         propertyName.add(property.get('propertyName'));
-        propertyType.add(property.get('propertyType'));
-        city.add(property.get('city'));
-        location.add(property.get('addressInCity'));
-        price.add(property.get('price'));
-        description.add(property.get('description'));
-        print(propertyType);
+
         setState(() {});
       }
     }

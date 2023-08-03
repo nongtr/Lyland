@@ -46,6 +46,7 @@ class _item_DetailsState extends State<item_Details> {
         var address = documentData['addressInCity'];
         var price = documentData['price'];
         var description = documentData['description'];
+        var owner = documentData['userID'];
 
         // use specificData to display your widget
         return Scaffold(
@@ -180,7 +181,10 @@ class _item_DetailsState extends State<item_Details> {
                             borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(40))),
                         context: context,
-                        builder: (context) => coDate());
+                        builder: (context) => coDate(
+                              propertyName: titleName,
+                              owenerID: owner,
+                            ));
                   },
                   child: Container(
                     height: 100,
@@ -259,9 +263,3 @@ class _item_DetailsState extends State<item_Details> {
     );
   }
 }
-
-////////////////////////////////////////////////////////////////
-// هذا عبارة عن ويدجت مستقلة تحط في وصف العقار
-
-////////////////////////////////////////////////////
-// هذا عبارة عن ويدجيت مستقلة اللي منها درت و حطيت الصور الجانبية على شكل قالب

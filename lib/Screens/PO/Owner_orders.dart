@@ -1,119 +1,109 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lyland/Screens/PO/Owner_ordersList.dart';
 
-class PO_orders extends StatefulWidget {
-  const PO_orders({Key? key}) : super(key: key);
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:lyland/Screens/CS/Property_itemDetails.dart';
+import 'package:lyland/Screens/CS/orderDetails.dart';
 
+class PO_orders extends StatefulWidget {
   @override
-  State<PO_orders> createState() => _PO_ordersState();
+  _PO_ordersState createState() => _PO_ordersState();
 }
 
 class _PO_ordersState extends State<PO_orders> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[350],
-      body: SingleChildScrollView(
-        child: Container(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 140),
-            child: Column(
-              children: [
-                orders_Per_Proper(),
-                orders_Per_Proper(),
-                orders_Per_Proper(),
-                orders_Per_Proper(),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+  final String userId = FirebaseAuth.instance.currentUser!.uid;
 
-class orders_Per_Proper extends StatelessWidget {
-  //لما تضغط على عقار معين ينتقل بيك لصفحة طلبات العقار
-  const orders_Per_Proper({
-    Key? key,
-  }) : super(key: key);
+  late Stream<QuerySnapshot<Map<String, dynamic>>> _propertyStream;
+  List<Map<String, dynamic>> _propertyDataList = [];
+
+  ///////////////////////////
+  @override
+  void initState() {
+    super.initState();
+    _propertyStream = FirebaseFirestore.instance
+        .collection('posts')
+        .where('userID', isEqualTo: userId)
+        .snapshots();
+  } ///////////////////////////
+
+  PageController pageController = PageController(viewportFraction: 0.85);
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => orderList()));
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.grey,
-          image: DecorationImage(
-              image: AssetImage('images/FWSaR5ZWAAAmm3N.jpeg'),
-              fit: BoxFit.cover),
-        ),
-        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 3),
-        alignment: Alignment.center,
-        height: 100,
-        width: 410,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Notification(), proTitle()],
-        ),
-      ),
-    );
-  }
-}
+    Size size = MediaQuery.of(context).size;
 
-class proTitle extends StatelessWidget {
-  //هذا عبارة عن عنوان للعقار التابع للمالك
-  const proTitle({
-    Key? key,
-  }) : super(key: key);
+    return SizedBox(
+      height: size.height,
+      child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: _propertyStream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+          if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          }
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Text('No documents found.');
+          }
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Text(
-        'شاليه فاخر حارق',
-        style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            shadows: <Shadow>[
-              Shadow(
-                offset: Offset(4, 0),
-                color: Colors.black,
-                blurRadius: 10.0,
-              )
-            ]),
-      ),
-    );
-  }
-}
+          // Get the data from all documents
+          _propertyDataList =
+              snapshot.data!.docs.map((doc) => doc.data()).toList();
 
-class Notification extends StatelessWidget {
-  //هذا عبارة عن دائرة فيها عدد الطلبات اللي تم تقديمه على عقار معين
-  const Notification({
-    Key? key,
-  }) : super(key: key);
+          return ListView.builder(
+            itemCount: _propertyDataList.length,
+            itemBuilder: (context, index) {
+              Map<String, dynamic> propertyData = _propertyDataList[index];
+              final properties = snapshot.data?.docs ?? [];
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 10),
-      padding: EdgeInsets.all(20),
-      child: Text(
-        '10',
-        style: TextStyle(
-            fontSize: 17, fontWeight: FontWeight.bold, color: Colors.white),
-      ),
-      decoration: BoxDecoration(
-        color: Colors.orange.withOpacity(0),
-        shape: BoxShape.circle,
-        border: new Border.all(color: Colors.white, width: 4),
+              final data = properties[index].data() as Map<String, dynamic>;
+
+              final propertyName = data['propertyName'] as String;
+              final background = data['imageURL'] as String;
+
+              return Container(
+                margin:
+                    EdgeInsets.only(bottom: 0, right: 10, left: 10, top: 38),
+                height: 100,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(40),
+                  image: DecorationImage(
+                      image: NetworkImage(background), fit: BoxFit.cover),
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ordersList(
+                                  onwerId: userId,
+                                  propertyName: propertyName,
+                                )));
+                  },
+                  child: Text(
+                    propertyData['propertyName'],
+                    style: TextStyle(
+                        fontSize: 38,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        shadows: <Shadow>[
+                          Shadow(
+                            offset: Offset(0, 0),
+                            color: Colors.black,
+                            blurRadius: 20.0,
+                          )
+                        ]),
+                  ),
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }

@@ -3,10 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:lyland/Screens/CS/Property_itemDetails.dart';
 import 'Property_itemDetails.dart';
 
-// Text(
-// _propertyData['propertyName'] ?? 'null',
-// style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-// ),
 class propertyPageBody extends StatefulWidget {
   final String collectionName;
 
@@ -201,4 +197,3 @@ class _propertyPageBodyState extends State<propertyPageBody> {
     );
   }
 }
-//   Text(propertyData['propertyName'] ?? 'null'),
