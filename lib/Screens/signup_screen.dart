@@ -267,17 +267,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future SignUp() async {
+    bool fieldExists = await checkFieldExists('users', 'email', _emailController.text.trim());
+    if (fieldExists) {
+      final validSnackBar = SnackBar(
+          backgroundColor: Colors.green[600],
+          content: Text('تم تسجيل الدخول بنجاح'));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(validSnackBar);
+    }
+    else if(fieldExists==false){
+      final invalidSnackBar = SnackBar(
+          backgroundColor: Colors.red[600],
+          content: Text(
+            'حدث خطأ ما, يرحى المحاولة من جديد',
+            style: TextStyle(
+                fontWeight: FontWeight.bold),
+          ));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(invalidSnackBar);
+    }
+    else{
+
+    }
     if (passwordConfirmed()) {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim())
           .then((value) => {sendUserInfoToDataBase()});
-      final validSnackBar = SnackBar(
-          backgroundColor: Colors.green[600],
-          content: Text('تم انشاء حساب بنجاح'));
-      ScaffoldMessenger.of(context)
-          .showSnackBar(validSnackBar);
       Navigator.of(context).pushNamed('/');
     }
   }
@@ -302,6 +319,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return true;
     } else
       return false;
+  }
+
+  Future<bool> checkFieldExists(String collectionPath, String fieldName, dynamic fieldValue) async {
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection(collectionPath)
+        .where(fieldName, isEqualTo: fieldValue)
+        .limit(1)
+        .get();
+
+    return querySnapshot.docs.isNotEmpty;
   }
 
   void openSigninScreen() {
