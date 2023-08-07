@@ -47,6 +47,7 @@ class _item_DetailsState extends State<item_Details> {
         var price = documentData['price'];
         var description = documentData['description'];
         var owner = documentData['userID'];
+        var pNum = documentData['phoneNumber'].toString();
 
         // use specificData to display your widget
         return Scaffold(
@@ -182,6 +183,7 @@ class _item_DetailsState extends State<item_Details> {
                                 top: Radius.circular(40))),
                         context: context,
                         builder: (context) => coDate(
+                              pNumber: pNum,
                               propertyName: titleName,
                               owenerID: owner,
                             ));

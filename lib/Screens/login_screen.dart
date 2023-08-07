@@ -58,191 +58,179 @@ class _login_screenState extends State<login_screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[800],
-      body: Stack(
-        children: <Widget>[
-//////////////////////////// title /////////////////////////
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 30,
-                ),
-                Image.asset(
-                  'images/real-estate-building-logo-design-inspiratiohn-building-logo-design-free-vector copy.png',
-                  height: 250,
-                  width: 250,
-                ),
-
-                Text('اهلا بك ',
-                    style: TextStyle(
-                        color: Colors.grey[100],
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold)),
-
-//////////////////////////////         Email      /////////////////////
-                //
-
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: TextField(
-                          keyboardType: TextInputType.emailAddress,
-                          controller: _emailController,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'البريد الإلكتروني',
-                          ),
-                        ),
-                      )),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-
-                ////////////////////////// password ////////////////////////////////////////////
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: TextField(
-                          controller: _passwordController,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'كلمة السر',
-                          ),
-                        ),
-                      )),
-                ),
-
-                SizedBox(
-                  height: 20,
-                ),
-
-                //////////////////////sign-in box//////////////////////////////
-                /*Container(
-                  child: Center(
-                    child: ElevatedButton(
-                      onPressed: ()async{
-                      await Signin;
-                      if(_emailController==null || _passwordController==null) {
-                        final invalidSnackBar = SnackBar(
-                          showCloseIcon: true,
-                            backgroundColor: Colors.red,
-                            content: Text('حدث خطأ ما, يرحى المحاولة من جديد'));
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            invalidSnackBar);
-                      }
-                      else{
-                        final validSnackBar = SnackBar(
-                          showCloseIcon: true,
-                            backgroundColor: Colors.teal,
-                            content: Text('تم تسجيل الدخول بنجاح'));
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            validSnackBar);
-                      }
-
-
-                    },
-                        child: Text('تسجيل دخول'),
-                    ),
-                  ),
-                ),*/
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
-                  child: GestureDetector(
-                    onTap: () async {
-                      await route();
-                      try {
-                        await FirebaseAuth.instance.signInWithEmailAndPassword(
-                            email: _emailController.text,
-                            password: _passwordController.text);
-                        if (valditUser == true) {
-                          final validSnackBar = SnackBar(
-                              backgroundColor: Colors.teal,
-                              content: Text('تم تسجيل الدخول بنجاح'));
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(validSnackBar);
-                          Navigator.pushNamed(context, '$role');
-                        } else if (valditUser == false) {
-                          final invalidSnackBar = SnackBar(
-                              backgroundColor: Colors.red,
-                              content:
-                                  Text('حدث خطأ ما, يرحى المحاولة من جديد'));
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(invalidSnackBar);
-                        }
-                      } on FirebaseException catch (e) {
-                        final errorFromFirebase = SnackBar(
-                            backgroundColor: Colors.red,
-                            content: Text('يرجاء التأكد من صحة البيانات'));
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(errorFromFirebase);
-                      }
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                          color: Colors.orange,
-                          borderRadius: BorderRadius.circular(27)),
-                      child: Center(
-                        child: Text(
-                          'تسجيل دخول',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        ),
+      backgroundColor: Colors.white,
+      body: Container(
+        height: 800,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('images/Screensy.png'), fit: BoxFit.fill)),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(
+                height: 290,
+              ),
+              Container(
+                height: 400,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(50),
+                        topRight: Radius.circular(50))),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 40),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 40,
                       ),
-                    ),
-                  ),
-                ),
-
-                SizedBox(
-                  height: 40,
-                ),
-
-                //////////////////////////checking if u have E-m/////////////////////////////
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: openSignUpScreen,
-                      child: Text(
-                        'إنشاء حساب جديد ',
+                      Text(
+                        'Log in',
                         style: TextStyle(
-                          color: Colors.teal,
-                          fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue),
+                      ),
+                      SizedBox(
+                        height: 50,
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(color: Colors.black, blurRadius: 2),
+                            ]),
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(color: Colors.grey),
+                                ),
+                              ),
+                              child: TextField(
+                                keyboardType: TextInputType.emailAddress,
+                                controller: _emailController,
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "البريد الإلكتروني",
+                                    hintStyle: TextStyle(color: Colors.grey)),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(2),
+                              child: TextField(
+                                controller: _passwordController,
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "كلمة السر",
+                                    hintStyle: TextStyle(color: Colors.grey)),
+                              ),
+                            )
+                          ],
                         ),
                       ),
-                    ),
-                    Text(
-                      'أليس لديك حساب ؟ ',
-                      style: TextStyle(
-                        color: Colors.teal,
-                        fontWeight: FontWeight.bold,
+                      SizedBox(
+                        height: 20,
                       ),
-                    )
-                  ],
-                )
-              ],
-            ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 25),
+                        child: GestureDetector(
+                          onTap: () async {
+                            await route();
+                            try {
+                              await FirebaseAuth.instance
+                                  .signInWithEmailAndPassword(
+                                      email: _emailController.text,
+                                      password: _passwordController.text);
+                              if (valditUser == true) {
+                                final validSnackBar = SnackBar(
+                                    backgroundColor: Colors.green[600],
+                                    content: Text('تم تسجيل الدخول بنجاح'));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(validSnackBar);
+                                Navigator.pushNamed(context, '$role');
+                              } else if (valditUser == false) {
+                                final invalidSnackBar = SnackBar(
+                                    backgroundColor: Colors.red[600],
+                                    content: Text(
+                                      'حدث خطأ ما, يرحى المحاولة من جديد',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ));
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(invalidSnackBar);
+                              }
+                            } on FirebaseException catch (e) {
+                              final errorFromFirebase = SnackBar(
+                                  backgroundColor: Colors.red,
+                                  content: Text(
+                                    'الرجاء التأكد من صحة البيانات',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(errorFromFirebase);
+                            }
+                          },
+                          child: Container(
+                            padding: EdgeInsets.only(top: 3, bottom: 3),
+                            margin: EdgeInsets.only(left: 50, right: 50),
+                            decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(27)),
+                            child: Center(
+                              child: Text(
+                                'تسجيل الدخول',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: openSignUpScreen,
+                            child: Text(
+                              'إنشاء حساب جديد ',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'أليس لديك حساب ؟ ',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
           ),
-
-          // Container(
-          //     decoration: BoxDecoration(color: Colors.cyanAccent),
-          //     child: TextField()),
-        ],
+        ),
       ),
     );
   }

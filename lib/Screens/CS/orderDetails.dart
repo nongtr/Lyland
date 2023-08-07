@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class orderD extends StatefulWidget {
   final String documentId;
-  orderD({required this.documentId});
+  final String s;
+  orderD({required this.documentId, required this.s});
 
   @override
   _orderDState createState() => _orderDState();
@@ -25,12 +26,26 @@ class _orderDState extends State<orderD> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-          child: Text(
-        orderD.status,
-        style: TextStyle(fontSize: 25),
-      )),
+    return StreamBuilder<DocumentSnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('orders')
+          .doc(widget.documentId)
+          .snapshots(),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+
+        final data = snapshot.data?.data() as Map<String, dynamic>?;
+        final fieldValue = data?['status'];
+
+        return Scaffold(body: Center(child: Text(' $fieldValue')));
+      },
     );
   }
 }

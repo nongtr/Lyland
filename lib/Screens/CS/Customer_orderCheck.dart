@@ -96,20 +96,42 @@ class _CScheckState extends State<CScheck> {
                                 fit: BoxFit.cover),
                             borderRadius: BorderRadius.circular(30),
                             color: Colors.blue),
-                        child: Container(
-                          padding: EdgeInsets.only(left: 240, top: 12),
-                          child: Text(propertyData['propertyName'],
-                              style: TextStyle(
-                                  fontSize: 35,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  shadows: <Shadow>[
-                                    Shadow(
-                                      offset: Offset(0, 0),
-                                      color: Colors.black,
-                                      blurRadius: 20.0,
-                                    )
-                                  ])),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(bottom: 80, left: 10),
+                              child: Text(propertyData['cState'],
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                          offset: Offset(0, 0),
+                                          color: Colors.black,
+                                          blurRadius: 15.0,
+                                        )
+                                      ])),
+                            ),
+                            SizedBox(
+                              width: 80,
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(bottom: 20),
+                              child: Text(propertyData['propertyName'],
+                                  style: TextStyle(
+                                      fontSize: 35,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                          offset: Offset(0, 0),
+                                          color: Colors.black,
+                                          blurRadius: 20.0,
+                                        )
+                                      ])),
+                            ),
+                          ],
                         ),
                       ),
                       Align(
@@ -163,6 +185,8 @@ class _CScheckState extends State<CScheck> {
                                                         documentId:
                                                             idPropertyPost[
                                                                 index],
+                                                        s: propertyData[
+                                                            'status'],
                                                       )));
                                         },
                                         child: Text(

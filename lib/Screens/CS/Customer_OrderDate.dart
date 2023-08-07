@@ -7,7 +7,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 class coDate extends StatefulWidget {
   final String propertyName;
   final String owenerID;
-  coDate({required this.propertyName, required this.owenerID});
+  final String pNumber;
+  coDate(
+      {required this.propertyName,
+      required this.owenerID,
+      required this.pNumber});
 
   @override
   _coDateState createState() => _coDateState();
@@ -37,7 +41,10 @@ class _coDateState extends State<coDate> {
         'propertyName': widget.propertyName,
         'useID': userId,
         'userName': username,
-        'ownerID': widget.owenerID
+        'ownerID': widget.owenerID,
+        'cState': 'قيد المراجعة',
+        'status': 'يرجى التواصل مع المالك على الرقم :   '
+            '${widget.pNumber}'
       });
       setState(() {
         _firstDay = null;

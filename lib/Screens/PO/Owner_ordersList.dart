@@ -92,6 +92,7 @@ class _ordersListState extends State<ordersList> {
               var lastday = data['lastDay'];
               var owner = data['ownerID'];
               var property = data['propertyName'];
+              var status = data['status'];
 
               return SizedBox(
                 height: 120,
@@ -217,6 +218,7 @@ class _ordersListState extends State<ordersList> {
                                                         customerName:
                                                             customerName,
                                                         propertyName: property,
+                                                        s: status,
                                                       ));
                                               print(idPropertyPost[index]);
                                             },
