@@ -208,33 +208,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
 
             //////////////////////sign-up box//////////////////////////////
-            Container(
-              child: Center(
-                child: ElevatedButton(
-                  onPressed: () async {
-                    await SignUp;
-                    if (_emailController == null ||
-                        _passwordController == null) {
-                      final invalidSnackBar = SnackBar(
-                          backgroundColor: Colors.red,
-                          content: Text('حدث خطأ ما, يرحى المحاولة من جديد'));
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(invalidSnackBar);
-                    } else {
-                      final validSnackBar = SnackBar(
-                          backgroundColor: Colors.teal,
-                          content: Text('تم تسجيل حسابك بنجاح'));
-                      ScaffoldMessenger.of(context).showSnackBar(validSnackBar);
-                    }
-                  },
-                  child: Text('تسجيل دخول'),
-                ),
-              ),
-            ),
-            /* Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 25),
-              child: GestureDetector(
-                onTap: SignUp,
+              child: TextButton(
+                onPressed: SignUp,
                 child: Container(
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
@@ -251,7 +228,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
               ),
-            ),*/
+            ),
 
             SizedBox(
               height: 40,
@@ -305,9 +282,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     reference.doc(user!.uid).set({
       'email': _emailController.text,
       'role': role,
-      'phoneNumber': _phoneNumberController.text
+      'phoneNumber': _phoneNumberController.text,
+      'name': _nameController.text
     });
-    Navigator.pushReplacementNamed(context, 'loginScreen');
+    Navigator.pushReplacementNamed(context, '/');
   }
 
   bool passwordConfirmed() {
@@ -319,7 +297,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void openSigninScreen() {
-    Navigator.of(context).pushReplacementNamed('loginScreen');
+    Navigator.of(context).pushReplacementNamed('/');
   }
 
   @override
