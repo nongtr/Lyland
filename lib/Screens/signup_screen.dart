@@ -11,6 +11,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final _auth = FirebaseAuth.instance;
+  bool ? validateEmail;
 
   final _emailController = TextEditingController();
   final _nameController = TextEditingController();
@@ -60,6 +61,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: TextField(
+                      keyboardType: TextInputType.number,
                       controller: _phoneNumberController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -104,6 +106,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: TextField(
+                      keyboardType: TextInputType.emailAddress,
                       controller: _emailController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -267,9 +270,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (passwordConfirmed()) {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-              email: _emailController.text.trim(),
-              password: _passwordController.text.trim())
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim())
           .then((value) => {sendUserInfoToDataBase()});
+      final validSnackBar = SnackBar(
+          backgroundColor: Colors.green[600],
+          content: Text('تم انشاء حساب بنجاح'));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(validSnackBar);
       Navigator.of(context).pushNamed('/');
     }
   }
@@ -278,7 +286,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     var user = _auth.currentUser;
     CollectionReference reference =
-        FirebaseFirestore.instance.collection('users');
+    FirebaseFirestore.instance.collection('users');
     reference.doc(user!.uid).set({
       'email': _emailController.text,
       'role': role,
@@ -299,6 +307,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void openSigninScreen() {
     Navigator.of(context).pushReplacementNamed('/');
   }
+
 
   @override
   void dispose() {
