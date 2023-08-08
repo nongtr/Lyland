@@ -93,25 +93,19 @@ class _login_screenState extends State<login_screen> {
                             color: Colors.blue),
                       ),
                       SizedBox(
-                        height: 50,
+                        height: 40,
                       ),
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(color: Colors.black, blurRadius: 2),
-                            ]),
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(color: Colors.grey),
-                                ),
-                              ),
+                      Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.grey, width: 2),
+                                borderRadius: BorderRadius.circular(30),
+                                color: Colors.white),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20),
                               child: TextField(
                                 keyboardType: TextInputType.emailAddress,
                                 controller: _emailController,
@@ -121,8 +115,19 @@ class _login_screenState extends State<login_screen> {
                                     hintStyle: TextStyle(color: Colors.grey)),
                               ),
                             ),
-                            Container(
-                              padding: EdgeInsets.all(2),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.grey, width: 2),
+                                borderRadius: BorderRadius.circular(30),
+                                color: Colors.white),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20),
                               child: TextField(
                                 controller: _passwordController,
                                 obscureText: true,
@@ -131,9 +136,9 @@ class _login_screenState extends State<login_screen> {
                                     hintText: "كلمة السر",
                                     hintStyle: TextStyle(color: Colors.grey)),
                               ),
-                            )
-                          ],
-                        ),
+                            ),
+                          )
+                        ],
                       ),
                       SizedBox(
                         height: 20,

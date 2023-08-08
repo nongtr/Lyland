@@ -11,7 +11,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final _auth = FirebaseAuth.instance;
-  bool ? validateEmail;
+  bool? validateEmail;
 
   final _emailController = TextEditingController();
   final _nameController = TextEditingController();
@@ -28,272 +28,271 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
-      backgroundColor: Colors.grey[800],
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 30,
-            ),
-            // Image.asset(
-            //   'images/real-estate-building-logo-design-inspiratiohn-building-logo-design-free-vector copy.png',
-            //   height: 250,
-            //   width: 250,
-            // ),
-            SizedBox(
-              height: 40,
-            ),
+        child: Container(
+          height: size.height,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('images/20230808_22.png'),
+                  fit: BoxFit.fill)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Image.asset(
+              //   'images/real-estate-building-logo-design-inspiratiohn-building-logo-design-free-vector copy.png',
+              //   height: 250,
+              //   width: 250,
+              // ),
 
-            Text('ادخل البيانات الخاصة بك هنا ',
-                style: TextStyle(
-                    color: Colors.grey[100],
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold)),
-            //// phone number text field
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
-              child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      controller: _phoneNumberController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'رقم الهاتف',
-                      ),
-                    ),
-                  )),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-
-//////////////////////////////         Email      /////////////////////
-            //
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
-              child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: TextField(
-                      controller: _nameController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'اسم المستخدم ',
-                      ),
-                    ),
-                  )),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            ///////////////////////////////////////////
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
-              child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: TextField(
-                      keyboardType: TextInputType.emailAddress,
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'البريد الإلكتروني',
-                      ),
-                    ),
-                  )),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-
-            ////////////////////////// password ////////////////////////////////////////////
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
-              child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: TextField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'كلمة السر',
-                      ),
-                    ),
-                  )),
-            ),
-
-            SizedBox(
-              height: 20,
-            ),
-            ////////////////////////// Confirm password ////////////////////////////////////////////
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
-              child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: TextField(
-                      controller: _confirmPasswordController,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'تأكيد كلمة السر',
-                      ),
-                    ),
-                  )),
-            ),
-
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "نوع الحساب : ",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                DropdownButton<String>(
-                  dropdownColor: Colors.orange,
-                  isDense: true,
-                  isExpanded: false,
-                  iconEnabledColor: Colors.white,
-                  focusColor: Colors.white,
-                  items: _roles.map((String dropDownStringItem) {
-                    return DropdownMenuItem<String>(
-                      value: dropDownStringItem,
-                      child: Text(
-                        dropDownStringItem,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
+              //// phone number text field
+              SizedBox(
+                height: 130,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 45),
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey, width: 2),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: TextField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'اسم المستخدم ',
                         ),
                       ),
-                    );
-                  }).toList(),
-                  onChanged: (newValueSelected) {
-                    setState(() {
-                      _currentRoleSelected = newValueSelected!;
-                      role = newValueSelected;
-                    });
-                  },
-                  value: _currentRoleSelected,
-                ),
-              ],
-            ),
+                    )),
+              ),
+              SizedBox(
+                height: 10,
+              ),
 
-            SizedBox(
-              height: 10.0,
-            ),
-
-            //////////////////////sign-up box//////////////////////////////
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
-              child: TextButton(
-                onPressed: SignUp,
+//////////////////////////////         Email      /////////////////////
+              //
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 45),
                 child: Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                      color: Colors.orange,
-                      borderRadius: BorderRadius.circular(27)),
-                  child: Center(
-                    child: Text(
-                      'تسجيل حسابك',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey, width: 2),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        controller: _phoneNumberController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'رقم الهاتف',
+                        ),
+                      ),
+                    )),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ///////////////////////////////////////////
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 45),
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey, width: 2),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: TextField(
+                        keyboardType: TextInputType.emailAddress,
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'البريد الإلكتروني',
+                        ),
+                      ),
+                    )),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+
+              ////////////////////////// password ////////////////////////////////////////////
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 45),
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey, width: 2),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: TextField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'كلمة السر',
+                        ),
+                      ),
+                    )),
+              ),
+
+              SizedBox(
+                height: 10,
+              ),
+              ////////////////////////// Confirm password ////////////////////////////////////////////
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 45),
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey, width: 2),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: TextField(
+                        controller: _confirmPasswordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'تأكيد كلمة السر',
+                        ),
+                      ),
+                    )),
+              ),
+
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  DropdownButton<String>(
+                    dropdownColor: Colors.blue,
+                    isDense: true,
+                    isExpanded: false,
+                    iconEnabledColor: Colors.black,
+                    focusColor: Colors.black,
+                    items: _roles.map((String dropDownStringItem) {
+                      return DropdownMenuItem<String>(
+                        value: dropDownStringItem,
+                        child: Text(
+                          dropDownStringItem,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (newValueSelected) {
+                      setState(() {
+                        _currentRoleSelected = newValueSelected!;
+                        role = newValueSelected;
+                      });
+                    },
+                    value: _currentRoleSelected,
+                  ),
+                  Text(
+                    "نوع الحساب  ",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(
+                height: 10.0,
+              ),
+
+              //////////////////////sign-up box//////////////////////////////
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 90),
+                child: TextButton(
+                  onPressed: SignUp,
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(27)),
+                    child: Center(
+                      child: Text(
+                        'تسجيل حسابك',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
 
-            SizedBox(
-              height: 40,
-            ),
+              SizedBox(
+                height: 40,
+              ),
 
-            //////////////////////////checking if u have E-m/////////////////////////////
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    openSigninScreen();
-                  },
-                  child: Text(
-                    '  قم بتسجيل الدخول هنا ',
+              //////////////////////////checking if u have E-m/////////////////////////////
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      openSigninScreen();
+                    },
+                    child: Text(
+                      '  قم بتسجيل الدخول هنا ',
+                      style: TextStyle(
+                          color: Colors.blue, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Text(
+                    'لديك حساب بالفعل ؟   ',
                     style: TextStyle(
-                        color: Colors.orange, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Text(
-                  'لديك حساب بالفعل ؟   ',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
-              ],
-            )
-          ],
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
   Future SignUp() async {
-    bool fieldExists = await checkFieldExists('users', 'email', _emailController.text.trim());
+    bool fieldExists =
+        await checkFieldExists('users', 'email', _emailController.text.trim());
     if (fieldExists) {
       final validSnackBar = SnackBar(
           backgroundColor: Colors.green[600],
           content: Text('تم تسجيل الدخول بنجاح'));
-      ScaffoldMessenger.of(context)
-          .showSnackBar(validSnackBar);
-    }
-    else if(fieldExists==false){
+      ScaffoldMessenger.of(context).showSnackBar(validSnackBar);
+    } else if (fieldExists == false) {
       final invalidSnackBar = SnackBar(
           backgroundColor: Colors.red[600],
           content: Text(
             'حدث خطأ ما, يرحى المحاولة من جديد',
-            style: TextStyle(
-                fontWeight: FontWeight.bold),
+            style: TextStyle(fontWeight: FontWeight.bold),
           ));
-      ScaffoldMessenger.of(context)
-          .showSnackBar(invalidSnackBar);
-    }
-    else{
-
-    }
+      ScaffoldMessenger.of(context).showSnackBar(invalidSnackBar);
+    } else {}
     if (passwordConfirmed()) {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim())
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim())
           .then((value) => {sendUserInfoToDataBase()});
       Navigator.of(context).pushNamed('/');
     }
@@ -303,7 +302,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     var user = _auth.currentUser;
     CollectionReference reference =
-    FirebaseFirestore.instance.collection('users');
+        FirebaseFirestore.instance.collection('users');
     reference.doc(user!.uid).set({
       'email': _emailController.text,
       'role': role,
@@ -321,7 +320,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return false;
   }
 
-  Future<bool> checkFieldExists(String collectionPath, String fieldName, dynamic fieldValue) async {
+  Future<bool> checkFieldExists(
+      String collectionPath, String fieldName, dynamic fieldValue) async {
     final querySnapshot = await FirebaseFirestore.instance
         .collection(collectionPath)
         .where(fieldName, isEqualTo: fieldValue)
@@ -334,7 +334,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void openSigninScreen() {
     Navigator.of(context).pushReplacementNamed('/');
   }
-
 
   @override
   void dispose() {

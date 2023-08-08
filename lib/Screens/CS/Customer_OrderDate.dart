@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:table_calendar/table_calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -24,16 +25,19 @@ class _coDateState extends State<coDate> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   final dayMonthFormat = DateFormat('d MMM yyy');
   final String userId = FirebaseAuth.instance.currentUser!.uid;
+  final _messageController = TextEditingController();
   ////////////////////////////////
   void submitSelectedRange() async {
-    if (_firstDay != null && _lastDay != null) {
+    if (_firstDay != null && _lastDay != null && _messageController != null) {
       final ordersRef = FirebaseFirestore.instance.collection('orders');
-      //////////////////////
       final userDocRef =
           FirebaseFirestore.instance.collection('users').doc(userId);
       final userData = await userDocRef.get();
-// Access the document fields
       final String username = userData.get('name');
+
+      String sStatecValue = _messageController.text.isEmpty
+          ? 'لم يتم ذِكر اي سبب'
+          : _messageController.text;
 
       await ordersRef.add({
         'firstDay': dayMonthFormat.format(_firstDay!),
@@ -43,9 +47,10 @@ class _coDateState extends State<coDate> {
         'userName': username,
         'ownerID': widget.owenerID,
         'cState': 'قيد المراجعة',
-        'status': 'يرجى التواصل مع المالك على الرقم :   '
-            '${widget.pNumber}'
+        'status': '   الرجاء انتظار رد من المالك ',
+        'orderReasons': sStatecValue,
       });
+
       setState(() {
         _firstDay = null;
         _lastDay = null;
@@ -111,28 +116,66 @@ class _coDateState extends State<coDate> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text('Selected range:'),
+              Text(
+                ' ${_firstDay != null ? dayMonthFormat.format(_firstDay!) : 'من'} - ${_lastDay != null ? dayMonthFormat.format(_lastDay!) : 'إلى'}',
+                style: TextStyle(fontSize: 18),
+              ),
               SizedBox(height: 10),
               Text(
-                '${_firstDay != null ? dayMonthFormat.format(_firstDay!) : 'N/A'} - ${_lastDay != null ? dayMonthFormat.format(_lastDay!) : 'N/A'}',
-                style: TextStyle(fontSize: 18),
+                ': مدة الحجز',
+                style: TextStyle(fontSize: 20),
               ),
             ],
           ),
-          SizedBox(height: 10),
-          ElevatedButton(
-            onPressed: _firstDay == null || _lastDay == null
-                ? null
-                : () {
-                    submitSelectedRange();
-
-                    Navigator.of(context)
-                        .pushReplacementNamed('customerScreen');
-                  },
-            child: Text(
-              'تقديم الطلب',
-              style: TextStyle(fontSize: 25),
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey, width: 2),
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.white),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  controller: _messageController,
+                  maxLines: null,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: " هل تود مشاركة بشيء في بالك ؟",
+                    hintStyle: TextStyle(color: Colors.grey),
+                  ),
+                ),
+              ),
             ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            height: 55,
+            margin: EdgeInsets.only(right: 234),
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey, width: 2),
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white),
+            child: TextButton(
+              onPressed: _firstDay == null || _lastDay == null
+                  ? null
+                  : () {
+                      submitSelectedRange();
+                      Navigator.of(context)
+                          .pushReplacementNamed('customerScreen');
+                    },
+              child: Text(
+                'تقديم الطلب',
+                style: TextStyle(fontSize: 22),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
           ),
         ],
       ),
