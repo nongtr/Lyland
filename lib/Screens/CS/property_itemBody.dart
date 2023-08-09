@@ -14,11 +14,13 @@ class propertyPageBody extends StatefulWidget {
 
 class _propertyPageBodyState extends State<propertyPageBody> {
   List<String> idPropertyPost = [];
+  List<Map<String, dynamic>> _filteredPropertyDataList = [];
 
   int listLength = 0;
   bool check = true;
   late Stream<QuerySnapshot<Map<String, dynamic>>> _propertyStream;
   List<Map<String, dynamic>> _propertyDataList = [];
+  TextEditingController _searchControler = TextEditingController();
 
   @override
   void initState() {
@@ -85,115 +87,165 @@ class _propertyPageBodyState extends State<propertyPageBody> {
     );
   }
 
-  Container bContainer() {
-    return Container(
-      margin: EdgeInsets.only(bottom: 20),
-      height: 320,
-      color: Colors.red.withOpacity(0),
-      child: PageView.builder(
-          controller: pageController,
-          itemCount: _propertyDataList.length,
-          itemBuilder: (context, index) {
-            Map<String, dynamic> propertyData = _propertyDataList[index];
-
-            return Stack(
-              children: [
-                Container(
-                  height: 220,
-                  margin: EdgeInsets.only(left: 10, right: 10),
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(propertyData['imageURL']),
-                          fit: BoxFit.cover),
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.blue),
+  Column bContainer() {
+    return Column(
+      children: [
+        ////////////// search bar
+        Positioned(
+            child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(color: Colors.grey, offset: Offset(0, 0), blurRadius: 2)
+            ],
+            borderRadius: BorderRadius.circular(80),
+            color: Colors.white,
+          ),
+          child: Row(
+            children: [
+              Container(
+                padding: EdgeInsets.only(right: 10),
+                child: Icon(
+                  Icons.search,
+                  size: 33,
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => item_Details(
-                                    documentId: idPropertyPost[index],
-                                  )));
-                    },
-                    child: Container(
-                      height: 120,
-                      margin: EdgeInsets.only(left: 30, right: 30, bottom: 30),
+              ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: TextField(
+                    controller: _searchControler,
+                    decoration: InputDecoration(
+                        hintText: "ابحث هنا",
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none),
+                    onChanged: (value) {},
+                  ),
+                ),
+              ),
+            ],
+          ),
+          margin: EdgeInsets.only(top: 107, left: 20, right: 20),
+          padding: EdgeInsets.only(left: 25),
+        )),
+
+        //////////////
+        SizedBox(
+          height: 65,
+        ),
+        Container(
+          margin: EdgeInsets.only(bottom: 20),
+          height: 320,
+          color: Colors.red.withOpacity(0),
+          child: PageView.builder(
+              controller: pageController,
+              itemCount: _propertyDataList.length,
+              itemBuilder: (context, index) {
+                Map<String, dynamic> propertyData = _propertyDataList[index];
+
+                return Stack(
+                  children: [
+                    Container(
+                      height: 220,
+                      margin: EdgeInsets.only(left: 10, right: 10),
                       decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(propertyData['imageURL']),
+                              fit: BoxFit.cover),
                           borderRadius: BorderRadius.circular(30),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Color(0xFFe8e8e8e8),
-                                offset: Offset(0, 5),
-                                blurRadius: 5.0),
-                            BoxShadow(
-                                color: Colors.white, offset: Offset(-5, 0))
-                          ]),
-                      child: Container(
-                        padding: EdgeInsets.only(left: 15, right: 15, top: 15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(propertyData['propertyName'],
-                                style: TextStyle(fontSize: 20)),
-                            SizedBox(height: 0),
-                            Row(
+                          color: Colors.blue),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => item_Details(
+                                        documentId: idPropertyPost[index],
+                                      )));
+                        },
+                        child: Container(
+                          height: 120,
+                          margin:
+                              EdgeInsets.only(left: 30, right: 30, bottom: 30),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color(0xFFe8e8e8e8),
+                                    offset: Offset(0, 5),
+                                    blurRadius: 5.0),
+                                BoxShadow(
+                                    color: Colors.white, offset: Offset(-5, 0))
+                              ]),
+                          child: Container(
+                            padding:
+                                EdgeInsets.only(left: 15, right: 15, top: 15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Wrap(
-                                    children: List.generate(
-                                        1,
-                                        (index) => Icon(
-                                            Icons.attach_money_sharp,
-                                            color: Colors.green))),
-                                SizedBox(
-                                  width: 10,
+                                Text(propertyData['propertyName'],
+                                    style: TextStyle(fontSize: 20)),
+                                SizedBox(height: 0),
+                                Row(
+                                  children: [
+                                    Wrap(
+                                        children: List.generate(
+                                            1,
+                                            (index) => Icon(
+                                                Icons.attach_money_sharp,
+                                                color: Colors.green))),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      'دينار',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w100),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      propertyData['price'].toString(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  'دينار',
-                                  style: TextStyle(fontWeight: FontWeight.w100),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  propertyData['price'].toString(),
-                                  style: TextStyle(fontWeight: FontWeight.w500),
-                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.hotel_class_sharp),
+                                    Text(propertyData['propertyType']),
+                                    SizedBox(width: 5),
+                                    Icon(
+                                      Icons.location_city,
+                                      color: Colors.blueAccent,
+                                    ),
+                                    Text(propertyData['city']),
+                                    SizedBox(width: 5),
+                                    Icon(
+                                      Icons.location_pin,
+                                      color: Colors.red,
+                                    ),
+                                    Text(propertyData['addressInCity'])
+                                  ],
+                                )
                               ],
                             ),
-                            SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.hotel_class_sharp),
-                                Text(propertyData['propertyType']),
-                                SizedBox(width: 5),
-                                Icon(
-                                  Icons.location_city,
-                                  color: Colors.blueAccent,
-                                ),
-                                Text(propertyData['city']),
-                                SizedBox(width: 5),
-                                Icon(
-                                  Icons.location_pin,
-                                  color: Colors.red,
-                                ),
-                                Text(propertyData['addressInCity'])
-                              ],
-                            )
-                          ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-              ],
-            );
-          }),
+                  ],
+                );
+              }),
+        ),
+      ],
     );
   }
 }

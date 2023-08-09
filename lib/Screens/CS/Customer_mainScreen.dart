@@ -59,63 +59,6 @@ class _BodyState extends State<Body> {
   Column bColumn(int index) {
     return Column(
       children: [
-        Stack(children: [
-          Padding(
-            padding: EdgeInsets.only(left: 30, top: 45),
-
-            //رسالة الترجيب //////////
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 15,
-                ),
-              ],
-            ),
-            ////////////////////////////////////////////////////
-          ),
-
-          //////////////////// صندوق البحث /////////////
-          Positioned(
-              child: Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.grey, offset: Offset(0, 0), blurRadius: 2)
-              ],
-              borderRadius: BorderRadius.circular(80),
-              color: Colors.white,
-            ),
-            child: Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.only(right: 10),
-                  child: Icon(
-                    Icons.search,
-                    size: 33,
-                  ),
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: TextField(
-                      decoration: InputDecoration(
-                          hintText: "ابحث هنا",
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            margin: EdgeInsets.only(top: 107, left: 20, right: 20),
-            padding: EdgeInsets.only(left: 25),
-          )),
-
-          ///////////////////////////////////////////
-        ]),
-        SizedBox(
-          height: 70,
-        ),
         if (idPropertyPost.isNotEmpty)
           propertyPageBody(
             collectionName: 'posts',
