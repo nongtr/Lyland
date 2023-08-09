@@ -27,8 +27,20 @@ class _addProbertyState extends State<addProberty> {
 
   List<String> _cityList = ['بنغازي', 'طرابلس'];
   String? _selectedCity = 'بنغازي';
-  List<String> _areaList = ['الكيش', 'الحدائق'];
+  List<String> _benghaziAreaList = ['الكيش', 'الحدائق'];
+  List<String> _tripoliAreaList = ['بن غشير', 'الاندلس'];
   String? _selectedArea = 'الكيش';
+  List<String> getSelectedCityAreaList() {
+    if (_selectedCity == 'بنغازي') {
+      return _benghaziAreaList;
+    } else if (_selectedCity == 'طرابلس') {
+      return _tripoliAreaList;
+    }
+    return [];
+  }
+
+
+
   final _mainLableControler = TextEditingController();
   final _priceControler = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -182,7 +194,10 @@ class _addProbertyState extends State<addProberty> {
                                 )
                                 .toList(),
                             onChanged: (item) =>
-                                setState(() => _selectedCity = item),
+                                setState(() {
+                                  _selectedCity = item;
+                                  _selectedArea = null;
+                                }),
                           ),
                         ),
                       ),
@@ -215,18 +230,16 @@ class _addProbertyState extends State<addProberty> {
                           child: DropdownButton<String>(
                             dropdownColor: Colors.black,
                             value: _selectedArea,
-                            items: _areaList
-                                .map(
+                            items: getSelectedCityAreaList().map(
                                   (item) => DropdownMenuItem(
-                                    value: item,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      item,
-                                      style: kTitleTextStyle,
-                                    ),
-                                  ),
-                                )
-                                .toList(),
+                                value: item,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  item,
+                                  style: kTitleTextStyle,
+                                ),
+                              ),
+                            ).toList(),
                             onChanged: (item) =>
                                 setState(() => _selectedArea = item),
                           ),
