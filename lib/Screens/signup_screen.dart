@@ -272,30 +272,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future SignUp() async {
-    bool fieldExists =
-        await checkFieldExists('users', 'email', _emailController.text.trim());
-    if (fieldExists) {
-      final validSnackBar = SnackBar(
-          backgroundColor: Colors.green[600],
-          content: Text('تم تسجيل الدخول بنجاح'));
-      ScaffoldMessenger.of(context).showSnackBar(validSnackBar);
-    } else if (fieldExists == false) {
-      final invalidSnackBar = SnackBar(
-          backgroundColor: Colors.red[600],
-          content: Text(
-            'حدث خطأ ما, يرحى المحاولة من جديد',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ));
-      ScaffoldMessenger.of(context).showSnackBar(invalidSnackBar);
-    } else {}
-    if (passwordConfirmed()) {
+   bool emailExsits;
+   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+   final CollectionReference usersCollection = firestore.collection('users');
+   QuerySnapshot snapshot = await usersCollection.where('email', isEqualTo: 'example@example.com').get();
+   if (snapshot.docs.isNotEmpty) {
+     emailExsits= true;
+   } else {
+     emailExsits=false;
+   }
+
+   if (emailExsits==false && passwordConfirmed()) {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: _emailController.text.trim(),
               password: _passwordController.text.trim())
           .then((value) => {sendUserInfoToDataBase()});
+      final validSnackBar = SnackBar(
+          backgroundColor: Colors.green[600],
+          content: Text('تم تسجيل الدخول بنجاح'));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(validSnackBar);
       Navigator.of(context).pushNamed('/');
     }
+   else if(emailExsits==false) {
+     final invalidSnackBar = SnackBar(
+         backgroundColor: Colors.red[600],
+         content: Text(
+           'حدث خطأ ما, يرحى المحاولة من جديد',
+           style: TextStyle(
+               fontWeight: FontWeight.bold),
+         ));
+     ScaffoldMessenger.of(context)
+         .showSnackBar(invalidSnackBar);
+   }
   }
 
   sendUserInfoToDataBase() {

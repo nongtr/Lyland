@@ -101,7 +101,7 @@ class _login_screenState extends State<login_screen> {
                             padding: EdgeInsets.all(2),
                             decoration: BoxDecoration(
                                 border:
-                                    Border.all(color: Colors.grey, width: 2),
+                                Border.all(color: Colors.grey, width: 2),
                                 borderRadius: BorderRadius.circular(30),
                                 color: Colors.white),
                             child: Padding(
@@ -123,7 +123,7 @@ class _login_screenState extends State<login_screen> {
                             padding: EdgeInsets.all(2),
                             decoration: BoxDecoration(
                                 border:
-                                    Border.all(color: Colors.grey, width: 2),
+                                Border.all(color: Colors.grey, width: 2),
                                 borderRadius: BorderRadius.circular(30),
                                 color: Colors.white),
                             child: Padding(
@@ -151,8 +151,8 @@ class _login_screenState extends State<login_screen> {
                             try {
                               await FirebaseAuth.instance
                                   .signInWithEmailAndPassword(
-                                      email: _emailController.text,
-                                      password: _passwordController.text);
+                                  email: _emailController.text,
+                                  password: _passwordController.text);
                               if (valditUser == true) {
                                 final validSnackBar = SnackBar(
                                     backgroundColor: Colors.green[600],
@@ -177,7 +177,7 @@ class _login_screenState extends State<login_screen> {
                                   content: Text(
                                     'الرجاء التأكد من صحة البيانات',
                                     style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    TextStyle(fontWeight: FontWeight.bold),
                                   ));
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(errorFromFirebase);
