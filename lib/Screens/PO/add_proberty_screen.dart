@@ -37,7 +37,7 @@ class _addProbertyState extends State<addProberty> {
   // DATA SENDER
   sendPostInfoToDataBase() async {
     var storageImage =
-        await _storageImageDB.ref().child('images').putFile(newImage!);
+        await _storageImageDB.ref().child('images/'+ DateTime.now().millisecondsSinceEpoch.toString()).putFile(newImage!);
     var url = await storageImage.ref.getDownloadURL();
     var user = _auth.currentUser;
     final userDocRef =
