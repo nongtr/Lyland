@@ -13,26 +13,34 @@ class addPropertyContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 200,
-      child: TextField(
-        controller: _priceControler,
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-          hintText: 'ادخل سعر الايجار لليلة الواحدة',
-          label: Padding(
-            padding: EdgeInsets.only(left: 92),
-            child: Text(
-              'السعر ',
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 75.0),
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey, width: 2),
+            borderRadius: BorderRadius.circular(30),
+            color: Colors.white),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 45,
+            ),
+            Container(
+              width: 80,
+              child: TextField(
+                keyboardType: TextInputType.number,
+                controller: _priceControler,
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: '100',
+                    hintStyle: TextStyle(color: Colors.grey)),
+              ),
+            ),
+            Text(
+              ':السعر',
               style: kTitleTextStyle,
             ),
-          ),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white, width: 3),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 3),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
+          ],
         ),
       ),
     );
@@ -51,26 +59,24 @@ class titleName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 270,
-      child: TextField(
-        controller: _mainLableControler,
-        decoration: const InputDecoration(
-          label: Padding(
-            padding: EdgeInsets.only(left: 130),
-            child: Text(
-              'اسم العقار',
-              style: TextStyle(fontSize: 30),
-            ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: Container(
+        padding: EdgeInsets.all(2),
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey, width: 2),
+            borderRadius: BorderRadius.circular(30),
+            color: Colors.white),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: TextField(
+            keyboardType: TextInputType.emailAddress,
+            controller: _mainLableControler,
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: "اسم العقار ",
+                hintStyle: TextStyle(color: Colors.grey)),
           ),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white, width: 4),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 4),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          border: InputBorder.none,
-          hintText: 'ادخل العنوان الرئيسي',
         ),
       ),
     );

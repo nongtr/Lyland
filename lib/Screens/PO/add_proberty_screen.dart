@@ -27,9 +27,9 @@ class _addProbertyState extends State<addProberty> {
 
   List<String> _cityList = ['بنغازي', 'طرابلس'];
   String? _selectedCity = 'بنغازي';
-  List<String> _benghaziAreaList = ['الكيش', 'الحدائق'];
+  List<String> _benghaziAreaList = ['', 'الكيش', 'الحدائق'];
   List<String> _tripoliAreaList = ['بن غشير', 'الاندلس'];
-  String? _selectedArea = 'الكيش';
+  String? _selectedArea = '';
   List<String> getSelectedCityAreaList() {
     if (_selectedCity == 'بنغازي') {
       return _benghaziAreaList;
@@ -39,8 +39,6 @@ class _addProbertyState extends State<addProberty> {
     return [];
   }
 
-
-
   final _mainLableControler = TextEditingController();
   final _priceControler = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -48,8 +46,10 @@ class _addProbertyState extends State<addProberty> {
 
   // DATA SENDER
   sendPostInfoToDataBase() async {
-    var storageImage =
-        await _storageImageDB.ref().child('images/'+ DateTime.now().millisecondsSinceEpoch.toString()).putFile(newImage!);
+    var storageImage = await _storageImageDB
+        .ref()
+        .child('images/' + DateTime.now().millisecondsSinceEpoch.toString())
+        .putFile(newImage!);
     var url = await storageImage.ref.getDownloadURL();
     var user = _auth.currentUser;
     final userDocRef =
@@ -73,291 +73,298 @@ class _addProbertyState extends State<addProberty> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white38,
-          leading: IconButton(
-              onPressed: () {},
-              icon: Padding(
-                padding: const EdgeInsets.only(left: 330.0),
-                child: Icon(
-                  Icons.home_filled,
-                  size: 34,
-                ),
-              )),
-          title: Padding(
-            padding: const EdgeInsets.only(left: 58.0, top: 5),
-            child: Text(
-              'اضافة عقار جديد',
-              style: kTitleTextStyle,
+    Size size = MediaQuery.of(context).size;
+    return SizedBox(
+      child: Scaffold(
+          appBar: AppBar(
+            iconTheme: IconThemeData(color: Colors.black),
+            shape: RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.vertical(bottom: Radius.circular(30))),
+            backgroundColor: Colors.white,
+            title: Center(
+              child: Text(
+                'إضافة عقار  ',
+                style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
           ),
-        ),
-        backgroundColor: Colors.grey[500],
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 0, right: 20, left: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                SizedBox(
-                  height: 90,
-                ),
-                // main lable text field
-                Center(
-                    child: titleName(mainLableControler: _mainLableControler)),
-                SizedBox(
-                  height: 15.0,
-                ),
+          backgroundColor: Colors.white,
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 0, right: 20, left: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    height: 35,
+                  ),
+                  // main lable text field
+                  Center(
+                      child:
+                          titleName(mainLableControler: _mainLableControler)),
+                  SizedBox(
+                    height: 20.0,
+                  ),
 
-                Text(
-                  ':نوع العقار',
-                  style: kTitleTextStyle,
-                ),
-                // row for radio buttons
-                RadioListTile(
-                    title: Text(
-                      'شقة',
-                      style: kTitleTextStyle,
-                      textAlign: TextAlign.center,
-                    ),
-                    value: 'شقة',
-                    groupValue: selectedType,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedType = value;
-                      });
-                    }),
+                  Row(
+                    children: [
+                      textRadio('شقة', 'شقة'),
+                      textRadio('استراحة', 'استراحة'),
+                      textRadio('شاليه', 'شاليه'),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  //drop down menu for the city
 
-                RadioListTile(
-                    title: Text(
-                      'استراحة',
-                      style: kTitleTextStyle,
-                      textAlign: TextAlign.center,
-                    ),
-                    value: 'استراحة',
-                    groupValue: selectedType,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedType = value;
-                      });
-                    }),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 48.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey, width: 2),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: SizedBox(
+                        height: 60,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 35,
+                            ),
+                            DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                dropdownColor: Colors.white,
+                                value: _selectedCity,
 
-                RadioListTile(
-                    title: Text(
-                      'شاليه',
-                      style: kTitleTextStyle,
-                      textAlign: TextAlign.center,
-                    ),
-                    value: 'شاليه',
-                    groupValue: selectedType,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedType = value;
-                      });
-                    }),
-
-                //drop down menu for the city
-
-                Text(
-                  ':المدينة',
-                  style: kTitleTextStyle,
-                ),
-                Center(
-                  child: Container(
-                    child: DecoratedBox(
-                      decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 3,
-                                  style: BorderStyle.solid,
-                                  color: Colors.white),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25)))),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 103),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            dropdownColor: Colors.black,
-                            value: _selectedCity,
-                            items: _cityList
-                                .map(
-                                  (item) => DropdownMenuItem(
-                                    value: item,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      item,
-                                      style: kTitleTextStyle,
-                                    ),
-                                  ),
-                                )
-                                .toList(),
-                            onChanged: (item) =>
-                                setState(() {
+                                // Add the hintText here
+                                items: _cityList
+                                    .map(
+                                      (item) => DropdownMenuItem(
+                                        value: item,
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          item,
+                                          style: kTitleTextStyle,
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                                onChanged: (item) => setState(() {
                                   _selectedCity = item;
                                   _selectedArea = null;
                                 }),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-                // drop down menu for the area
-                SizedBox(
-                  height: 15.0,
-                ),
-                Text(
-                  ':المنطقة',
-                  style: kTitleTextStyle,
-                ),
-                Center(
-                  child: Container(
-                    child: DecoratedBox(
-                      decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 2,
-                                  style: BorderStyle.solid,
-                                  color: Colors.white),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25)))),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 103),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            dropdownColor: Colors.black,
-                            value: _selectedArea,
-                            items: getSelectedCityAreaList().map(
-                                  (item) => DropdownMenuItem(
-                                value: item,
-                                alignment: Alignment.center,
-                                child: Text(
-                                  item,
-                                  style: kTitleTextStyle,
-                                ),
                               ),
-                            ).toList(),
-                            onChanged: (item) =>
-                                setState(() => _selectedArea = item),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              ':المدينة',
+                              style: kTitleTextStyle,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // drop down menu for the area
+                  SizedBox(
+                    height: 15.0,
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 48.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey, width: 2),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: SizedBox(
+                        height: 60,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 35,
+                            ),
+                            DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                dropdownColor: Colors.white,
+                                value: _selectedArea,
+                                items: getSelectedCityAreaList()
+                                    .map(
+                                      (item) => DropdownMenuItem(
+                                        value: item,
+                                        alignment: Alignment.topRight,
+                                        child: Text(
+                                          item,
+                                          style: kTitleTextStyle,
+                                          textAlign: TextAlign.right,
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                                onChanged: (item) =>
+                                    setState(() => _selectedArea = item),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              ':المنظقة',
+                              style: kTitleTextStyle,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // text field for the price
+                  SizedBox(
+                    height: 25.0,
+                  ),
+                  Center(
+                      child: addPropertyContainer(
+                          priceControler: _priceControler)),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                    child: Container(
+                      height: 100,
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 160,
+                          ),
+                          Container(
+                            width: 100,
+                            height: 75.0,
+                            margin: EdgeInsets.only(left: 8.0),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15)),
+                                image: DecorationImage(
+                                  image: beforeImageConverted == null
+                                      ? NetworkImage(
+                                          'https://picsum.photos/200/300')
+                                      : Image.file(
+                                              File(beforeImageConverted!.path))
+                                          .image,
+                                  fit: BoxFit.cover,
+                                ),
+                                shape: BoxShape.rectangle),
+                          ),
+                          IconButton(
+                            iconSize: 30.0,
+                            onPressed: () {
+                              chooseImage();
+                            },
+                            icon: Icon(Icons.add_a_photo),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey, width: 2),
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.white),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          keyboardType: TextInputType.emailAddress,
+                          controller: _descriptionController,
+                          maxLines: null,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: ".وصف العقار",
+                            hintStyle: TextStyle(color: Colors.grey),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          bottomNavigationBar: ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(60),
+              topRight: Radius.circular(60),
+            ),
+            child: BottomAppBar(
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushReplacementNamed('POwnerScreen');
+                      },
+                      child: Text(
+                        'إلغاء',
+                        style: kTitleTextStyle,
+                      )),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        sendPostInfoToDataBase();
+                        Navigator.of(context)
+                            .pushReplacementNamed('POwnerScreen');
+                        setState(() {});
+                      },
+                      child: Text(
+                        'حفظ',
+                        style: kTitleTextStyle,
+                      )),
+                ],
+              ),
+            ),
+          )),
+    );
+  }
 
-                // text field for the price
-                SizedBox(
-                  height: 25.0,
-                ),
-                Center(
-                    child:
-                        addPropertyContainer(priceControler: _priceControler)),
-                SizedBox(
-                  height: 15.0,
-                ),
-                Center(
-                  child: IconButton(
-                    iconSize: 30.0,
-                    onPressed: () {
-                      chooseImage();
-                    },
-                    icon: Icon(Icons.add_a_photo),
-                  ),
-                ),
-                SizedBox(
-                  height: 8.0,
-                ),
-                Container(
-                  width: 500.0,
-                  height: 200.0,
-                  margin: EdgeInsets.only(left: 8.0),
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: beforeImageConverted == null
-                            ? NetworkImage('https://picsum.photos/200/300')
-                            : Image.file(File(beforeImageConverted!.path))
-                                .image,
-                        fit: BoxFit.cover,
-                      ),
-                      shape: BoxShape.rectangle),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  ':وصف العقار ',
-                  style: kTitleTextStyle,
-                ),
-                Container(
-                  width: 370,
-                  height: 111,
-                  decoration: BoxDecoration(
-                    color: Colors.red.withOpacity(0),
-                    border: Border.all(width: 4, color: Colors.white),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      maxLength: 650,
-                      controller: _descriptionController,
-                      decoration: InputDecoration(
-                        counter: Offstage(),
-                        border: InputBorder.none,
-                        hintText:
-                            '                                                                 اكتب هنا  ',
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-              ],
-            ),
-          ),
-        ),
-        bottomNavigationBar: ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(60),
-            topRight: Radius.circular(60),
-          ),
-          child: BottomAppBar(
-            color: Colors.orange,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
-                    onPressed: () {
-                      sendPostInfoToDataBase();
-                      Navigator.of(context)
-                          .pushReplacementNamed('POwnerScreen');
-                      setState(() {});
-                    },
-                    child: Text(
-                      'Save',
-                      style: kTitleTextStyle,
-                    )),
-                SizedBox(
-                  width: 10.0,
-                ),
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushReplacementNamed('POwnerScreen');
-                    },
-                    child: Text(
-                      'cancel',
-                      style: kTitleTextStyle,
-                    )),
-              ],
-            ),
-          ),
-        ));
+  Row textRadio(String title, String value) {
+    return Row(
+      children: [
+        Radio(
+            value: title,
+            groupValue: selectedType,
+            onChanged: (value) {
+              setState(() {
+                selectedType = value;
+              });
+            }),
+        Text(
+          value,
+          style: kTitleTextStyle,
+        )
+      ],
+    );
   }
 
   //image functions

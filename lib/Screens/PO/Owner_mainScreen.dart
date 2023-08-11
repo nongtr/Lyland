@@ -101,7 +101,8 @@ class _PO_mainScreenState extends State<PO_mainScreen> {
                     itemCount: idPropertyPost.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
-                        margin: EdgeInsets.symmetric(vertical: 12),
+                        padding: EdgeInsets.only(top: 20),
+                        margin: EdgeInsets.symmetric(vertical: 20),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -130,7 +131,7 @@ class _PO_mainScreenState extends State<PO_mainScreen> {
                                           Shadow(
                                             offset: Offset(0, 0),
                                             color: Colors.black,
-                                            blurRadius: 24.0,
+                                            blurRadius: 14.0,
                                           )
                                         ]),
                                   ),
@@ -164,9 +165,12 @@ class _PO_mainScreenState extends State<PO_mainScreen> {
   Widget EditDeleteButtons(int index) {
     return Container(
       decoration: BoxDecoration(
-        border: new Border.symmetric(
-            horizontal: BorderSide(color: Colors.black, width: 3)),
-        color: Colors.green.withOpacity(0),
+        boxShadow: [
+          BoxShadow(color: Colors.grey, offset: Offset(0, 3), blurRadius: 4)
+        ],
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(9), bottomRight: Radius.circular(9)),
+        color: Colors.white,
       ),
       width: 411,
       height: 52,

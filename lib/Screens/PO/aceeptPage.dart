@@ -1,12 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lyland/Screens/CS/orderDetails.dart';
+import 'package:lyland/constants.dart';
 
 class acceptP extends StatefulWidget {
   final String documentId;
   final String ownerId;
   final String customerName;
   final String propertyName;
+  final String firstDay;
+  final String lastDay;
+  final String orderReeasons;
   final String s;
 
   acceptP(
@@ -14,7 +18,10 @@ class acceptP extends StatefulWidget {
       required this.ownerId,
       required this.customerName,
       required this.propertyName,
-      required this.s});
+      required this.s,
+      required this.firstDay,
+      required this.lastDay,
+      required this.orderReeasons});
 
   @override
   State<acceptP> createState() => _acceptPState();
@@ -56,22 +63,12 @@ class _acceptPState extends State<acceptP> {
             itemCount: properties.length,
             itemBuilder: (context, index) {
               final data = properties[index].data() as Map<String, dynamic>;
-              final pType = data['propertyType'];
+
               final pCity = data['city'];
-              final pAdress = data['addressInCity'];
+
               final pPrice = data['price'].toString();
               final pName = data['propertyName'];
-              ////////////////////
-              // void sendFieldsToWidgetB() {
-              //   // Replace with your logic to retrieve the document fields based on documentID
-              //   // For demonstration purposes, let's assume the values are hardcoded
-              //
-              //   widget.s = 'تم القبولل';
-              //   print(widget.documentId);
-              //
-              //   // Call the callback function in Widget B to update the fields
-              //   orderD.updateFields(widget.documentId, widget.s);
-              // }
+              final pNumber = data['phoneNumber'];
 
               Future<void> updateDocumentField(
                   String documentId,
@@ -91,52 +88,88 @@ class _acceptPState extends State<acceptP> {
 
               return Column(
                 children: [
-                  Text(
-                    widget.customerName,
-                    style: TextStyle(fontSize: 35),
+                  SizedBox(
+                    height: 40,
                   ),
-                  Text(
-                    widget.propertyName,
-                    style: TextStyle(fontSize: 35),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 211.0),
+                    child: buildRow(': اسم المستأجر', widget.customerName),
                   ),
-                  Column(
-                    children: [
-                      Text(
-                        pType,
-                        style: TextStyle(fontSize: 35),
-                      ),
-                      Text(
-                        pCity,
-                        style: TextStyle(fontSize: 35),
-                      ),
-                      Text(
-                        pAdress,
-                        style: TextStyle(fontSize: 35),
-                      ),
-                      Text(
-                        pPrice,
-                        style: TextStyle(fontSize: 35),
-                      ),
-                      Text(
-                        widget.documentId,
-                        style: TextStyle(fontSize: 35),
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 148.0),
+                    child: buildRow(': اسم العقار', pName),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      updateDocumentField(
-                          widget.documentId,
-                          'status',
-                          '$pName      '
-                              '$pCity '
-                              '    '
-                              '$pAdress'
-                              '$pPrice',
-                          'cState',
-                          'تم القبول');
-                    },
-                    child: Text('Send Data to B Widget'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 148.0),
+                    child: buildRow(': من تاريخ', widget.firstDay),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 148.0),
+                    child: buildRow(': إلى تاريخ ', widget.lastDay),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 98.0),
+                    child: buildRow(': سبب الحجز', widget.orderReeasons),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, top: .0),
+                    child: Row(
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                        content: Center(
+                                            heightFactor: 1,
+                                            child: Text('هل انت متأكد ؟',
+                                                style: KEditDeleteTextStyle)),
+                                        actions: [
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 50,
+                                              ),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text('لا',
+                                                      style:
+                                                          KEditDeleteTextStyle)),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              TextButton(
+                                                  onPressed: () {},
+                                                  child: Text('نعم',
+                                                      style:
+                                                          KEditDeleteTextStyle))
+                                            ],
+                                          ),
+                                        ],
+                                      ));
+                            },
+                            child: Text(
+                              'رفض',
+                              style: TextStyle(fontSize: 22),
+                            )),
+                        TextButton(
+                            onPressed: () {
+                              updateDocumentField(
+                                  widget.documentId,
+                                  'status',
+                                  'يرجى التواصل مع المالك لإنهاء باقي الأجراءات '
+                                      'على الرقم : $pNumber',
+                                  'cState',
+                                  'تم القبول');
+                            },
+                            child: Text(
+                              'قبول',
+                              style: TextStyle(fontSize: 22),
+                            )),
+                      ],
+                    ),
                   ),
                 ],
               );
@@ -144,6 +177,22 @@ class _acceptPState extends State<acceptP> {
           );
         },
       ),
+    );
+  }
+
+  Row buildRow(String title, String type) {
+    return Row(
+      children: [
+        Text(
+          type,
+          style: TextStyle(fontSize: 25),
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        Text(title,
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+      ],
     );
   }
 }

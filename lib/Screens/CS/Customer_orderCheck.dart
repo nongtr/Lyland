@@ -67,7 +67,11 @@ class _CScheckState extends State<CScheck> {
             return Text('Error: ${snapshot.error}');
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Text('No documents found.');
+            return Center(
+                child: Text(
+              'لا يوجد لديك اي حجوزات',
+              style: TextStyle(fontSize: 25),
+            ));
           }
 
           // Get the data from all documents

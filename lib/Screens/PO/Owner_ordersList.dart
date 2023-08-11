@@ -81,7 +81,20 @@ class _ordersListState extends State<ordersList> {
         return Scaffold(
           backgroundColor: Colors.grey[200],
           appBar: AppBar(
-            title: Text(widget.propertyName),
+            iconTheme: IconThemeData(color: Colors.black),
+            shape: RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.vertical(bottom: Radius.circular(30))),
+            backgroundColor: Colors.white,
+            title: Center(
+              child: Text(
+                widget.propertyName,
+                style: TextStyle(
+                    fontSize: 35,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
           ),
           body: ListView.builder(
             itemCount: orders.length,
@@ -93,162 +106,132 @@ class _ordersListState extends State<ordersList> {
               var owner = data['ownerID'];
               var property = data['propertyName'];
               var status = data['status'];
+              var ordereasons = data['orderReasons'];
 
               return SizedBox(
-                height: 120,
-                child: Row(
+                height: 170,
+                child: Stack(
                   children: [
-                    Container(
-                      // هذا القالب الأساسي اللي فيه جواه قوالب فرعية
-                      margin: EdgeInsets.only(right: 10, left: 20),
-                      width: 275,
-                      height: 100,
-                      child: Column(
-                        children: [
-                          Container(
-                            // هذي الحاوية عبارة عن قالب فرعي جوا قالب الأساسي شور موعد الحجز
-                            height: 55,
-                            width: double.infinity,
-                            color: Colors.blue,
-                            child: Center(
-                                child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Text(
-                                  firstday,
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 21),
-                                ),
-                                Text(
-                                  ' --  ',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 21),
-                                ),
-                                Text(
-                                  lastday,
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 21),
-                                ),
-                              ],
-                            )),
-                          ),
-                          Container(
-                              //هذا قالب فرعي واحد ثاني جوا القالب الأساسي وفيه صفين فيهن استدعاء ynButton AKA yes,no button
-                              height: 45,
+                    Positioned(
+                      right: 50,
+                      top: 70,
+                      child: Container(
+                        // هذا القالب الأساسي اللي فيه جواه قوالب فرعية
+                        margin: EdgeInsets.only(right: 0, left: 0),
+                        width: 321,
+                        height: 100,
+                        child: Column(
+                          children: [
+                            Container(
+                              // هذي الحاوية عبارة عن قالب فرعي جوا قالب الأساسي شور موعد الحجز
+                              height: 55,
                               width: double.infinity,
-                              color: Colors.white,
-                              child: SizedBox(
-                                height: 47,
-                                child: Container(
-                                    margin: EdgeInsets.only(left: 50),
-                                    child: Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        TextButton(
-                                            onPressed: () {
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      AlertDialog(
-                                                        content: Center(
-                                                            heightFactor: 1,
-                                                            child: Text(
-                                                                'هل انت متأكد ؟',
-                                                                style:
-                                                                    KEditDeleteTextStyle)),
-                                                        actions: [
-                                                          Row(
-                                                            children: [
-                                                              SizedBox(
-                                                                width: 50,
-                                                              ),
-                                                              TextButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: Text(
-                                                                      'لا',
-                                                                      style:
-                                                                          KEditDeleteTextStyle)),
-                                                              SizedBox(
-                                                                width: 20,
-                                                              ),
-                                                              TextButton(
-                                                                  onPressed:
-                                                                      () {},
-                                                                  child: Text(
-                                                                      'نعم',
-                                                                      style:
-                                                                          KEditDeleteTextStyle))
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ));
-                                            },
-                                            child: Text(
-                                              'رفض',
-                                              style: TextStyle(fontSize: 22),
-                                            )),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        TextButton(
-                                            onPressed: () {
-                                              showModalBottomSheet(
-                                                  //هذي حتخلي الصفحة تكبر على حسب العناصر اللي فيها
-
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.vertical(
-                                                              top: Radius
-                                                                  .circular(
-                                                                      40))),
-                                                  context: context,
-                                                  builder: (cotext) => acceptP(
-                                                        documentId:
-                                                            idPropertyPost[
-                                                                index],
-                                                        ownerId: owner,
-                                                        customerName:
-                                                            customerName,
-                                                        propertyName: property,
-                                                        s: status,
-                                                      ));
-                                              print(idPropertyPost[index]);
-                                            },
-                                            child: Text(
-                                              'قبول',
-                                              style: TextStyle(fontSize: 22),
-                                            )),
-                                      ],
-                                    )),
+                              color: Colors.blue,
+                              child: Center(
+                                  child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Text(
+                                    lastday,
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 19),
+                                  ),
+                                  Text(
+                                    ' -  ',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 21),
+                                  ),
+                                  Text(
+                                    firstday,
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 19),
+                                  ),
+                                ],
                               )),
-                        ],
+                            ),
+
+                            /// accept and decline
+                            Container(
+                                //هذا قالب فرعي واحد ثاني جوا القالب الأساسي وفيه صفين فيهن استدعاء ynButton AKA yes,no button
+                                height: 45,
+                                width: double.infinity,
+                                color: Colors.white,
+                                child: SizedBox(
+                                  height: 47,
+                                  child: Container(
+                                      margin: EdgeInsets.only(left: 5),
+                                      child: Row(
+                                        children: [
+                                          TextButton(
+                                              onPressed: () {
+                                                showModalBottomSheet(
+                                                    //هذي حتخلي الصفحة تكبر على حسب العناصر اللي فيها
+
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.vertical(
+                                                                top: Radius
+                                                                    .circular(
+                                                                        50))),
+                                                    context: context,
+                                                    builder: (cotext) =>
+                                                        acceptP(
+                                                          documentId:
+                                                              idPropertyPost[
+                                                                  index],
+                                                          ownerId: owner,
+                                                          customerName:
+                                                              customerName,
+                                                          propertyName:
+                                                              property,
+                                                          s: status,
+                                                          firstDay: firstday,
+                                                          lastDay: lastday,
+                                                          orderReeasons:
+                                                              ordereasons,
+                                                        ));
+                                                print(idPropertyPost[index]);
+                                              },
+                                              child: Text(
+                                                ' < التفاصيل',
+                                                style: TextStyle(
+                                                    fontSize: 22,
+                                                    color: Colors.black),
+                                              )),
+                                        ],
+                                      )),
+                                )),
+                          ],
+                        ),
                       ),
                     ),
 
                     // هذا استدعاء orderUsername statelessWidege
-                    Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                        border: new Border.all(color: Colors.black, width: 2),
+                    Positioned(
+                      top: 35,
+                      left: 241,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
+                          color: Colors.blue,
+                        ),
+                        height: 40,
+                        width: 120,
+                        margin: EdgeInsets.only(left: 0),
+                        padding: EdgeInsets.all(0),
+                        child: Center(
+                            child: Text(
+                          customerName,
+                          style: TextStyle(
+                              fontSize: 22,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        )),
                       ),
-                      height: 100,
-                      width: 90,
-                      margin: EdgeInsets.only(left: 10),
-                      padding: EdgeInsets.all(20),
-                      child: Center(
-                          child: Text(
-                        customerName,
-                        style: TextStyle(fontSize: 18),
-                      )),
                     )
                   ],
                 ),

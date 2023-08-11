@@ -190,33 +190,6 @@ class _propertyPageBodyState extends State<propertyPageBody> {
                                     style: TextStyle(fontSize: 20)),
                                 SizedBox(height: 0),
                                 Row(
-                                  children: [
-                                    Wrap(
-                                        children: List.generate(
-                                            1,
-                                            (index) => Icon(
-                                                Icons.attach_money_sharp,
-                                                color: Colors.green))),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      'دينار',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w100),
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      propertyData['price'].toString(),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 20),
-                                Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(Icons.hotel_class_sharp),
@@ -233,6 +206,31 @@ class _propertyPageBodyState extends State<propertyPageBody> {
                                       color: Colors.red,
                                     ),
                                     Text(propertyData['addressInCity'])
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Text(
+                                        'دينار',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w100),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 3,
+                                    ),
+                                    Text(
+                                      propertyData['price'].toString(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 20),
+                                    ),
                                   ],
                                 )
                               ],

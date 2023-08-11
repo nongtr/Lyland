@@ -44,7 +44,12 @@ class _orderDState extends State<orderD> {
         final data = snapshot.data?.data() as Map<String, dynamic>?;
         final fieldValue = data?['status'];
 
-        return Scaffold(body: Center(child: Text(' $fieldValue')));
+        return Scaffold(
+            body: Center(
+                child: Text(
+          ' $fieldValue',
+          style: TextStyle(fontSize: 25),
+        )));
       },
     );
   }
