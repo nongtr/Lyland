@@ -161,7 +161,7 @@ class _item_DetailsState extends State<item_Details> {
                           ),
                           Text(
                             price.toString(),
-                            style: TextStyle(fontSize: 28),
+                            style: TextStyle(fontSize: 25),
                           ),
                         ],
                       ),
@@ -213,9 +213,9 @@ class _item_DetailsState extends State<item_Details> {
 
   Container miniPhotos(String image) {
     return Container(
-      margin: EdgeInsets.all(4),
+      margin: EdgeInsets.all(7),
       height: 80,
-      width: 120,
+      width: 110,
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(15)),
         child: Image(image: NetworkImage(image)),

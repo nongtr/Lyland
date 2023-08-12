@@ -144,7 +144,7 @@ class _CScheckState extends State<CScheck> {
                           child: Container(
                             height: 100,
                             margin:
-                                EdgeInsets.only(left: 30, right: 30, top: 60),
+                                EdgeInsets.only(left: 10, right: 10, top: 60),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
                                 color: Colors.white,
@@ -164,10 +164,10 @@ class _CScheckState extends State<CScheck> {
                                 children: [
                                   Row(
                                     children: [
-                                      Text(propertyData['firstDay'],
-                                          style: TextStyle(fontSize: 20)),
-                                      SizedBox(width: 20),
                                       Text(propertyData['lastDay'],
+                                          style: TextStyle(fontSize: 20)),
+                                      SizedBox(width: 15),
+                                      Text(propertyData['firstDay'],
                                           style: TextStyle(fontSize: 20)),
                                       SizedBox(height: 10),
                                     ],

@@ -63,6 +63,10 @@ class _ordersListState extends State<ordersList> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double screenWidth = size.width;
+    double positionLeft = screenWidth * 0.2; // 20% of screen width
+
     return StreamBuilder<QuerySnapshot>(
       stream: _ordersStream,
       builder: (context, snapshot) {
@@ -115,10 +119,11 @@ class _ordersListState extends State<ordersList> {
                     Positioned(
                       right: 50,
                       top: 70,
+                      left: 50,
                       child: Container(
                         // هذا القالب الأساسي اللي فيه جواه قوالب فرعية
                         margin: EdgeInsets.only(right: 0, left: 0),
-                        width: 321,
+                        width: 330,
                         height: 100,
                         child: Column(
                           children: [
