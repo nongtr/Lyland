@@ -218,7 +218,10 @@ class _item_DetailsState extends State<item_Details> {
       width: 110,
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(15)),
-        child: Image(image: NetworkImage(image)),
+        child: Image(
+          image: NetworkImage(image),
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
