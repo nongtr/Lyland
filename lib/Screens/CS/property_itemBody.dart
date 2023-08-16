@@ -69,19 +69,12 @@ class _propertyPageBodyState extends State<propertyPageBody> {
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
             return Text('No documents found.');
           }
-
+          int trueItemCount = _propertyDataList.length - 1;
           // Get the data from all documents
           _propertyDataList =
               snapshot.data!.docs.map((doc) => doc.data()).toList();
 
-          return ListView.builder(
-            itemCount: _propertyDataList.length - 1,
-            itemBuilder: (context, index) {
-              Map<String, dynamic> propertyData = _propertyDataList[index];
-
-              return bContainer();
-            },
-          );
+          return bContainer();
         },
       ),
     );
