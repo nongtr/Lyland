@@ -21,8 +21,7 @@ class _CSoutState extends State<CSout> {
       await user?.delete();
 
       // Navigate back to the login screen
-      Navigator.pushNamedAndRemoveUntil(
-          context, 'login_screen', (Route<dynamic> route) => false);
+      Navigator.pushNamed(context,'/');
     } catch (e) {
       print('Error deleting account: $e');
     }
@@ -35,39 +34,43 @@ class _CSoutState extends State<CSout> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton.icon(
-              onPressed: deleteAccount,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-              ),
-              icon: Icon(
-                Icons.delete,
-                size: 18,
-              ),
-              label: Text(
-                'حذف حسابك',
-                style: TextStyle(fontSize: 18),
+            Container(
+              width: 200, // Adjust the width as needed
+              child: ElevatedButton.icon(
+                onPressed: deleteAccount,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                ),
+                icon: Icon(
+                  Icons.delete,
+                  size: 18,
+                ),
+                label: Text(
+                  'حذف حسابك',
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
             ),
             SizedBox(height: 16),
-            TextButton.icon(
-              onPressed: () {
-                setState(() {
-                  FirebaseAuth.instance.signOut();
-                  Navigator.pop(context);
-                });
-              },
-
-              style: ButtonStyle(
-
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+            Container(
+              width: 200, // Adjust the width as needed
+              child: TextButton.icon(
+                onPressed: () {
+                  setState(() {
+                    FirebaseAuth.instance.signOut();
+                    Navigator.pop(context);
+                  });
+                },
+                style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                ),
+                icon: Icon(
+                  Icons.logout,
+                  size: 18,
+                ),
+                label: Text('تسجيل خروج'),
               ),
-              icon: Icon(
-                Icons.logout,
-                size: 18,
-              ),
-              label: Text('تسجيل خروج'),
             ),
           ],
         ),
