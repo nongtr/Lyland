@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -101,21 +102,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 45),
                 child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 2),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: TextField(
-                        keyboardType: TextInputType.emailAddress,
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'البريد الإلكتروني',
-                        ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey, width: 2),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'البريد الإلكتروني',
                       ),
-                    )),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.deny(
+                          RegExp(r'[^a-zA-Z0-9@._-]'),
+                          replacementString: '',
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
               SizedBox(
                 height: 10,
