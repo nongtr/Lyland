@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -9,7 +10,24 @@ class CSout extends StatefulWidget {
 }
 
 class _CSoutState extends State<CSout> {
-  final user = FirebaseAuth.instance.currentUser ?? "";
+  final user = FirebaseAuth.instance.currentUser as User?;
+
+  Future<void> deleteAccount() async {
+    try {
+      // Delete user document from Firestore
+      await FirebaseFirestore.instance.collection('users').doc(user?.uid).delete();
+
+      // Delete user from Firebase Authentication
+      await user?.delete();
+
+      // Navigate back to the login screen
+      Navigator.pushNamedAndRemoveUntil(
+          context, 'login_screen', (Route<dynamic> route) => false);
+    } catch (e) {
+      print('Error deleting account: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,19 +35,39 @@ class _CSoutState extends State<CSout> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'you signed ',
-              style: TextStyle(fontSize: 22),
+            ElevatedButton.icon(
+              onPressed: deleteAccount,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+              icon: Icon(
+                Icons.delete,
+                size: 18,
+              ),
+              label: Text(
+                'حذف حسابك',
+                style: TextStyle(fontSize: 18),
+              ),
             ),
-            MaterialButton(
+            SizedBox(height: 16),
+            TextButton.icon(
               onPressed: () {
                 setState(() {
                   FirebaseAuth.instance.signOut();
                   Navigator.pop(context);
                 });
               },
-              color: Colors.amber.shade900,
-              child: Text('Sign Out'),
+
+              style: ButtonStyle(
+
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+              ),
+              icon: Icon(
+                Icons.logout,
+                size: 18,
+              ),
+              label: Text('تسجيل خروج'),
             ),
           ],
         ),

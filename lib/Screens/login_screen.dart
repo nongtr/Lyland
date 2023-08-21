@@ -15,12 +15,12 @@ class _login_screenState extends State<login_screen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  bool valditUser = false;
+  bool ? valditUser ;
   String? role;
 
   Future<void> route() async {
     User? user = FirebaseAuth.instance.currentUser;
-    var kk = FirebaseFirestore.instance
+    var kk = await FirebaseFirestore.instance
         .collection('users')
         .doc(user?.uid)
         .get()

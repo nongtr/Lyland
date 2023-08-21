@@ -16,6 +16,20 @@ class addProberty extends StatefulWidget {
 }
 
 class _addProbertyState extends State<addProberty> {
+  // دالة للتحقق من ان كل الحقول تم تعبئتها
+  bool _isFormValid = false;
+  void _validateForm() {
+    setState(() {
+      _isFormValid = _mainLableControler.text.isNotEmpty &&
+          selectedType != null &&
+          _selectedCity != null &&
+          _selectedArea != null &&
+          _priceControler.text.isNotEmpty &&
+          _descriptionController.text.isNotEmpty &&
+          newImage != null;
+    });
+  }
+
   final CollectionReference _postsCollection =
       FirebaseFirestore.instance.collection('posts');
   final FirebaseStorage _storageImageDB = FirebaseStorage.instance;
@@ -71,8 +85,21 @@ class _addProbertyState extends State<addProberty> {
     });
   }
 
+  void _saveProperty() {
+    sendPostInfoToDataBase();
+    Navigator.of(context).pushReplacementNamed('POwnerScreen');
+    setState(() {});
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('تم إضافة عقار بنجاح'),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    _validateForm();
     Size size = MediaQuery.of(context).size;
     return SizedBox(
       child: Scaffold(
@@ -218,7 +245,7 @@ class _addProbertyState extends State<addProberty> {
                               width: 5,
                             ),
                             Text(
-                              ':المنظقة',
+                              ':المنطقة',
                               style: kTitleTextStyle,
                             ),
                           ],
@@ -331,12 +358,7 @@ class _addProbertyState extends State<addProberty> {
                     width: 10.0,
                   ),
                   TextButton(
-                      onPressed: () {
-                        sendPostInfoToDataBase();
-                        Navigator.of(context)
-                            .pushReplacementNamed('POwnerScreen');
-                        setState(() {});
-                      },
+                      onPressed:_isFormValid ? () => _saveProperty() : null,
                       child: Text(
                         'حفظ',
                         style: kTitleTextStyle,

@@ -49,6 +49,24 @@ class _CScheckState extends State<CScheck> {
     }
   }
 
+  void _deleteOrder(String documentId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('orders')
+          .doc(documentId)
+          .delete();
+      // Show a success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('تم حذف الطلب بنجاح'),
+        ),
+      );
+    } catch (e) {
+      // Handle any errors that occur during deletion
+      print('Error deleting document: $e');
+    }
+  }
+
   PageController pageController = PageController(viewportFraction: 0.85);
 
   @override
@@ -82,6 +100,7 @@ class _CScheckState extends State<CScheck> {
             itemCount: _propertyDataList.length,
             itemBuilder: (context, index) {
               Map<String, dynamic> propertyData = _propertyDataList[index];
+              String documentId = idPropertyPost[index];
 
               return Container(
                   padding: EdgeInsets.only(top: 30),
@@ -204,12 +223,17 @@ class _CScheckState extends State<CScheck> {
                                       SizedBox(
                                         width: 100,
                                       ),
-                                      Text(
-                                        'حذف',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.red),
+                                      TextButton(
+                                        onPressed: () {
+                                          _deleteOrder(documentId);
+                                        },
+                                        child: Text(
+                                          'حذف',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.red),
+                                        ),
                                       ),
                                     ],
                                   )

@@ -275,7 +275,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
    bool emailExsits;
    final FirebaseFirestore firestore = FirebaseFirestore.instance;
    final CollectionReference usersCollection = firestore.collection('users');
-   QuerySnapshot snapshot = await usersCollection.where('email', isEqualTo: _emailController.text.trim()).get();
+   QuerySnapshot snapshot = await usersCollection
+       .where('email', isEqualTo: _emailController.text.trim())
+       .get();
    if (snapshot.docs.isNotEmpty) {
      emailExsits= true;
    } else {
@@ -299,7 +301,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
      final invalidSnackBar = SnackBar(
          backgroundColor: Colors.red[600],
          content: Text(
-           'حدث خطأ ما, يرحى المحاولة من جديد',
+           'البريد الالكتروني مسجل مسبقا',
            style: TextStyle(
                fontWeight: FontWeight.bold),
          ));
