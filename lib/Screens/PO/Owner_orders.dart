@@ -41,7 +41,7 @@ class _PO_ordersState extends State<PO_orders> {
         stream: _propertyStream,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');

@@ -138,12 +138,11 @@ class _coDateState extends State<coDate> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
-                  keyboardType: TextInputType.emailAddress,
                   controller: _messageController,
                   maxLines: null,
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: " هل تود مشاركة بشيء في بالك ؟",
+                    hintText: " ذكر تفاصيل اضافية (اختياري)",
                     hintStyle: TextStyle(color: Colors.grey),
                   ),
                 ),

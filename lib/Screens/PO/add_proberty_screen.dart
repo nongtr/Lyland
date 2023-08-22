@@ -41,8 +41,8 @@ class _addProbertyState extends State<addProberty> {
 
   List<String> _cityList = ['بنغازي', 'طرابلس'];
   String? _selectedCity = 'بنغازي';
-  List<String> _benghaziAreaList = ['', 'الكيش', 'الحدائق'];
-  List<String> _tripoliAreaList = ['بن غشير', 'الاندلس'];
+  List<String> _benghaziAreaList = ['السلماني', 'الكيش', 'الحدائق'];
+  List<String> _tripoliAreaList = ['بن غشير', 'حي الاندلس'];
   String? _selectedArea = '';
   List<String> getSelectedCityAreaList() {
     if (_selectedCity == 'بنغازي') {
@@ -93,6 +93,7 @@ class _addProbertyState extends State<addProberty> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('تم إضافة عقار بنجاح'),
+
       ),
     );
   }

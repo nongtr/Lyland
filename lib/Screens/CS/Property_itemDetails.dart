@@ -193,11 +193,11 @@ class _item_DetailsState extends State<item_Details> {
                     width: 150,
                     padding: EdgeInsets.only(bottom: 2),
                     decoration: BoxDecoration(
-                        color: Colors.grey[700],
-                        borderRadius: BorderRadius.circular(20)),
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(25)),
                     child: Center(
                       child: Text(
-                        'طلب الحجز',
+                        ' طلب حجز',
                         style: TextStyle(fontSize: 25, color: Colors.white),
                       ),
                     ),

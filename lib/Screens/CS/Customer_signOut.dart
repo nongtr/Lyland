@@ -11,6 +11,8 @@ class CSout extends StatefulWidget {
 
 class _CSoutState extends State<CSout> {
   final user = FirebaseAuth.instance.currentUser as User?;
+  String? userName;
+
 
   Future<void> deleteAccount() async {
     try {
@@ -22,6 +24,12 @@ class _CSoutState extends State<CSout> {
 
       // Navigate back to the login screen
       Navigator.pushNamed(context,'/');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('تم حذف حسابك بنجاح'),
+
+        ),
+      );
     } catch (e) {
       print('Error deleting account: $e');
     }
@@ -29,11 +37,41 @@ class _CSoutState extends State<CSout> {
 
   @override
   Widget build(BuildContext context) {
+
+    Future<void> getCurrentUserName() async {
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user?.uid)
+          .get();
+      if (docSnapshot.exists) {
+        setState(() {
+          userName = docSnapshot.data()!['name'];
+        });
+      }
+    }
+
+    getCurrentUserName();
+
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+          Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.only(top: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.account_circle),
+              SizedBox(width: 8),
+              Text(
+                userName ?? '',
+                style: TextStyle(fontSize: 18),
+              ),
+            ],
+          ),
+        ),
             Container(
               width: 200, // Adjust the width as needed
               child: ElevatedButton.icon(
@@ -51,14 +89,14 @@ class _CSoutState extends State<CSout> {
                 ),
               ),
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 50),
             Container(
               width: 200, // Adjust the width as needed
               child: TextButton.icon(
                 onPressed: () {
                   setState(() {
                     FirebaseAuth.instance.signOut();
-                    Navigator.pop(context);
+                    Navigator.of(context).popAndPushNamed('/');
                   });
                 },
                 style: ButtonStyle(
@@ -76,5 +114,6 @@ class _CSoutState extends State<CSout> {
         ),
       ),
     );
+
   }
 }

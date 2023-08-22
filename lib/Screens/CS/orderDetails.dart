@@ -38,7 +38,7 @@ class _orderDState extends State<orderD> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         }
 
         final data = snapshot.data?.data() as Map<String, dynamic>?;
@@ -48,6 +48,7 @@ class _orderDState extends State<orderD> {
             body: Center(
                 child: Text(
           ' $fieldValue',
+          overflow: TextOverflow.visible,
           style: TextStyle(fontSize: 25),
         )));
       },

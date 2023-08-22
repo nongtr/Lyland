@@ -11,6 +11,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final _formKey = GlobalKey<FormState>();
+
   final _auth = FirebaseAuth.instance;
   bool? validateEmail;
 
@@ -34,246 +36,285 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          height: size.height,
           decoration: BoxDecoration(
               image: DecorationImage(
                   image: AssetImage('images/20230808_22.png'),
                   fit: BoxFit.fill)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Image.asset(
-              //   'images/real-estate-building-logo-design-inspiratiohn-building-logo-design-free-vector copy.png',
-              //   height: 250,
-              //   width: 250,
-              // ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
 
-              //// phone number text field
-              SizedBox(
-                height: 130,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45),
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 2),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: TextField(
-                        controller: _nameController,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'اسم المستخدم ',
+                SizedBox(
+                  height: 130,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 45),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey, width: 2),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: TextFormField(
+                          controller: _nameController,
+                          decoration: InputDecoration(
+                            labelText: 'اسم المستخدم',
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'يرجى إدخال اسم المستخدم';
+                            }
+                            return null;
+                          },
                         ),
-                      ),
-                    )),
-              ),
-              SizedBox(
-                height: 10,
-              ),
+                      )),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
 
 //////////////////////////////         Email      /////////////////////
-              //
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45),
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 2),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: TextField(
-                        keyboardType: TextInputType.number,
-                        controller: _phoneNumberController,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'رقم الهاتف',
-                        ),
-                      ),
-                    )),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              ///////////////////////////////////////////
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.grey, width: 2),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: TextField(
-                      keyboardType: TextInputType.emailAddress,
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'البريد الإلكتروني',
-                      ),
-                      inputFormatters: [
-                        FilteringTextInputFormatter.deny(
-                          RegExp(r'[^a-zA-Z0-9@._-]'),
-                          replacementString: '',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-
-              ////////////////////////// password ////////////////////////////////////////////
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45),
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 2),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: TextField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'كلمة السر',
-                        ),
-                      ),
-                    )),
-              ),
-
-              SizedBox(
-                height: 10,
-              ),
-              ////////////////////////// Confirm password ////////////////////////////////////////////
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45),
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 2),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: TextField(
-                        controller: _confirmPasswordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'تأكيد كلمة السر',
-                        ),
-                      ),
-                    )),
-              ),
-
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  DropdownButton<String>(
-                    dropdownColor: Colors.blue,
-                    isDense: true,
-                    isExpanded: false,
-                    iconEnabledColor: Colors.black,
-                    focusColor: Colors.black,
-                    items: _roles.map((String dropDownStringItem) {
-                      return DropdownMenuItem<String>(
-                        value: dropDownStringItem,
-                        child: Text(
-                          dropDownStringItem,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (newValueSelected) {
-                      setState(() {
-                        _currentRoleSelected = newValueSelected!;
-                        role = newValueSelected;
-                      });
-                    },
-                    value: _currentRoleSelected,
-                  ),
-                  Text(
-                    "نوع الحساب  ",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-
-              SizedBox(
-                height: 10.0,
-              ),
-
-              //////////////////////sign-up box//////////////////////////////
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 90),
-                child: TextButton(
-                  onPressed: SignUp,
+                //
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 45),
                   child: Container(
-                    padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey, width: 2),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: _phoneNumberController,
+                          decoration: InputDecoration(
+                            labelText: 'رقم الهاتف',
+
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'يرجى ادخال رقم الهاتف';
+                            }
+                            return null;
+                          },
+                        ),
+                      )),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                ///////////////////////////////////////////
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 45),
+                  child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(27)),
-                    child: Center(
-                      child: Text(
-                        'تسجيل حسابك',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      border: Border.all(color: Colors.grey, width: 2),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          labelText: 'بريد الكتروني',
+
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'يرجى ادخال بريد الكتروني';
+                          }
+                          return null;
+                        },
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(
+                            RegExp(r'[^a-zA-Z0-9@._-]'),
+                            replacementString: '',
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
-              ),
+                SizedBox(
+                  height: 10,
+                ),
 
-              SizedBox(
-                height: 40,
-              ),
+                ////////////////////////// password ////////////////////////////////////////////
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 45),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey, width: 2),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: TextFormField(
+                          controller: _passwordController,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            labelText: 'كلمة السر',
 
-              //////////////////////////checking if u have E-m/////////////////////////////
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      openSigninScreen();
-                    },
-                    child: Text(
-                      '  قم بتسجيل الدخول هنا ',
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'يرجى ادخال كلمة السر';
+                            }
+                            return null;
+                          },
+                        ),
+                      )),
+                ),
+
+                SizedBox(
+                  height: 10,
+                ),
+                ////////////////////////// Confirm password ////////////////////////////////////////////
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 45),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey, width: 2),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: TextFormField(
+                          controller: _confirmPasswordController,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            labelText: 'تأكيد كلمة السر',
+
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'يرجى تأكيد كلمة السر';
+                            }
+                            return null;
+                          },
+                        ),
+                      )),
+                ),
+
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    DropdownButton<String>(
+                      dropdownColor: Colors.blue,
+                      isDense: true,
+                      isExpanded: false,
+                      iconEnabledColor: Colors.black,
+                      focusColor: Colors.black,
+                      items: _roles.map((String dropDownStringItem) {
+                        return DropdownMenuItem<String>(
+                          value: dropDownStringItem,
+                          child: Text(
+                            dropDownStringItem,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (newValueSelected) {
+                        setState(() {
+                          _currentRoleSelected = newValueSelected!;
+                          role = newValueSelected;
+                        });
+                      },
+                      value: _currentRoleSelected,
+                    ),
+                    Text(
+                      "نوع الحساب  ",
                       style: TextStyle(
-                          color: Colors.blue, fontWeight: FontWeight.bold),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(
+                  height: 10.0,
+                ),
+
+                //////////////////////sign-up box//////////////////////////////
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 90),
+                  child: TextButton(
+                    onPressed:  () {
+                      if (_formKey.currentState!.validate()) {
+                        SignUp();
+                      } else {
+                        final invalidSnackBar = SnackBar(
+                          backgroundColor: Colors.red[600],
+                          content: Text(
+                            'يرجى إدخال جميع الحقول المطلوبة',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        );
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(invalidSnackBar);
+                      }
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(27)),
+                      child: Center(
+                        child: Text(
+                          'تسجيل حسابك',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
                     ),
                   ),
-                  Text(
-                    'لديك حساب بالفعل ؟   ',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
+                ),
+
+                SizedBox(
+                  height: 40,
+                ),
+
+                //////////////////////////checking if u have E-m/////////////////////////////
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        openSigninScreen();
+                      },
+                      child: Text(
+                        '  قم بتسجيل الدخول هنا ',
+                        style: TextStyle(
+                            color: Colors.blue, fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  )
-                ],
-              )
-            ],
+                    Text(
+                      'لديك حساب بالفعل ؟   ',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
