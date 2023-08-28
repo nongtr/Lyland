@@ -16,22 +16,8 @@ class addProberty extends StatefulWidget {
 }
 
 class _addProbertyState extends State<addProberty> {
-  // دالة للتحقق من ان كل الحقول تم تعبئتها
-  bool _isFormValid = false;
-  void _validateForm() {
-    setState(() {
-      _isFormValid = _mainLableControler.text.isNotEmpty &&
-          selectedType != null &&
-          _selectedCity != null &&
-          _selectedArea != null &&
-          _priceControler.text.isNotEmpty &&
-          _descriptionController.text.isNotEmpty &&
-          newImage != null;
-    });
-  }
-
   final CollectionReference _postsCollection =
-      FirebaseFirestore.instance.collection('posts');
+  FirebaseFirestore.instance.collection('posts');
   final FirebaseStorage _storageImageDB = FirebaseStorage.instance;
   XFile? beforeImageConverted;
   File? newImage;
@@ -41,8 +27,8 @@ class _addProbertyState extends State<addProberty> {
 
   List<String> _cityList = ['بنغازي', 'طرابلس'];
   String? _selectedCity = 'بنغازي';
-  List<String> _benghaziAreaList = ['السلماني', 'الكيش', 'الحدائق'];
-  List<String> _tripoliAreaList = ['بن غشير', 'حي الاندلس'];
+  List<String> _benghaziAreaList = ['', 'الكيش', 'الحدائق'];
+  List<String> _tripoliAreaList = ['بن غشير', 'الاندلس'];
   String? _selectedArea = '';
   List<String> getSelectedCityAreaList() {
     if (_selectedCity == 'بنغازي') {
@@ -67,7 +53,7 @@ class _addProbertyState extends State<addProberty> {
     var url = await storageImage.ref.getDownloadURL();
     var user = _auth.currentUser;
     final userDocRef =
-        FirebaseFirestore.instance.collection('users').doc(widget.ueserId);
+    FirebaseFirestore.instance.collection('users').doc(widget.ueserId);
     final userData = await userDocRef.get();
 // Access the document fields
     final String phoneNum = userData.get('phoneNumber');
@@ -84,23 +70,21 @@ class _addProbertyState extends State<addProberty> {
       'phoneNumber': phoneNum
     });
   }
-
-  void _saveProperty() {
-    sendPostInfoToDataBase();
-    Navigator.of(context).pushReplacementNamed('POwnerScreen');
-    setState(() {});
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('تم إضافة عقار بنجاح'),
-
-      ),
-    );
+  bool checkFieldsNotEmpty() {
+    if (_mainLableControler.text.isNotEmpty &&
+        selectedType != null &&
+        _selectedCity != null &&
+        _selectedArea != null &&
+        _priceControler.text.isNotEmpty &&
+        _descriptionController.text.isNotEmpty &&
+        newImage != null) {
+      return true;
+    }
+    return false;
   }
 
   @override
   Widget build(BuildContext context) {
-    _validateForm();
     Size size = MediaQuery.of(context).size;
     return SizedBox(
       child: Scaffold(
@@ -108,7 +92,7 @@ class _addProbertyState extends State<addProberty> {
             iconTheme: IconThemeData(color: Colors.black),
             shape: RoundedRectangleBorder(
                 borderRadius:
-                    BorderRadius.vertical(bottom: Radius.circular(30))),
+                BorderRadius.vertical(bottom: Radius.circular(30))),
             backgroundColor: Colors.white,
             title: Center(
               child: Text(
@@ -134,7 +118,7 @@ class _addProbertyState extends State<addProberty> {
                   // main lable text field
                   Center(
                       child:
-                          titleName(mainLableControler: _mainLableControler)),
+                      titleName(mainLableControler: _mainLableControler)),
                   SizedBox(
                     height: 20.0,
                   ),
@@ -174,14 +158,14 @@ class _addProbertyState extends State<addProberty> {
                                 items: _cityList
                                     .map(
                                       (item) => DropdownMenuItem(
-                                        value: item,
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          item,
-                                          style: kTitleTextStyle,
-                                        ),
-                                      ),
-                                    )
+                                    value: item,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      item,
+                                      style: kTitleTextStyle,
+                                    ),
+                                  ),
+                                )
                                     .toList(),
                                 onChanged: (item) => setState(() {
                                   _selectedCity = item;
@@ -228,15 +212,15 @@ class _addProbertyState extends State<addProberty> {
                                 items: getSelectedCityAreaList()
                                     .map(
                                       (item) => DropdownMenuItem(
-                                        value: item,
-                                        alignment: Alignment.topRight,
-                                        child: Text(
-                                          item,
-                                          style: kTitleTextStyle,
-                                          textAlign: TextAlign.right,
-                                        ),
-                                      ),
-                                    )
+                                    value: item,
+                                    alignment: Alignment.topRight,
+                                    child: Text(
+                                      item,
+                                      style: kTitleTextStyle,
+                                      textAlign: TextAlign.right,
+                                    ),
+                                  ),
+                                )
                                     .toList(),
                                 onChanged: (item) =>
                                     setState(() => _selectedArea = item),
@@ -280,14 +264,14 @@ class _addProbertyState extends State<addProberty> {
                             margin: EdgeInsets.only(left: 8.0),
                             decoration: BoxDecoration(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(15)),
+                                BorderRadius.all(Radius.circular(15)),
                                 image: DecorationImage(
                                   image: beforeImageConverted == null
                                       ? NetworkImage(
-                                          'https://picsum.photos/200/300')
+                                      'https://picsum.photos/200/300')
                                       : Image.file(
-                                              File(beforeImageConverted!.path))
-                                          .image,
+                                      File(beforeImageConverted!.path))
+                                      .image,
                                   fit: BoxFit.cover,
                                 ),
                                 shape: BoxShape.rectangle),
@@ -359,7 +343,27 @@ class _addProbertyState extends State<addProberty> {
                     width: 10.0,
                   ),
                   TextButton(
-                      onPressed:_isFormValid ? () => _saveProperty() : null,
+                      onPressed: () {
+                        if (checkFieldsNotEmpty()) {
+                          sendPostInfoToDataBase();
+                          Navigator.pop(context);
+                          final validSnackBar = SnackBar(
+                              backgroundColor: Colors.green[600],
+                              content: Text('تم اضافة عقار بنجاح'));
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(validSnackBar);
+                        }
+                        else{
+                          final invalidSnackBar = SnackBar(
+                              backgroundColor: Colors.red[600],
+                              content: Text(
+                                'الرجاء تعبئة جميع الحقول',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ));
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(invalidSnackBar);
+                        }
+                      },
                       child: Text(
                         'حفظ',
                         style: kTitleTextStyle,

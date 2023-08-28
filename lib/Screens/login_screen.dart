@@ -36,6 +36,7 @@ class _login_screenState extends State<login_screen> {
         valditUser = false;
       }
     });
+    return kk;
   }
 
   void openSignUpScreen() {
@@ -44,8 +45,7 @@ class _login_screenState extends State<login_screen> {
 
   @override
   void initState() {
-    super.initState;
-    route();
+    super.initState();
   }
 
   @override
@@ -142,6 +142,7 @@ class _login_screenState extends State<login_screen> {
                               .signInWithEmailAndPassword(
                                   email: _emailController.text,
                                   password: _passwordController.text);
+
                           if (valditUser == true) {
                             final validSnackBar = SnackBar(
                                 backgroundColor: Colors.green[600],

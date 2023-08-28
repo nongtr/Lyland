@@ -8,10 +8,10 @@ import '../CS/orderDetails.dart';
 
 class ordersList extends StatefulWidget {
   final String propertyName;
-  final String onwerId;
+  final String ownerId;
 
   ordersList({
-    required this.onwerId,
+    required this.ownerId,
     required this.propertyName,
   });
 
@@ -33,7 +33,7 @@ class _ordersListState extends State<ordersList> {
   void _getProperties() async {
     await for (var snapshot in FirebaseFirestore.instance
         .collection('orders')
-        .where('ownerID', isEqualTo: widget.onwerId)
+        .where('ownerID', isEqualTo: widget.ownerId)
         .where('propertyName', isEqualTo: widget.propertyName)
         .snapshots()) {
       listLength = snapshot.docs.length;
@@ -77,7 +77,7 @@ class _ordersListState extends State<ordersList> {
 
         if (!snapshot.hasData) {
           // Display a loading indicator
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         }
 
         final orders = snapshot.data!.docs;

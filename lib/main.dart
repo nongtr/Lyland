@@ -6,6 +6,7 @@ import 'package:lyland/Screens/PO/add_proberty_screen.dart';
 import 'package:lyland/Screens/login_screen.dart';
 import 'package:lyland/Screens/PO/Owner_screenBar.dart';
 import 'package:lyland/Screens/signup_screen.dart';
+import 'package:lyland/Screens/splashScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +20,8 @@ class LyLand extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/': (context) => login_screen(),
+        '/': (context) =>splash(),
+        'loginScreen': (context)=> login_screen(),
         'signUpScreen': (context) => const SignUpScreen(),
         'AuthScreen': (context) => const Auth(),
         'customerScreen': (context) => const Customer_Screen(),

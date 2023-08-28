@@ -205,7 +205,7 @@ class _UpdateDocumentWidgetState extends State<UpdateDocumentWidget> {
                             width: 5,
                           ),
                           Text(
-                            ':المنظقة',
+                            ':المنطقة',
                             style: kTitleTextStyle,
                           ),
                         ],

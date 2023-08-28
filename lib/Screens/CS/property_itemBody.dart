@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lyland/Screens/CS/Property_itemDetails.dart';
 import 'Property_itemDetails.dart';
+import 'SearchResultScreen.dart';
 
 class propertyPageBody extends StatefulWidget {
   final String collectionName;
@@ -20,7 +21,7 @@ class _propertyPageBodyState extends State<propertyPageBody> {
   bool check = true;
   late Stream<QuerySnapshot<Map<String, dynamic>>> _propertyStream;
   List<Map<String, dynamic>> _propertyDataList = [];
-  TextEditingController _searchControler = TextEditingController();
+  TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -84,39 +85,48 @@ class _propertyPageBodyState extends State<propertyPageBody> {
     return Column(
       children: [
         ////////////// search bar
-        Positioned(
+        GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SearchResultScreen(),
+                ),
+              );
+            },
             child: Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(color: Colors.grey, offset: Offset(0, 0), blurRadius: 2)
-            ],
-            borderRadius: BorderRadius.circular(80),
-            color: Colors.white,
-          ),
-          child: Row(
-            children: [
-              Container(
-                padding: EdgeInsets.only(right: 10),
-                child: Icon(
-                  Icons.search,
-                  size: 33,
-                ),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(color: Colors.grey, offset: Offset(0, 0), blurRadius: 2),
+                ],
+                borderRadius: BorderRadius.circular(80),
+                color: Colors.white,
               ),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: TextField(
-                    controller: _searchControler,
-                    decoration: InputDecoration(
-                        hintText: "ابحث هنا",
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none),
-                    onChanged: (value) {},
+              child: Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(right: 10),
+                    child: Icon(
+                      Icons.search,
+                      size: 33,
+                    ),
                   ),
-                ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: TextField(
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          hintText: "ابحث هنا",
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                        ),
+                        onChanged: (value) {},
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
           margin: EdgeInsets.only(top: 107, left: 20, right: 20),
           padding: EdgeInsets.only(left: 25),
         )),

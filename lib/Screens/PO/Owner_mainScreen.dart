@@ -206,6 +206,7 @@ class _PO_mainScreenState extends State<PO_mainScreen> {
                                       final String userId = user!.uid;
                                       deleteDocument('posts',
                                           idPropertyPost[index], userId);
+                                      Navigator.pop(context);
                                     },
                                     child: Text('نعم',
                                         style: KEditDeleteTextStyle))

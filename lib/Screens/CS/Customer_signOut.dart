@@ -96,7 +96,7 @@ class _CSoutState extends State<CSout> {
                 onPressed: () {
                   setState(() {
                     FirebaseAuth.instance.signOut();
-                    Navigator.of(context).popAndPushNamed('/');
+                    Navigator.of(context).popAndPushNamed('loginScreen');
                   });
                 },
                 style: ButtonStyle(

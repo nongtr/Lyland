@@ -81,7 +81,7 @@ class _PO_ordersState extends State<PO_orders> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => ordersList(
-                                  onwerId: userId,
+                                  ownerId: userId,
                                   propertyName: propertyName,
                                 )));
                   },
