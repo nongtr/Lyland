@@ -53,8 +53,6 @@ class _acceptPState extends State<acceptP> {
             itemBuilder: (context, index) {
               final data = properties[index].data() as Map<String, dynamic>;
 
-              final pCity = data['city'];
-              final pPrice = data['price'].toString();
               final pName = data['propertyName'];
               final pNumber = data['phoneNumber'];
 
@@ -77,30 +75,14 @@ class _acceptPState extends State<acceptP> {
               return Column(
                 children: [
                   SizedBox(
-                    height: 40,
+                    height: 20,
                   ),
+                  titleAndSubtitle(': اسم العقار', pName),
+                  titleAndSubtitle(': من تاريخ', widget.firstDay),
+                  titleAndSubtitle(': إلى التاريخ ', widget.lastDay),
+                  titleAndSubtitleD(': تفاصيل الحجز', widget.orderReeasons),
                   Padding(
-                    padding: EdgeInsets.only(left: 150),
-                    child: buildRow(': اسم المستأجر', widget.customerName),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 148.0),
-                    child: buildRow(': اسم العقار', pName),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 148.0),
-                    child: buildRow(': من تاريخ', widget.firstDay),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 148.0),
-                    child: buildRow(': إلى تاريخ ', widget.lastDay),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 98.0),
-                    child: buildRow(': تفاصيل الحجز', widget.orderReeasons),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, top: .0),
+                    padding: const EdgeInsets.only(left: 0, top: .0),
                     child: Row(
                       children: [
                         TextButton(
@@ -113,7 +95,7 @@ class _acceptPState extends State<acceptP> {
                                     height: 200, // Adjust the height as needed
                                     child: Column(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           'هل انت متأكد ؟',
@@ -156,8 +138,7 @@ class _acceptPState extends State<acceptP> {
                                               'تم الرفض لأن العقار محجوز';
                                           if (_reason != null &&
                                               _reason.isNotEmpty) {
-                                            rejectionMessage =
-                                            ' - $_reason';
+                                            rejectionMessage = ' - $_reason';
                                           }
                                           updateDocumentField(
                                             widget.documentId,
@@ -168,10 +149,12 @@ class _acceptPState extends State<acceptP> {
                                           );
                                           Navigator.pop(context);
                                           Navigator.pop(context);
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
                                               backgroundColor: Colors.green,
-                                              content: Text('تم رفض الطلب بنجاح'),
+                                              content:
+                                                  Text('تم رفض الطلب بنجاح'),
                                             ),
                                           );
                                         },
@@ -225,25 +208,72 @@ class _acceptPState extends State<acceptP> {
     );
   }
 
-  Row buildRow(String title, String type) {
-    return Row(
-      children: [
-        Expanded(
-          child: Text(
+  Padding titleAndSubtitle(String title, String type) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(
             type,
-            style: TextStyle(fontSize: 25),
+            style: TextStyle(fontSize: 23),
           ),
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        Expanded(
-          child: Text(
+          SizedBox(
+            width: 5,
+          ),
+          Text(
             title,
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
           ),
-        ),
-      ],
+        ],
+      ),
     );
+  }
+
+  Widget titleAndSubtitleD(String title, String type) {
+    if (type.length <= 25) {
+      // Display the type and title in a row
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 18.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              type,
+              style: TextStyle(fontSize: 23),
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            Text(
+              title,
+              style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      );
+    } else {
+      // Display the type and title in a column
+      return Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 249.0, right: 9),
+            child: Text(
+              title,
+              style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+            ),
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.only(left: 9.0, right: 9),
+            child: Text(
+              type,
+              style: TextStyle(fontSize: 23),
+              textDirection: TextDirection.rtl, // Set text direction to RTL
+            ),
+          ),
+        ],
+      );
+    }
   }
 }
