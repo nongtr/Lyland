@@ -11,8 +11,8 @@ class coDate extends StatefulWidget {
   final String pNumber;
   coDate(
       {required this.propertyName,
-      required this.owenerID,
-      required this.pNumber});
+        required this.owenerID,
+        required this.pNumber});
 
   @override
   _coDateState createState() => _coDateState();
@@ -31,7 +31,7 @@ class _coDateState extends State<coDate> {
     if (_firstDay != null && _lastDay != null && _messageController != null) {
       final ordersRef = FirebaseFirestore.instance.collection('orders');
       final userDocRef =
-          FirebaseFirestore.instance.collection('users').doc(userId);
+      FirebaseFirestore.instance.collection('users').doc(userId);
       final userData = await userDocRef.get();
       final String username = userData.get('name');
 
@@ -163,10 +163,10 @@ class _coDateState extends State<coDate> {
               onPressed: _firstDay == null || _lastDay == null
                   ? null
                   : () {
-                      submitSelectedRange();
-                      Navigator.of(context)
-                          .pushReplacementNamed('customerScreen');
-                    },
+                submitSelectedRange();
+                Navigator.of(context)
+                    .pushReplacementNamed('customerScreen');
+              },
               child: Text(
                 'تقديم الطلب',
                 style: TextStyle(fontSize: 22),

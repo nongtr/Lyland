@@ -74,13 +74,13 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
           Map<String, dynamic> result = _searchResults[index];
           return GestureDetector(
             onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => item_Details(
-                      documentId: idPropertyPost[index],
-                    )));
-          },
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => item_Details(
+                        documentId: idPropertyPost[index],
+                      )));
+            },
             child: ListTile(
               leading: Image.network(result['imageURL']),
               title: Text(result['propertyName']),

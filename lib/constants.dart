@@ -7,4 +7,4 @@ const kTitleTextStyle = TextStyle(
 );
 
 const KEditDeleteTextStyle =
-    TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black);
+TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black);

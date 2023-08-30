@@ -67,7 +67,7 @@ class _PO_ordersState extends State<PO_orders> {
 
               return Container(
                 margin:
-                    EdgeInsets.only(bottom: 0, right: 10, left: 10, top: 38),
+                EdgeInsets.only(bottom: 0, right: 10, left: 10, top: 38),
                 height: 100,
                 decoration: BoxDecoration(
                   color: Colors.red,
@@ -81,9 +81,9 @@ class _PO_ordersState extends State<PO_orders> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => ordersList(
-                                  ownerId: userId,
-                                  propertyName: propertyName,
-                                )));
+                              ownerId: userId,
+                              propertyName: propertyName,
+                            )));
                   },
                   child: Text(
                     propertyData['propertyName'],

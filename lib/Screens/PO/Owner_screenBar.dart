@@ -28,7 +28,7 @@ int index = 0;
 class _ProOwnerScState extends State<ProOwnerSc> {
   void _getProperties() async {
     await for (var snapshot
-        in FirebaseFirestore.instance.collection('posts').snapshots()) {
+    in FirebaseFirestore.instance.collection('posts').snapshots()) {
       listLength = snapshot.docs.length;
       for (var property in snapshot.docs) {
         idPropertyPost.add(property.reference.id);

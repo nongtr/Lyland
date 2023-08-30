@@ -322,23 +322,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future SignUp() async {
-   bool emailExsits;
-   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-   final CollectionReference usersCollection = firestore.collection('users');
-   QuerySnapshot snapshot = await usersCollection
-       .where('email', isEqualTo: _emailController.text.trim())
-       .get();
-   if (snapshot.docs.isNotEmpty) {
-     emailExsits= true;
-   } else {
-     emailExsits=false;
-   }
+    bool emailExsits;
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    final CollectionReference usersCollection = firestore.collection('users');
+    QuerySnapshot snapshot = await usersCollection
+        .where('email', isEqualTo: _emailController.text.trim())
+        .get();
+    if (snapshot.docs.isNotEmpty) {
+      emailExsits= true;
+    } else {
+      emailExsits=false;
+    }
 
-   if (emailExsits==false && passwordConfirmed()) {
+    if (emailExsits==false && passwordConfirmed()) {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-              email: _emailController.text.trim(),
-              password: _passwordController.text.trim())
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim())
           .then((value) => {sendUserInfoToDataBase()});
       final validSnackBar = SnackBar(
           backgroundColor: Colors.green[600],
@@ -347,31 +347,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
           .showSnackBar(validSnackBar);
       Navigator.of(context).pushNamed('/');
     }
-   else if(emailExsits==true) {
-     final invalidSnackBar = SnackBar(
-         backgroundColor: Colors.red[600],
-         content: Text(
-           'البريد الالكتروني مسجل مسبقا',
-           style: TextStyle(
-               fontWeight: FontWeight.bold),
-         ));
-     ScaffoldMessenger.of(context)
-         .showSnackBar(invalidSnackBar);
-   }
+    else if(emailExsits==true) {
+      final invalidSnackBar = SnackBar(
+          backgroundColor: Colors.red[600],
+          content: Text(
+            'البريد الالكتروني مسجل مسبقا',
+            style: TextStyle(
+                fontWeight: FontWeight.bold),
+          ));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(invalidSnackBar);
+    }
   }
 
   sendUserInfoToDataBase() {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     var user = _auth.currentUser;
     CollectionReference reference =
-        FirebaseFirestore.instance.collection('users');
+    FirebaseFirestore.instance.collection('users');
     reference.doc(user!.uid).set({
       'email': _emailController.text,
       'role': role,
       'phoneNumber': _phoneNumberController.text,
       'name': _nameController.text
     });
-    Navigator.pushReplacementNamed(context, '/');
+    Navigator.pushReplacementNamed(context, 'loginScreen');
   }
 
   bool passwordConfirmed() {
@@ -394,7 +394,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void openSigninScreen() {
-    Navigator.of(context).pushReplacementNamed('/');
+    Navigator.of(context).pushReplacementNamed('loginScreen');
   }
 
   @override

@@ -25,7 +25,7 @@ class _CSoutState extends State<CSout> {
       await user?.delete();
 
       // Navigate back to the login screen
-      Navigator.pushNamed(context, '/');
+      Navigator.pushNamed(context, 'loginScreen');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('تم حذف حسابك بنجاح'),
@@ -98,12 +98,35 @@ class _CSoutState extends State<CSout> {
             Container(
               width: 300, // Adjust the width as needed
               child: TextButton.icon(
-                onPressed: deleteAccount,
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('هل أنت متأكد؟'),
+                        content: Text('سيتم حذف حسابك'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // Close the dialog
+                              deleteAccount(); // Call the deleteAccount method
+                            },
+                            child: Text('نعم'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // Close the dialog
+                            },
+                            child: Text('لا'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
                 style: ButtonStyle(
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black),
+                  foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
                 ),
                 icon: Icon(
                   Icons.delete_rounded,

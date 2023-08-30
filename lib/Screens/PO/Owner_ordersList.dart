@@ -88,7 +88,7 @@ class _ordersListState extends State<ordersList> {
             iconTheme: IconThemeData(color: Colors.black),
             shape: RoundedRectangleBorder(
                 borderRadius:
-                    BorderRadius.vertical(bottom: Radius.circular(30))),
+                BorderRadius.vertical(bottom: Radius.circular(30))),
             backgroundColor: Colors.white,
             title: Center(
               child: Text(
@@ -134,32 +134,32 @@ class _ordersListState extends State<ordersList> {
                               color: Colors.blue,
                               child: Center(
                                   child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Text(
-                                    lastday,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 19),
-                                  ),
-                                  Text(
-                                    ' -  ',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 21),
-                                  ),
-                                  Text(
-                                    firstday,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 19),
-                                  ),
-                                ],
-                              )),
+                                    children: [
+                                      SizedBox(
+                                        width: 15,
+                                      ),
+                                      Text(
+                                        lastday,
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 19),
+                                      ),
+                                      Text(
+                                        ' -  ',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 21),
+                                      ),
+                                      Text(
+                                        firstday,
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 19),
+                                      ),
+                                    ],
+                                  )),
                             ),
 
                             /// accept and decline
                             Container(
-                                //هذا قالب فرعي واحد ثاني جوا القالب الأساسي وفيه صفين فيهن استدعاء ynButton AKA yes,no button
+                              //هذا قالب فرعي واحد ثاني جوا القالب الأساسي وفيه صفين فيهن استدعاء ynButton AKA yes,no button
                                 height: 45,
                                 width: double.infinity,
                                 color: Colors.white,
@@ -172,30 +172,30 @@ class _ordersListState extends State<ordersList> {
                                           TextButton(
                                               onPressed: () {
                                                 showModalBottomSheet(
-                                                    //هذي حتخلي الصفحة تكبر على حسب العناصر اللي فيها
+                                                  //هذي حتخلي الصفحة تكبر على حسب العناصر اللي فيها
 
                                                     shape: RoundedRectangleBorder(
                                                         borderRadius:
-                                                            BorderRadius.vertical(
-                                                                top: Radius
-                                                                    .circular(
-                                                                        50))),
+                                                        BorderRadius.vertical(
+                                                            top: Radius
+                                                                .circular(
+                                                                50))),
                                                     context: context,
                                                     builder: (cotext) =>
                                                         acceptP(
                                                           documentId:
-                                                              idPropertyPost[
-                                                                  index],
+                                                          idPropertyPost[
+                                                          index],
                                                           ownerId: owner,
                                                           customerName:
-                                                              customerName,
+                                                          customerName,
                                                           propertyName:
-                                                              property,
+                                                          property,
                                                           s: status,
                                                           firstDay: firstday,
                                                           lastDay: lastday,
                                                           orderReeasons:
-                                                              ordereasons,
+                                                          ordereasons,
                                                         ));
                                                 print(idPropertyPost[index]);
                                               },
@@ -230,12 +230,12 @@ class _ordersListState extends State<ordersList> {
                         padding: EdgeInsets.all(0),
                         child: Center(
                             child: Text(
-                          customerName,
-                          style: TextStyle(
-                              fontSize: 22,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        )),
+                              customerName,
+                              style: TextStyle(
+                                  fontSize: 22,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            )),
                       ),
                     )
                   ],

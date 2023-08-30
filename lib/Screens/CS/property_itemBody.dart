@@ -34,7 +34,7 @@ class _propertyPageBodyState extends State<propertyPageBody> {
 
   void _getProperties() async {
     await for (var snapshot
-        in FirebaseFirestore.instance.collection('posts').snapshots()) {
+    in FirebaseFirestore.instance.collection('posts').snapshots()) {
       listLength = snapshot.docs.length;
       for (var property in snapshot.docs) {
         idPropertyPost.add(property.reference.id);
@@ -127,9 +127,9 @@ class _propertyPageBodyState extends State<propertyPageBody> {
                   ),
                 ],
               ),
-          margin: EdgeInsets.only(top: 107, left: 20, right: 20),
-          padding: EdgeInsets.only(left: 25),
-        )),
+              margin: EdgeInsets.only(top: 107, left: 20, right: 20),
+              padding: EdgeInsets.only(left: 25),
+            )),
 
         //////////////
         SizedBox(
@@ -165,13 +165,13 @@ class _propertyPageBodyState extends State<propertyPageBody> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => item_Details(
-                                        documentId: idPropertyPost[index],
-                                      )));
+                                    documentId: idPropertyPost[index],
+                                  )));
                         },
                         child: Container(
                           height: 120,
                           margin:
-                              EdgeInsets.only(left: 30, right: 30, bottom: 30),
+                          EdgeInsets.only(left: 30, right: 30, bottom: 30),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
                               color: Colors.white,
@@ -185,7 +185,7 @@ class _propertyPageBodyState extends State<propertyPageBody> {
                               ]),
                           child: Container(
                             padding:
-                                EdgeInsets.only(left: 15, right: 15, top: 15),
+                            EdgeInsets.only(left: 15, right: 15, top: 15),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [

@@ -33,29 +33,29 @@ class _extendooState extends State<extendoo> {
         child: secondHalf.isEmpty
             ? Text(firstHalf)
             : Column(
+          children: [
+            Text(hiddenText
+                ? (firstHalf + "...")
+                : (firstHalf + secondHalf)),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  hiddenText = !hiddenText;
+                });
+              },
+              child: Row(
                 children: [
-                  Text(hiddenText
-                      ? (firstHalf + "...")
-                      : (firstHalf + secondHalf)),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        hiddenText = !hiddenText;
-                      });
-                    },
-                    child: Row(
-                      children: [
-                        Text(
-                          ' عرض مزيد',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                        Icon(hiddenText
-                            ? Icons.arrow_drop_down
-                            : Icons.arrow_drop_up_outlined)
-                      ],
-                    ),
-                  )
+                  Text(
+                    ' عرض مزيد',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  Icon(hiddenText
+                      ? Icons.arrow_drop_down
+                      : Icons.arrow_drop_up_outlined)
                 ],
-              ));
+              ),
+            )
+          ],
+        ));
   }
 }

@@ -140,8 +140,8 @@ class _login_screenState extends State<login_screen> {
                         try {
                           await FirebaseAuth.instance
                               .signInWithEmailAndPassword(
-                                  email: _emailController.text,
-                                  password: _passwordController.text);
+                              email: _emailController.text,
+                              password: _passwordController.text);
 
                           if (valditUser == true) {
                             final validSnackBar = SnackBar(
