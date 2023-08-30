@@ -168,6 +168,12 @@ class _acceptPState extends State<acceptP> {
                                           );
                                           Navigator.pop(context);
                                           Navigator.pop(context);
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              backgroundColor: Colors.green,
+                                              content: Text('تم رفض الطلب بنجاح'),
+                                            ),
+                                          );
                                         },
                                         child: Text(
                                           'نعم',
@@ -195,6 +201,12 @@ class _acceptPState extends State<acceptP> {
                               'تم القبول',
                             );
                             Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.green,
+                                content: Text('تم قبول الطلب بنجاح'),
+                              ),
+                            );
                           },
                           child: Text(
                             'قبول',

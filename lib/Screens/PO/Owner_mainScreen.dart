@@ -204,6 +204,12 @@ class _PO_mainScreenState extends State<PO_mainScreen> {
                                       deleteDocument('posts',
                                           idPropertyPost[index], userId);
                                       Navigator.pop(context);
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          backgroundColor: Colors.green,
+                                          content: Text('تم حذف العقار بنجاح'),
+                                        ),
+                                      );
                                     },
                                     child: Text('نعم',
                                         style: KEditDeleteTextStyle))
