@@ -40,8 +40,12 @@ class _UpdateDocumentWidgetState extends State<UpdateDocumentWidget> {
 
   List<String> _cityList = ['', 'بنغازي', 'طرابلس'];
   String? _selectedCity = '';
-  List<String> _benghaziAreaList = ['', 'الكيش', 'الحدائق'];
-  List<String> _tripoliAreaList = ['بن غشير', 'الاندلس'];
+  List<String> _benghaziAreaList = ['', 'قنفوذة', 'طبالينو', 'الحدائق'];
+  List<String> _tripoliAreaList = [
+    ' جنزور',
+    'تاجوراء',
+    ' عين زارة',
+  ];
   String? _selectedArea = '';
   List<String> getSelectedCityAreaList() {
     if (_selectedCity == 'بنغازي') {
@@ -92,10 +96,11 @@ class _UpdateDocumentWidgetState extends State<UpdateDocumentWidget> {
                         borderRadius: BorderRadius.circular(30),
                         color: Colors.white),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20),
+                      padding: const EdgeInsets.only(right: 20),
                       child: TextField(
                         keyboardType: TextInputType.emailAddress,
                         controller: _titleController,
+                        textAlign: TextAlign.right,
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: "اسم العقار ",
@@ -167,7 +172,7 @@ class _UpdateDocumentWidgetState extends State<UpdateDocumentWidget> {
                   height: 15.0,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 48.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 42.0),
                   child: Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey, width: 2),
@@ -215,7 +220,7 @@ class _UpdateDocumentWidgetState extends State<UpdateDocumentWidget> {
                 ),
                 SizedBox(height: 20.0),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 75.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 65.0),
                   child: Container(
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey, width: 2),
@@ -300,6 +305,7 @@ class _UpdateDocumentWidgetState extends State<UpdateDocumentWidget> {
                         keyboardType: TextInputType.emailAddress,
                         controller: _descriptionController,
                         maxLines: null,
+                        textAlign: TextAlign.right,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: ".وصف العقار",

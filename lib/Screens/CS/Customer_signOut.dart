@@ -13,21 +13,22 @@ class _CSoutState extends State<CSout> {
   final user = FirebaseAuth.instance.currentUser as User?;
   String? userName;
 
-
   Future<void> deleteAccount() async {
     try {
       // Delete user document from Firestore
-      await FirebaseFirestore.instance.collection('users').doc(user?.uid).delete();
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user?.uid)
+          .delete();
 
       // Delete user from Firebase Authentication
       await user?.delete();
 
       // Navigate back to the login screen
-      Navigator.pushNamed(context,'/');
+      Navigator.pushNamed(context, '/');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('تم حذف حسابك بنجاح'),
-
         ),
       );
     } catch (e) {
@@ -37,7 +38,6 @@ class _CSoutState extends State<CSout> {
 
   @override
   Widget build(BuildContext context) {
-
     Future<void> getCurrentUserName() async {
       final docSnapshot = await FirebaseFirestore.instance
           .collection('users')
@@ -53,45 +53,25 @@ class _CSoutState extends State<CSout> {
     getCurrentUserName();
 
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-          Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.only(top: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.account_circle),
-              SizedBox(width: 8),
-              Text(
-                userName ?? '',
-                style: TextStyle(fontSize: 18),
-              ),
-            ],
-          ),
-        ),
-            Container(
-              width: 200, // Adjust the width as needed
-              child: ElevatedButton.icon(
-                onPressed: deleteAccount,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                ),
-                icon: Icon(
-                  Icons.delete,
-                  size: 18,
-                ),
-                label: Text(
-                  'حذف حسابك',
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
+            Icon(
+              Icons.account_circle,
+              size: 100,
             ),
-            SizedBox(height: 50),
+            SizedBox(
+              height: 4,
+            ),
+            Text(
+              userName ?? '',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 30),
             Container(
-              width: 200, // Adjust the width as needed
+              width: 300, // Adjust the width as needed
               child: TextButton.icon(
                 onPressed: () {
                   setState(() {
@@ -100,8 +80,10 @@ class _CSoutState extends State<CSout> {
                   });
                 },
                 style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black),
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
                 ),
                 icon: Icon(
                   Icons.logout,
@@ -110,10 +92,29 @@ class _CSoutState extends State<CSout> {
                 label: Text('تسجيل خروج'),
               ),
             ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              width: 300, // Adjust the width as needed
+              child: TextButton.icon(
+                onPressed: deleteAccount,
+                style: ButtonStyle(
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black),
+                ),
+                icon: Icon(
+                  Icons.delete_rounded,
+                  size: 18,
+                ),
+                label: Text('حذف الحساب'),
+              ),
+            ),
           ],
         ),
       ),
     );
-
   }
 }

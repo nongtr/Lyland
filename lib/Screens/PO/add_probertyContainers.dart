@@ -14,7 +14,7 @@ class addPropertyContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 75.0),
+      padding: const EdgeInsets.symmetric(horizontal: 68.0),
       child: Container(
         decoration: BoxDecoration(
             border: Border.all(color: Colors.grey, width: 2),
@@ -23,10 +23,11 @@ class addPropertyContainer extends StatelessWidget {
         child: Row(
           children: [
             SizedBox(
-              width: 45,
+              width: 40,
             ),
             Container(
               width: 80,
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: TextField(
                 keyboardType: TextInputType.number,
                 controller: _priceControler,
@@ -68,10 +69,12 @@ class titleName extends StatelessWidget {
             borderRadius: BorderRadius.circular(30),
             color: Colors.white),
         child: Padding(
-          padding: const EdgeInsets.only(left: 20),
+          padding: const EdgeInsets.only(right: 20),
           child: TextField(
             keyboardType: TextInputType.emailAddress,
             controller: _mainLableControler,
+            textAlign: TextAlign.right, // Align text to the right
+
             decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: "اسم العقار ",

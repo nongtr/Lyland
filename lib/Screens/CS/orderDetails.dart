@@ -8,12 +8,6 @@ class orderD extends StatefulWidget {
 
   @override
   _orderDState createState() => _orderDState();
-
-  static String status = 'يرجى الإتصال بي المالك ';
-
-  static updateFields(String dd, String xstatus) {
-    status = xstatus;
-  }
 }
 
 class _orderDState extends State<orderD> {
@@ -46,10 +40,15 @@ class _orderDState extends State<orderD> {
 
         return Scaffold(
             body: Center(
-                child: Text(
-          ' $fieldValue',
-          overflow: TextOverflow.visible,
-          style: TextStyle(fontSize: 25),
+                child: Padding(
+          padding: const EdgeInsets.only(left: 30.0, right: 30),
+          child: Align(
+            alignment: Alignment.center,
+            child: Text(
+              ' $fieldValue',
+              style: TextStyle(fontSize: 24),
+            ),
+          ),
         )));
       },
     );

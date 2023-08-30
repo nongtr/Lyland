@@ -17,7 +17,7 @@ class addProberty extends StatefulWidget {
 
 class _addProbertyState extends State<addProberty> {
   final CollectionReference _postsCollection =
-  FirebaseFirestore.instance.collection('posts');
+      FirebaseFirestore.instance.collection('posts');
   final FirebaseStorage _storageImageDB = FirebaseStorage.instance;
   XFile? beforeImageConverted;
   File? newImage;
@@ -27,8 +27,12 @@ class _addProbertyState extends State<addProberty> {
 
   List<String> _cityList = ['بنغازي', 'طرابلس'];
   String? _selectedCity = 'بنغازي';
-  List<String> _benghaziAreaList = ['', 'الكيش', 'الحدائق'];
-  List<String> _tripoliAreaList = ['بن غشير', 'الاندلس'];
+  List<String> _benghaziAreaList = ['', 'قنفوذة', 'طبالينو', 'الحدائق'];
+  List<String> _tripoliAreaList = [
+    ' جنزور',
+    'تاجوراء',
+    ' عين زارة',
+  ];
   String? _selectedArea = '';
   List<String> getSelectedCityAreaList() {
     if (_selectedCity == 'بنغازي') {
@@ -53,7 +57,7 @@ class _addProbertyState extends State<addProberty> {
     var url = await storageImage.ref.getDownloadURL();
     var user = _auth.currentUser;
     final userDocRef =
-    FirebaseFirestore.instance.collection('users').doc(widget.ueserId);
+        FirebaseFirestore.instance.collection('users').doc(widget.ueserId);
     final userData = await userDocRef.get();
 // Access the document fields
     final String phoneNum = userData.get('phoneNumber');
@@ -70,6 +74,7 @@ class _addProbertyState extends State<addProberty> {
       'phoneNumber': phoneNum
     });
   }
+
   bool checkFieldsNotEmpty() {
     if (_mainLableControler.text.isNotEmpty &&
         selectedType != null &&
@@ -92,15 +97,18 @@ class _addProbertyState extends State<addProberty> {
             iconTheme: IconThemeData(color: Colors.black),
             shape: RoundedRectangleBorder(
                 borderRadius:
-                BorderRadius.vertical(bottom: Radius.circular(30))),
+                    BorderRadius.vertical(bottom: Radius.circular(30))),
             backgroundColor: Colors.white,
             title: Center(
-              child: Text(
-                'إضافة عقار  ',
-                style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Text(
+                  'إضافة العقار  ',
+                  style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ),
@@ -118,7 +126,7 @@ class _addProbertyState extends State<addProberty> {
                   // main lable text field
                   Center(
                       child:
-                      titleName(mainLableControler: _mainLableControler)),
+                          titleName(mainLableControler: _mainLableControler)),
                   SizedBox(
                     height: 20.0,
                   ),
@@ -158,14 +166,14 @@ class _addProbertyState extends State<addProberty> {
                                 items: _cityList
                                     .map(
                                       (item) => DropdownMenuItem(
-                                    value: item,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      item,
-                                      style: kTitleTextStyle,
-                                    ),
-                                  ),
-                                )
+                                        value: item,
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          item,
+                                          style: kTitleTextStyle,
+                                        ),
+                                      ),
+                                    )
                                     .toList(),
                                 onChanged: (item) => setState(() {
                                   _selectedCity = item;
@@ -192,7 +200,7 @@ class _addProbertyState extends State<addProberty> {
                   ),
 
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 48.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 42.0),
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey, width: 2),
@@ -212,15 +220,15 @@ class _addProbertyState extends State<addProberty> {
                                 items: getSelectedCityAreaList()
                                     .map(
                                       (item) => DropdownMenuItem(
-                                    value: item,
-                                    alignment: Alignment.topRight,
-                                    child: Text(
-                                      item,
-                                      style: kTitleTextStyle,
-                                      textAlign: TextAlign.right,
-                                    ),
-                                  ),
-                                )
+                                        value: item,
+                                        alignment: Alignment.topRight,
+                                        child: Text(
+                                          item,
+                                          style: kTitleTextStyle,
+                                          textAlign: TextAlign.right,
+                                        ),
+                                      ),
+                                    )
                                     .toList(),
                                 onChanged: (item) =>
                                     setState(() => _selectedArea = item),
@@ -264,14 +272,14 @@ class _addProbertyState extends State<addProberty> {
                             margin: EdgeInsets.only(left: 8.0),
                             decoration: BoxDecoration(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(15)),
+                                    BorderRadius.all(Radius.circular(15)),
                                 image: DecorationImage(
                                   image: beforeImageConverted == null
                                       ? NetworkImage(
-                                      'https://picsum.photos/200/300')
+                                          'https://cdn.pixabay.com/photo/2017/12/15/13/51/polynesia-3021072_640.jpg')
                                       : Image.file(
-                                      File(beforeImageConverted!.path))
-                                      .image,
+                                              File(beforeImageConverted!.path))
+                                          .image,
                                   fit: BoxFit.cover,
                                 ),
                                 shape: BoxShape.rectangle),
@@ -299,11 +307,12 @@ class _addProbertyState extends State<addProberty> {
                           borderRadius: BorderRadius.circular(30),
                           color: Colors.white),
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.only(right: 20, left: 20),
                         child: TextField(
                           keyboardType: TextInputType.emailAddress,
                           controller: _descriptionController,
                           maxLines: null,
+                          textAlign: TextAlign.right, // Align text to the right
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: ".وصف العقار",
@@ -352,8 +361,7 @@ class _addProbertyState extends State<addProberty> {
                               content: Text('تم اضافة عقار بنجاح'));
                           ScaffoldMessenger.of(context)
                               .showSnackBar(validSnackBar);
-                        }
-                        else{
+                        } else {
                           final invalidSnackBar = SnackBar(
                               backgroundColor: Colors.red[600],
                               content: Text(

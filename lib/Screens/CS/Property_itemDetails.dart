@@ -65,18 +65,23 @@ class _item_DetailsState extends State<item_Details> {
                 ),
               ),
               Positioned(
-                top: 24,
-                right: 360,
-                child: Icon(
-                  Icons.arrow_back_ios_new,
-                  size: 45,
-                  color: Colors.white,
-                  shadows: [
-                    BoxShadow(
-                        color: Colors.black,
-                        offset: Offset(0, 0),
-                        blurRadius: 7)
-                  ],
+                top: 37,
+                right: 350,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(
+                    Icons.arrow_back_ios_new,
+                    size: 25,
+                    color: Colors.white,
+                    shadows: [
+                      BoxShadow(
+                          color: Colors.black,
+                          offset: Offset(0, 0),
+                          blurRadius: 7)
+                    ],
+                  ),
                 ),
               ),
               Positioned(
@@ -93,7 +98,7 @@ class _item_DetailsState extends State<item_Details> {
                             borderRadius: BorderRadius.circular(20),
                             color: Colors.white,
                           ),
-                          height: 450,
+                          height: 560,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
@@ -232,25 +237,11 @@ class _item_DetailsState extends State<item_Details> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Text(titleName, style: TextStyle(fontSize: 20)),
+        Text(titleName,
+            style: TextStyle(
+                fontSize: 30, color: Colors.blue, fontWeight: FontWeight.bold)),
         SizedBox(height: 0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Wrap(
-                children: List.generate(
-                    5, (index) => Icon(Icons.star, color: Colors.greenAccent))),
-            SizedBox(
-              width: 10,
-            ),
-            Text('4.5'),
-            SizedBox(
-              width: 10,
-            ),
-            Text('تقييم')
-          ],
-        ),
-        SizedBox(height: 20),
+        SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

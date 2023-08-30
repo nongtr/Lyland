@@ -84,7 +84,10 @@ class _PO_mainScreenState extends State<PO_mainScreen> {
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(40))),
               context: context,
-              builder: (cotext) => addProberty(ueserId: user!.uid));
+              builder: (cotext) => Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: addProberty(ueserId: user!.uid),
+                  ));
           // Navigator.of(context).pushReplacementNamed('addPropertyScreen');
         },
         child: addButton(),
@@ -143,20 +146,14 @@ class _PO_mainScreenState extends State<PO_mainScreen> {
                         ),
                       );
                     })
-                : Column(
-                    children: [
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Text(
-                        'لا توجد عقارات ',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      ),
-                    ],
+                : Center(
+                    child: Text(
+                      'لا توجد عقارات ',
+                      style: TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red),
+                    ),
                   );
           }),
     );

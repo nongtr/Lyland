@@ -30,7 +30,7 @@ class _Customer_ScreenState extends State<Customer_Screen> {
             BottomNavigationBarItem(
                 icon: Icon(Icons.event_note_rounded), label: 'الحجوزات'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.exit_to_app), label: 'خروج')
+                icon: Icon(Icons.account_box), label: 'الحساب')
           ],
           onTap: (index) {
             setState(() {
