@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lyland/Screens/CS/Property_itemDetails.dart';
 import 'package:lyland/Screens/CS/orderDetails.dart';
-import 'Property_itemDetails.dart';
 
 class CScheck extends StatefulWidget {
   @override
@@ -87,9 +85,9 @@ class _CScheckState extends State<CScheck> {
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
             return Center(
                 child: Text(
-                  'لا يوجد لديك اي حجوزات',
-                  style: TextStyle(fontSize: 25),
-                ));
+              'لا يوجد لديك اي حجوزات',
+              style: TextStyle(fontSize: 25),
+            ));
           }
 
           // Get the data from all documents
@@ -163,7 +161,7 @@ class _CScheckState extends State<CScheck> {
                           child: Container(
                             height: 100,
                             margin:
-                            EdgeInsets.only(left: 10, right: 10, top: 60),
+                                EdgeInsets.only(left: 10, right: 10, top: 60),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
                                 color: Colors.white,
@@ -178,7 +176,7 @@ class _CScheckState extends State<CScheck> {
                                 ]),
                             child: Container(
                               padding:
-                              EdgeInsets.only(left: 50, right: 50, top: 17),
+                                  EdgeInsets.only(left: 50, right: 50, top: 17),
                               child: Column(
                                 children: [
                                   Row(
@@ -205,12 +203,12 @@ class _CScheckState extends State<CScheck> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) => orderD(
-                                                    documentId:
-                                                    idPropertyPost[
-                                                    index],
-                                                    s: propertyData[
-                                                    'status'],
-                                                  )));
+                                                        documentId:
+                                                            idPropertyPost[
+                                                                index],
+                                                        s: propertyData[
+                                                            'status'],
+                                                      )));
                                         },
                                         child: Text(
                                           '< التفاصيل',

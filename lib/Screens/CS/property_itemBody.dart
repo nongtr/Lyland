@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lyland/Screens/CS/Property_itemDetails.dart';
-import 'Property_itemDetails.dart';
+
 import 'SearchResultScreen.dart';
 
 class propertyPageBody extends StatefulWidget {
@@ -34,7 +34,7 @@ class _propertyPageBodyState extends State<propertyPageBody> {
 
   void _getProperties() async {
     await for (var snapshot
-    in FirebaseFirestore.instance.collection('posts').snapshots()) {
+        in FirebaseFirestore.instance.collection('posts').snapshots()) {
       listLength = snapshot.docs.length;
       for (var property in snapshot.docs) {
         idPropertyPost.add(property.reference.id);
@@ -97,7 +97,8 @@ class _propertyPageBodyState extends State<propertyPageBody> {
             child: Container(
               decoration: BoxDecoration(
                 boxShadow: [
-                  BoxShadow(color: Colors.grey, offset: Offset(0, 0), blurRadius: 2),
+                  BoxShadow(
+                      color: Colors.grey, offset: Offset(0, 0), blurRadius: 2),
                 ],
                 borderRadius: BorderRadius.circular(80),
                 color: Colors.white,
@@ -165,13 +166,13 @@ class _propertyPageBodyState extends State<propertyPageBody> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => item_Details(
-                                    documentId: idPropertyPost[index],
-                                  )));
+                                        documentId: idPropertyPost[index],
+                                      )));
                         },
                         child: Container(
                           height: 120,
                           margin:
-                          EdgeInsets.only(left: 30, right: 30, bottom: 30),
+                              EdgeInsets.only(left: 30, right: 30, bottom: 30),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
                               color: Colors.white,
@@ -185,7 +186,7 @@ class _propertyPageBodyState extends State<propertyPageBody> {
                               ]),
                           child: Container(
                             padding:
-                            EdgeInsets.only(left: 15, right: 15, top: 15),
+                                EdgeInsets.only(left: 15, right: 15, top: 15),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
@@ -195,7 +196,7 @@ class _propertyPageBodyState extends State<propertyPageBody> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.hotel_class_sharp),
+                                    Icon(Icons.circle),
                                     Text(propertyData['propertyType']),
                                     SizedBox(width: 5),
                                     Icon(

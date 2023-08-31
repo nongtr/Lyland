@@ -1,9 +1,7 @@
-////////////////////////////////////////////////
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lyland/Screens/PO/editProperty.dart';
 import '../PO/add_proberty_screen.dart';
-import 'add_proberty_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../constants.dart';
 
@@ -204,7 +202,8 @@ class _PO_mainScreenState extends State<PO_mainScreen> {
                                       deleteDocument('posts',
                                           idPropertyPost[index], userId);
                                       Navigator.pop(context);
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
                                           backgroundColor: Colors.green,
                                           content: Text('تم حذف العقار بنجاح'),

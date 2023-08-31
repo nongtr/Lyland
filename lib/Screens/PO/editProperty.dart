@@ -1,19 +1,10 @@
 import 'dart:io';
-
-import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:lyland/constants.dart';
 
-// TextField(
-// controller: _priceController,
-// ),
 class UpdateDocumentWidget extends StatefulWidget {
   final String collectionName;
   final String documentId;
@@ -141,14 +132,14 @@ class _UpdateDocumentWidgetState extends State<UpdateDocumentWidget> {
                               items: _cityList
                                   .map(
                                     (item) => DropdownMenuItem(
-                                  value: item,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    item,
-                                    style: kTitleTextStyle,
-                                  ),
-                                ),
-                              )
+                                      value: item,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        item,
+                                        style: kTitleTextStyle,
+                                      ),
+                                    ),
+                                  )
                                   .toList(),
                               onChanged: (item) => setState(() {
                                 _selectedCity = item;
@@ -192,15 +183,15 @@ class _UpdateDocumentWidgetState extends State<UpdateDocumentWidget> {
                               items: getSelectedCityAreaList()
                                   .map(
                                     (item) => DropdownMenuItem(
-                                  value: item,
-                                  alignment: Alignment.topRight,
-                                  child: Text(
-                                    item,
-                                    style: kTitleTextStyle,
-                                    textAlign: TextAlign.right,
-                                  ),
-                                ),
-                              )
+                                      value: item,
+                                      alignment: Alignment.topRight,
+                                      child: Text(
+                                        item,
+                                        style: kTitleTextStyle,
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ),
+                                  )
                                   .toList(),
                               onChanged: (item) =>
                                   setState(() => _selectedArea = item),
@@ -264,18 +255,18 @@ class _UpdateDocumentWidgetState extends State<UpdateDocumentWidget> {
                           margin: EdgeInsets.only(left: 8.0),
                           decoration: BoxDecoration(
                               borderRadius:
-                              BorderRadius.all(Radius.circular(15)),
+                                  BorderRadius.all(Radius.circular(15)),
                               image: DecorationImage(
                                 image: beforeImageConverted == null
                                     ? (_backgroundController.text
-                                    .startsWith('http')
-                                    ? NetworkImage(
-                                    _backgroundController.text)
-                                    : AssetImage(
-                                    _backgroundController.text))
-                                as ImageProvider<Object>
+                                                .startsWith('http')
+                                            ? NetworkImage(
+                                                _backgroundController.text)
+                                            : AssetImage(
+                                                _backgroundController.text))
+                                        as ImageProvider<Object>
                                     : FileImage(
-                                    File(beforeImageConverted!.path)),
+                                        File(beforeImageConverted!.path)),
                                 fit: BoxFit.cover,
                               ),
                               shape: BoxShape.rectangle),

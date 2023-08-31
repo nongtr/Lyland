@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:lyland/Screens/CS/property_itemBody.dart';
-import 'ProperItemShow.dart';
-import 'Property_itemDetails.dart';
-import 'property_itemBody.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Body extends StatefulWidget {
@@ -26,7 +24,7 @@ class _BodyState extends State<Body> {
 
   void _getProperties() async {
     await for (var snapshot
-    in FirebaseFirestore.instance.collection('posts').snapshots()) {
+        in FirebaseFirestore.instance.collection('posts').snapshots()) {
       listLength = snapshot.docs.length;
       for (var property in snapshot.docs) {
         idPropertyPost.add(property.reference.id);

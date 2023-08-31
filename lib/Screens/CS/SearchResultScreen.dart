@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import 'Property_itemDetails.dart';
 
 class SearchResultScreen extends StatefulWidget {
@@ -23,7 +22,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
 
   void _getProperties() async {
     await for (var snapshot
-    in FirebaseFirestore.instance.collection('posts').snapshots()) {
+        in FirebaseFirestore.instance.collection('posts').snapshots()) {
       listLength = snapshot.docs.length;
       for (var property in snapshot.docs) {
         idPropertyPost.add(property.reference.id);
@@ -41,7 +40,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
 
   void _performSearch(String query) {
     final CollectionReference postsRef =
-    FirebaseFirestore.instance.collection('posts');
+        FirebaseFirestore.instance.collection('posts');
 
     postsRef
         .where('propertyName', isGreaterThanOrEqualTo: query)
@@ -49,7 +48,8 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
         .then((QuerySnapshot<Object?> snapshot) {
       setState(() {
         _searchResults = snapshot.docs
-            .map<Map<String, dynamic>>((doc) => doc.data() as Map<String, dynamic>)
+            .map<Map<String, dynamic>>(
+                (doc) => doc.data() as Map<String, dynamic>)
             .toList();
       });
     });
@@ -78,8 +78,8 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => item_Details(
-                        documentId: idPropertyPost[index],
-                      )));
+                            documentId: idPropertyPost[index],
+                          )));
             },
             child: ListTile(
               leading: Image.network(result['imageURL']),

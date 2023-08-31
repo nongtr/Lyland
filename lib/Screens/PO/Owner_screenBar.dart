@@ -2,10 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lyland/Screens/PO/Owner_mainScreen.dart';
 import 'package:lyland/Screens/PO/Owner_orders.dart';
-import 'package:lyland/constants.dart';
-import '../CS/Customer_orderCheck.dart';
 import '../CS/Customer_signOut.dart';
-import '../CS/Customer_mainScreen.dart';
 
 class ProOwnerSc extends StatefulWidget {
   const ProOwnerSc();
@@ -28,7 +25,7 @@ int index = 0;
 class _ProOwnerScState extends State<ProOwnerSc> {
   void _getProperties() async {
     await for (var snapshot
-    in FirebaseFirestore.instance.collection('posts').snapshots()) {
+        in FirebaseFirestore.instance.collection('posts').snapshots()) {
       listLength = snapshot.docs.length;
       for (var property in snapshot.docs) {
         idPropertyPost.add(property.reference.id);
@@ -56,26 +53,6 @@ class _ProOwnerScState extends State<ProOwnerSc> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Pages[_currentIndex],
-        // body: Column(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [
-        //     Container(
-        //       color: Colors.white38,
-        //       child: const Text(
-        //         ' Here Will be the Properties that will be added by the Owner',
-        //         style: TextStyle(fontSize: 15.0),
-        //       ),
-        //     ),
-        //     FloatingActionButton(
-        //       elevation: 10.0,
-        //       onPressed: () {
-        //         Navigator.of(context).pushReplacementNamed('addPropertyScreen');
-        //       },
-        //       child: Icon(Icons.add),
-        //       backgroundColor: Colors.orange,
-        //     ),
-        //   ],
-        // ),
         bottomNavigationBar: ClipRRect(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(25),
