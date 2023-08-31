@@ -27,7 +27,7 @@ class _addProbertyState extends State<addProberty> {
 
   List<String> _cityList = ['بنغازي', 'طرابلس'];
   String? _selectedCity = 'بنغازي';
-  List<String> _benghaziAreaList = ['', 'قنفوذة', 'طبالينو', 'الحدائق'];
+  List<String> _benghaziAreaList = ['', 'قنفوذة', 'البيبسي', 'الحدائق'];
   List<String> _tripoliAreaList = [
     ' جنزور',
     'تاجوراء',
